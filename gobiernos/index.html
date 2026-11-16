@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Colombia, gobierno a gobierno · Observatorio SkyNet Genesis</title>
+<meta name="description" content="Economía, deuda, empleo, homicidios, secuestros, extorsión, coca, corrupción y hambre en Colombia desde Pastrana hasta hoy, con datos del FMI, la ONU, la FAO y registros oficiales. Compare cada gobierno.">
+<meta property="og:title" content="📊 Colombia, gobierno a gobierno — de Pastrana a hoy, con datos verificables">
+<meta property="og:description" content="Economía, deuda, empleo, seguridad y hambre de cada gobierno, con fuentes independientes. Compare y comparta.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://observatorio.skynetgenesis.com/gobiernos/">
+<link rel="canonical" href="https://observatorio.skynetgenesis.com/gobiernos/">
+<meta name="author" content="Ricardo Londoño González · SkyNet Genesis">
+<meta name="theme-color" content="#081320">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081320;--card:#0f2034;--card2:#0b1928;--line:#1d3550;--txt:#e8eef5;--soft:#a3b3c4;--dim:#6f8296;
+--teal:#14A38B;--blue:#0B4F8A;--blue2:#1867B0;--amber:#E0A21A;--red:#e5484d;--wa:#1F8A4C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:"Public Sans",system-ui,sans-serif;line-height:1.55;color-scheme:dark}
+a{color:inherit}
+h1,h2,h3{font-family:"Barlow Condensed",sans-serif;letter-spacing:.02em}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(8,19,32,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:32px;height:32px}
+.brand b{font-family:"Barlow Condensed";font-weight:700;font-size:18px;letter-spacing:.06em;line-height:.95}
+.brand b span{display:block;color:var(--amber);font-size:11.5px;letter-spacing:.22em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;font:700 15px "Public Sans";padding:12px 18px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.teal{background:var(--teal);color:#fff}.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.wa{background:var(--wa);color:#fff}.btn.fb{background:#1b4ea0;color:#fff}.btn.x{background:#000;color:#fff;border:1px solid #333}
+.btn.sm{padding:9px 14px;font-size:14px}
+.hero{text-align:center;padding:44px 0 14px;background:radial-gradient(ellipse at 50% 0%,rgba(24,103,176,.25),transparent 60%)}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:#8fe0d0;font:600 13px "Public Sans";letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(20,163,139,.4);background:rgba(20,163,139,.08);padding:6px 12px;border-radius:99px}
+.hero h1{font-size:clamp(42px,8vw,90px);font-weight:800;line-height:.9;margin:16px 0 8px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--amber);display:block}
+.credit{font-family:"Barlow Condensed";font-size:clamp(16px,2.2vw,21px);letter-spacing:.14em;text-transform:uppercase;color:#cfdbe3;margin:2px 0 14px}
+.credit b{color:var(--amber)}
+.sub{color:var(--soft);font-size:clamp(16px,2.1vw,19px);max-width:720px;margin:0 auto}
+section{padding:34px 0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+.tabs button{background:#0b1b2c;border:1px solid var(--line);color:#d5e2ea;border-radius:99px;padding:9px 15px;font:600 14px "Public Sans";cursor:pointer}
+.tabs button.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.mapbox{position:relative}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapbox path{stroke:#081320;stroke-width:.8;cursor:pointer;transition:filter .15s}
+.mapbox path:hover,.mapbox path.sel{stroke:#fff;stroke-width:1.6;filter:brightness(1.2)}
+.legend{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--soft);margin-top:10px}
+.legend .bar{flex:1;height:10px;border-radius:9px}
+.nodata{display:inline-block;width:12px;height:12px;border-radius:3px;background:#2a3a4c;vertical-align:middle;margin-right:4px}
+.tip{position:absolute;pointer-events:none;background:#06101b;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:none;white-space:nowrap;z-index:5}
+.maperr{color:var(--soft);padding:30px 10px;text-align:center}
+select{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:11px 12px;font:600 16px "Public Sans"}
+.card h2{font-size:34px;font-weight:800;text-transform:uppercase;line-height:1;margin:14px 0 4px}
+.card .rank{color:var(--amber);font-weight:700;font-size:15px}
+.ind{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.ind:last-of-type{border-bottom:0}
+.ind span{font-size:14px;color:var(--soft)}
+.ind b{font-family:"Share Tech Mono";font-size:21px;font-weight:400}
+.ind small{grid-column:1/-1;font-size:12px;color:var(--dim)}
+.meter{grid-column:1/-1;height:6px;border-radius:9px;background:#1b2a3b;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:9px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.share .full{grid-column:1/-1}
+.share .btn{font-size:14px;padding:11px 10px}
+.rankl{list-style:none;columns:2;column-gap:24px}
+.rankl li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);break-inside:avoid;font-size:14.5px;cursor:pointer}
+.rankl li:hover{color:#fff}
+.rankl li b{font-family:"Share Tech Mono";font-weight:400}
+.rankl li em{font-style:normal;color:var(--dim);margin-right:6px;font-family:"Share Tech Mono"}
+.sec-h{text-align:center;margin-bottom:18px}
+.sec-h h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;text-transform:uppercase;line-height:1}
+.sec-h h2 span{color:var(--amber)}
+.sec-h p{color:var(--soft);max-width:720px;margin:10px auto 0}
+.sky{background:linear-gradient(135deg,#0b2a47,#0a1726);border:1px solid #1f4266;border-radius:20px;padding:30px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.sky svg{width:96px;height:96px}
+.sky h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;text-transform:uppercase;line-height:1.05}
+.sky p{color:#b8c6d4;margin:10px 0 16px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.sources{font-size:13.5px;color:var(--soft);padding-left:18px}
+.sources li{margin-bottom:8px}
+.disc{margin-top:16px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
+footer a{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.fuentes{max-width:900px;margin:18px auto 0;background:rgba(11,79,138,.18);border:1px solid #1f4266;border-radius:14px;padding:12px 16px;font-size:13.5px;color:#c9d5e1;text-align:left}
+.fuentes b{color:#fff}
+.fuentes a{color:#8fe0d0}
+.ind .src{grid-column:1/-1;font-size:11.5px;color:#8fa3b6}
+.ind .src a{color:#8fe0d0}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#0f2034;border:1px solid #1d3550;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
+.toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.rankl{columns:1}.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}}
+@media (max-width:480px){.share{grid-template-columns:1fr}}
+
+.ch-t{font-size:28px;font-weight:800;text-transform:uppercase;line-height:1.05}
+.ch-s{color:var(--soft);font-size:14px;margin:4px 0 10px}
+.chart svg{width:100%;height:auto;display:block}
+.chart text{font-family:"Public Sans";fill:#8fa3b6;font-size:11px}
+.chart .bar{transition:opacity .15s}
+.chart .bar:hover{opacity:.75}
+.gleg{display:flex;flex-wrap:wrap;gap:6px 14px;font-size:12.5px;color:var(--soft);margin-top:8px}
+.gleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.src{font-size:12px;color:#8fa3b6;margin-top:10px}
+.src a{color:#8fe0d0}
+.tlbl{font-size:13px;color:var(--soft);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.gov{display:grid;grid-template-columns:auto 1fr auto;gap:2px 10px;align-items:center;padding:10px 0;border-bottom:1px solid var(--line)}
+.gov:last-child{border-bottom:0}
+.gov .dot{width:12px;height:12px;border-radius:50%}
+.gov .nm{font-weight:700;font-size:15px}
+.gov .nm small{display:block;font-weight:400;color:var(--dim);font-size:12px}
+.gov .v{font-family:"Share Tech Mono";font-size:22px;text-align:right}
+.gov .rd{grid-column:2/-1;font-size:12.5px;color:var(--soft)}
+.gov .mt{grid-column:2/-1;height:6px;border-radius:9px;background:#1b2a3b;overflow:hidden}
+.gov .mt i{display:block;height:100%;border-radius:9px}
+.gov.best .v{color:#5fd3a5}.gov.worst .v{color:#ff8a8d}
+.gov .tag{font:700 10.5px "Public Sans";letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:6px;margin-left:6px;vertical-align:2px}
+.gov.best .tag{background:rgba(95,211,165,.15);color:#5fd3a5}.gov.worst .tag{background:rgba(255,138,141,.15);color:#ff8a8d}
+.nota{font-size:13px;color:var(--dim);margin-top:10px}
+.checks{display:grid;grid-template-columns:1fr 1fr;gap:16px}
+.chk{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.chk h3{font-size:24px;font-weight:800;line-height:1.1;margin:10px 0 8px}
+.chk p{color:#c9d5e1;font-size:14.5px}
+.chk p b{color:#fff}
+.chk .cf{font-size:12px;color:#8fa3b6;margin-top:10px}
+.vd{display:inline-block;font:700 12px "Public Sans";letter-spacing:.1em;text-transform:uppercase;padding:5px 10px;border-radius:99px}
+.vd.red{background:rgba(229,72,77,.16);color:#ff8a8d;border:1px solid rgba(229,72,77,.4)}
+.vd.amb{background:rgba(224,162,26,.14);color:#f1c35a;border:1px solid rgba(224,162,26,.4)}
+.vd.blu{background:rgba(24,103,176,.2);color:#8cc0f0;border:1px solid rgba(24,103,176,.5)}
+.subs{display:grid;grid-template-columns:repeat(5,1fr);gap:14px}
+.subs .col h4{font:800 20px "Barlow Condensed";text-transform:uppercase;padding-bottom:6px;border-bottom:3px solid;margin-bottom:8px}
+.subs .col h4 small{display:block;font:400 12px "Public Sans";color:var(--dim);text-transform:none}
+.subs ul{list-style:none}
+.subs li{font-size:13.5px;padding:7px 0;border-bottom:1px dashed var(--line);color:#d5e2ea}
+.subs li small{display:block;color:var(--dim);font-size:11.5px}
+.subs li.ren{color:#f1c35a}
+.tline{list-style:none;padding:0}
+.tline li{padding:10px 0 10px 16px;border-left:3px solid var(--teal);margin-left:6px;color:#c9d5e1;font-size:14.5px}
+.tline li b{color:#fff}
+.ade h3{font-size:26px;font-weight:800}
+.ade h3 span{font:400 15px "Public Sans";color:var(--soft)}
+.ade p{color:var(--soft);margin-top:6px}
+@media (max-width:900px){.checks{grid-template-columns:1fr}.subs{grid-template-columns:1fr 1fr}}
+@media (max-width:520px){.subs{grid-template-columns:1fr}}
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://observatorio.skynetgenesis.com/" aria-label="Observatorio SkyNet Genesis">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+      <b>OBSERVATORIO<span>SKYNET GENESIS</span></b>
+    </a>
+    <a class="btn ghost sm" href="https://observatorio.skynetgenesis.com/">Observatorio</a>
+  </div>
+</header>
+
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <span class="kicker">Fuentes independientes · 1998 a 2025</span>
+      <h1>Colombia,<em>gobierno a gobierno</em></h1>
+      <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
+      <p class="sub">Economía, deuda, empleo, seguridad, narcotráfico, corrupción y hambre desde Andrés Pastrana hasta hoy, con las mismas fuentes y la misma regla para todos. Elija un tema y compare.</p>
+      <div class="fuentes"><b>Fuentes:</b> economía, deuda, déficit y desempleo del <a href="https://www.imf.org/external/datamapper/profile/COL" target="_blank" rel="noopener">Fondo Monetario Internacional</a> (Perspectivas de la Economía Mundial, octubre de 2026); homicidios de la <a href="https://dataunodc.un.org/dp-intentional-homicide-victims" target="_blank" rel="noopener">Oficina de las Naciones Unidas contra la Droga y el Delito</a> y del Instituto Nacional de Medicina Legal; hambre de la <a href="https://www.fao.org/faostat/es/#data/FS" target="_blank" rel="noopener">FAO</a>; cultivos de coca y minería ilegal de la UNODC; corrupción de Transparencia Internacional; secuestros del registro oficial histórico (Fondelibertad y Ministerio de Defensa); regla fiscal del <a href="https://www.carf.gov.co/" target="_blank" rel="noopener">Comité Autónomo de la Regla Fiscal</a>; leyes y decretos en sus textos oficiales, contrastados con la prensa independiente. No se usan cifras de propaganda de ningún gobierno.</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section style="padding-top:14px">
+      <div class="tabs" id="tabs"></div>
+      <div class="grid">
+        <div class="panel">
+          <h3 class="ch-t" id="chT">—</h3>
+          <p class="ch-s" id="chS"></p>
+          <div class="chart" id="chart"></div>
+          <div class="gleg" id="gleg"></div>
+          <div class="src" id="chSrc"></div>
+        </div>
+        <div class="panel card">
+          <div class="tlbl">Promedio anual de cada gobierno</div>
+          <div id="tbl"></div>
+          <p class="nota" id="nota"></p>
+          <div class="share">
+            <button class="btn teal full" id="shAll">📤 Compartir (todas las redes)</button>
+            <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
+            <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
+            <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
+            <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-h"><h2>Lo que se dijo <span>y lo que muestran los datos</span></h2><p>Afirmaciones frecuentes, comparadas con leyes, decretos, registros y reportes independientes.</p></div>
+      <div class="checks">
+        <article class="chk">
+          <div class="vd red">No se cumplió</div>
+          <h3>«Cien universidades nuevas»</h3>
+          <p>El gobierno de Gustavo Petro anunció 100 nuevas universidades o sedes. Al cierre del gobierno, en agosto de 2026, el Ministerio había reportado 122 proyectos de infraestructura (ampliaciones, aulas modulares, laboratorios, dotaciones, estudios y diseños), y <b>ninguna universidad nueva terminada</b>. La única que se presenta como nueva, la del Catatumbo, <b>no nació en este gobierno</b>: el propio gobierno reconoce que surgió como iniciativa de las comunidades en los Programas de Desarrollo con Enfoque Territorial (PDET), creados tras el Acuerdo de Paz de 2016 y trabajados en los gobiernos Santos y Duque. Tampoco está terminada: su ley de creación seguía en trámite en junio de 2026 y la obra en El Tarra no superaba el 30 % y se detuvo en julio de 2026 por falta de pago a los trabajadores. En marzo de 2025 el ministro de Educación dijo que el compromiso eran «cien espacios educativos», no cien universidades.</p>
+          <p class="cf">Fuentes: El Tiempo (5 ago. 2026), El Colombiano (22 feb. 2026, datos del SECOP), RTVC (presentación del Complejo Educativo del Catatumbo), Noticias RCN (20 jul. 2026), Gaceta del Congreso 688 de 2026.</p>
+        </article>
+        <article class="chk">
+          <div class="vd amb">Engañoso</div>
+          <h3>«El gobierno Petro creó la matrícula cero»</h3>
+          <p>La matrícula cero en universidades públicas empezó en el gobierno de <b>Iván Duque</b>, en el segundo semestre de 2021, para estudiantes de estratos 1, 2 y 3, y quedó como política de Estado con la Ley 2155 de 2021 (artículo 27) y el Decreto 1667 de 2021. En 2023 el gobierno Petro sancionó la <b>Ley 2307 de 2023</b>, que extendió la gratuidad a todo el pregrado público sin importar el estrato; esa ley fue redactada por congresistas independientes. Petro amplió un beneficio que ya existía; no lo creó.</p>
+          <p class="cf">Fuentes: Ley 2155 de 2021, Decreto 1667 de 2021, Ley 2307 de 2023; Ministerio de Educación (2021); El Tiempo.</p>
+        </article>
+        <article class="chk">
+          <div class="vd amb">Cambio de nombre</div>
+          <h3>«Nuevos subsidios: Renta Ciudadana y Renta Joven»</h3>
+          <p>El Decreto 1960 de 2023 <b>transformó Familias en Acción</b> (creado en 2000 por el gobierno de Andrés Pastrana) en Renta Ciudadana, y <b>convirtió Jóvenes en Acción</b> (creado en el gobierno Pastrana y relanzado por Santos en 2012) en Renta Joven, desde el 1 de enero de 2024. Renta Ciudadana también ocupó el lugar de Ingreso Solidario (creado por Duque en 2020), que terminó en diciembre de 2022. Hubo cambios en montos y en quién recibe, pero los dos programas vienen de subsidios anteriores.</p>
+          <p class="cf">Fuentes: Decreto 1960 de 2023; Prosperidad Social; El Tiempo, La República, Portafolio.</p>
+        </article>
+        <article class="chk">
+          <div class="vd red">Empleo sostenido con gasto público</div>
+          <h3>«Bajó el desempleo»</h3>
+          <p>El desempleo bajó de 10,3 % en 2022 a 8,0 % en 2025 (FMI). Pero según análisis independientes, <b>la mayor parte del empleo nuevo salió de la contratación del propio Estado</b>, no del crecimiento de las empresas: la contratación pública fue la principal fuente de empleo y superó a siete sectores productivos. El gasto en personal del Estado creció 11,1 % real, algo que no se veía desde 2012 (Observatorio Fiscal de la Universidad Javeriana). Todo esto ocurrió con la <b>regla fiscal suspendida</b> desde junio de 2025 para 2025-2027, con concepto desfavorable del Comité Autónomo de la Regla Fiscal.</p>
+          <p class="cf">Fuentes: FMI (oct. 2026); Valora Analitik; Observatorio Fiscal U. Javeriana vía El Colombiano y Portafolio; CARF (13 jun. 2025).</p>
+        </article>
+        <article class="chk">
+          <div class="vd red">Cierto</div>
+          <h3>«La deuda subió y salió más cara»</h3>
+          <p>La <b>deuda bruta del Gobierno Nacional cerró 2025 en 64,7 % del PIB</b> ($1.192,6 billones), y en octubre de 2025 llegó a su nivel más alto desde 2001. El gobierno mostraba una cifra menor porque usaba la deuda «neta», que descuenta la caja del Tesoro. Los canjes de deuda bajaron los intereses de 2025, pero el valor presente de la deuda futura <b>aumentó en unos $310 billones (17 % del PIB)</b>, según Corficolombiana. En 2025 el peso de los intereses frente a los impuestos llegó a su máximo en 20 años, y entre enero y marzo de 2026 los intereses se llevaron 36,9 de cada 100 pesos de impuestos. Según el Comité Autónomo de la Regla Fiscal, la baja de la deuda neta en 2025 se explicó por la apreciación del peso, el crecimiento del PIB nominal y operaciones de manejo de deuda, no por un ajuste del gasto.</p>
+          <p class="cf">Fuentes: Ministerio de Hacienda vía La Silla Vacía y Portafolio (mayo de 2026); Corficolombiana; Comité Autónomo de la Regla Fiscal (seguimientos de 2026); La República.</p>
+        </article>
+        <article class="chk">
+          <div class="vd red">Cierto</div>
+          <h3>«Cayeron las exportaciones, el petróleo, el gas y el carbón»</h3>
+          <p>En 2025 Colombia tuvo el <b>mayor déficit comercial de su historia</b>: US$16.377 millones (importaciones de US$70.502 millones frente a exportaciones de US$50.200 millones). Entre 2022 y 2025 las exportaciones de carbón cayeron cerca de 60 % (de US$12.289 a US$4.901 millones) y las de petróleo 33 %. La producción de petróleo bajó de 777.000 barriles diarios en 2023 a 746.000 en 2025, y la de gas cayó 19,9 % entre enero y octubre de 2025; ya en 2024 las importaciones de gas habían subido 166 %.</p>
+          <p class="cf">Fuentes: DANE vía Bloomberg Línea, Portafolio y Forbes; Agencia Nacional de Hidrocarburos vía Campetrol y Portafolio.</p>
+        </article>
+        <article class="chk">
+          <div class="vd red">Cierto</div>
+          <h3>«Aumentó la corrupción»</h3>
+          <p>En el Índice de Percepción de la Corrupción de Transparencia Internacional, Colombia llegó a 40 puntos en 2023, su mejor resultado, y luego bajó a 39 en 2024 y a <b>37 en 2025</b>, perdiendo siete puestos en el ranking. Entre 2012 y 2022 el país osciló entre 36 y 39 puntos. Es una medición de percepción, la más usada en el mundo.</p>
+          <p class="cf">Fuentes: Transparencia Internacional y Transparencia por Colombia (feb. 2026).</p>
+        </article>
+        <article class="chk">
+          <div class="vd red">Cierto, con un matiz</div>
+          <h3>«Aumentaron secuestros, extorsiones, coca y minería ilegal»</h3>
+          <p><b>Secuestros:</b> de 223 en 2022 a 701 en 2025 (+214 %), la cifra más alta desde 2005. <b>Extorsión:</b> de 9.791 denuncias en 2022 a 13.802 en 2024, récord de la serie. <b>Coca:</b> de 230.000 hectáreas en 2022 a 261.000 en 2024, récord histórico (UNODC). <b>Minería ilegal de oro:</b> la explotación ilícita de oro de aluvión aumentó 10 % en 2025 y el área total volvió a crecer desde 2023 (UNODC). <b>Matiz:</b> los homicidios subieron poco: de 13.939 a 14.780 al año según Medicina Legal (2022 a 2025), con una tasa casi igual a la de Duque. Las masacres registradas por el Ministerio de Defensa se mantuvieron entre 87 y 100 por año.</p>
+          <p class="cf">Fuentes: Ministerio de Defensa (datos.gov.co); UNODC-SIMCI (2024); UNODC y Ministerio de Minas, EVOA 2025; Medicina Legal vía El Colombiano.</p>
+        </article>
+        <article class="chk">
+          <div class="vd amb">Cierto, viene de antes</div>
+          <h3>«La energía está más cara»</h3>
+          <p>La tarifa promedio nacional pasó de $734 por kilovatio hora en 2022 a $842 en 2023 y <b>$934 en 2024</b>. Entre 2021 y 2024 subió en promedio 15,3 % por año, el mayor aumento en 23 años y uno de los más altos de América Latina. El alza empezó en 2021-2022 (Duque), por la indexación al índice de precios al productor, y siguió en 2023-2024.</p>
+          <p class="cf">Fuentes: Bancolombia y Corficolombiana vía Portafolio y La República.</p>
+        </article>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-h"><h2>Subsidios <span>creados por cada gobierno</span></h2><p>Solo programas nuevos de transferencias o apoyos directos, con la norma que los creó. Se señala cuando un programa es la continuación de otro con nombre nuevo.</p></div>
+      <div class="panel"><div class="subs" id="subs"></div></div>
+    </section>
+
+    <section>
+      <div class="sec-h"><h2>La regla fiscal, <span>paso a paso</span></h2><p>La regla fiscal limita cuánto puede gastar el Estado por encima de lo que recauda, para que la deuda no se dispare.</p></div>
+      <div class="panel"><ol class="tline">
+        <li><b>2003 · Uribe.</b> La Ley 819 de 2003 (responsabilidad fiscal) obliga a fijar metas de superávit primario y un marco fiscal de mediano plazo.</li>
+        <li><b>2011 · Santos.</b> La Ley 1473 de 2011 crea la regla fiscal, con un límite al déficit estructural y una cláusula de escape solo para hechos extraordinarios.</li>
+        <li><b>2020 y 2021 · Duque.</b> Se activa la cláusula de escape por la pandemia de covid-19. La Ley 2155 de 2021 crea una regla nueva, con límite de deuda, y fortalece al Comité Autónomo de la Regla Fiscal (creado en 2019) como vigilante independiente.</li>
+        <li><b>Junio de 2025 · Petro.</b> El Confis activa la cláusula de escape por tres años (2025 a 2027), con concepto desfavorable del Comité Autónomo de la Regla Fiscal. En 2026 el gobierno confirmó que tampoco cumpliría la regla en 2026.</li>
+        <li><b>Agosto de 2026 · De la Espriella.</b> Recibe la regla suspendida hasta 2027. Sus resultados se medirán cuando haya cifras anuales.</li>
+      </ol></div>
+    </section>
+
+    <section>
+      <div class="panel ade">
+        <h3>Abelardo de la Espriella <span>(desde el 7 de agosto de 2026)</span></h3>
+        <p>Gobierno en curso. Todavía no hay cifras anuales de su periodo: las primeras saldrán en 2027. Esta herramienta lo incluirá cuando los organismos independientes las publiquen.</p>
+      </div>
+    </section>
+
+    <section>
+      <div class="sky">
+        <svg viewBox="0 0 200 200" aria-hidden="true"><rect x="4" y="4" width="192" height="192" rx="46" fill="#1E3A4C"/><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+        <div>
+          <h2>Datos para decidir mejor</h2>
+          <p>Una obra del investigador colombiano <b>Ricardo Londoño González</b> en asocio con <b>SkyNet Genesis</b>, casa de software inteligente para alcaldías, concejos, colegios, clínicas y empresas de Colombia.</p>
+          <div class="cta-row">
+            <a class="btn teal" href="https://skynetgenesis.com" target="_blank" rel="noopener">Conozca nuestras aplicaciones →</a>
+            <a class="btn wa" href="https://wa.me/573044375758?text=Hola%2C%20vi%20el%20comparativo%20de%20gobiernos%20del%20Observatorio%20y%20quiero%20conocer%20las%20aplicaciones%20de%20SkyNet%20Genesis" target="_blank" rel="noopener">WhatsApp 304 437 5758</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section id="fuentes" style="padding-top:12px">
+      <div class="sec-h" style="text-align:left;margin-bottom:12px"><h2 style="font-size:30px">Método y fuentes</h2></div>
+      <ul class="sources">
+        <li><b>Qué años cuentan para cada gobierno:</b> los presidentes se posesionan el 7 de agosto, así que cada año se asigna a quien gobernó la mayor parte: Pastrana 1999-2002, Uribe 2003-2010, Santos 2011-2018, Duque 2019-2022, Petro 2023-2025 (2026 aún no tiene cifras cerradas). «Recibió» es el último año del gobierno anterior; «entregó» es su último año.</li>
+        <li><b>Crecimiento del PIB, deuda bruta del Estado, déficit y desempleo:</b> <a href="https://www.imf.org/external/datamapper/profile/COL" target="_blank" rel="noopener">FMI, Perspectivas de la Economía Mundial, octubre de 2026</a>. La deuda y el déficit corresponden al Gobierno General. La cifra de 2025 es la estimación más reciente del FMI.</li>
+        <li><b>Homicidios por 100.000 habitantes:</b> <a href="https://dataunodc.un.org/dp-intentional-homicide-victims" target="_blank" rel="noopener">UNODC</a> de 1998 a 2023 (vía Our World in Data). Para 2024 y 2025 la tasa se extendió con la variación del número de homicidios de Medicina Legal (14.260 en 2023, 14.021 en 2024 y 14.780 en 2025, cifras preliminares publicadas en marzo de 2026) y la población de la ONU.</li>
+        <li><b>Secuestros:</b> registro oficial histórico del Estado (Fondelibertad hasta 2010, luego Ministerio de Defensa en el <a href="https://www.datos.gov.co/d/d7zw-hpf4" target="_blank" rel="noopener">conjunto «SECUESTRO»</a>), secuestro simple y extorsivo. Es la misma serie para todos los gobiernos. En 2008 y 2009 Fondelibertad depuró la base y dejó solo los casos confirmados por la Fiscalía, por eso la caída de esos años es en parte un cambio de método. Tasa calculada con la población de la ONU.</li>
+        <li><b>Hambre:</b> prevalencia de la subalimentación (% de la población) de la <a href="https://www.fao.org/faostat/es/#data/FS" target="_blank" rel="noopener">FAO</a>, en promedios de tres años centrados en cada año. La FAO no la publica para Colombia antes de 2001 ni después de 2023.</li>
+        <li><b>Cultivos de coca:</b> censos anuales de la UNODC (SIMCI); 1999-2001 con la metodología anterior. <b>Extorsión:</b> denuncias del registro oficial de delitos (Ministerio de Defensa, desde 2003). <b>Corrupción:</b> Índice de Percepción de la Corrupción de Transparencia Internacional, comparable desde 2012.</li>
+        <li><b>Subsidios, universidades y regla fiscal:</b> textos de las leyes y decretos citados, comunicados del Comité Autónomo de la Regla Fiscal, y reportes de El Tiempo, El Colombiano, La República, Portafolio, Semana, Infobae, Noticias RCN y La Silla Vacía.</li>
+        <li><b>Población:</b> Naciones Unidas, Perspectivas de la Población Mundial (vía Our World in Data).</li>
+      </ul>
+      <p class="disc">Ningún indicador depende solo del presidente: influyen la economía mundial, los precios del petróleo, el Congreso, las cortes, los gobiernos locales y hechos como la pandemia de 2020. Compare con prudencia. Las cifras se actualizan cuando las fuentes publican datos nuevos. Esta página no guarda datos personales.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Parte del <a href="https://observatorio.skynetgenesis.com/"><b>Observatorio SkyNet Genesis</b></a> · Creado por el investigador colombiano <b style="color:#E0A21A">Ricardo Londoño González</b> en asocio con <a href="https://skynetgenesis.com" target="_blank" rel="noopener"><b>SkyNet Genesis</b></a><br>
+    contacto@skynetgenesis.com · WhatsApp 304 437 5758 · Uso libre citando la fuente.
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="shm" id="shm" aria-hidden="true">
+<div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir el comparativo</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var URL_PUBLICA = "https://observatorio.skynetgenesis.com/gobiernos/";
+var S = {"pib":{"1998":0.6,"1999":-4.2,"2000":2.9,"2001":1.7,"2002":2.5,"2003":3.9,"2004":5.3,"2005":4.4,"2006":6.7,"2007":6.7,"2008":3.3,"2009":1.1,"2010":4.5,"2011":6.9,"2012":3.9,"2013":5.1,"2014":4.5,"2015":3,"2016":2.1,"2017":1.4,"2018":2.6,"2019":3.2,"2020":-7.2,"2021":10.8,"2022":7.3,"2023":0.8,"2024":1.5,"2025":2.6},"hom":{"1998":61.09,"1999":63.33,"2000":67.89,"2001":70.11,"2002":70.4,"2003":57.46,"2004":48.65,"2005":42.99,"2006":40.94,"2007":39.78,"2008":36.88,"2009":35.73,"2010":34.52,"2011":35.63,"2012":35.96,"2013":33.42,"2014":28.65,"2015":27.22,"2016":26.14,"2017":25.55,"2018":23.82,"2019":23.4,"2020":22.64,"2021":25.58,"2022":24.95,"2023":24.91,"2024":24.23,"2025":25.28},"sec":{"1998":2860,"1999":3204,"2000":3572,"2001":2917,"2002":2882,"2003":2121,"2004":1440,"2005":800,"2006":687,"2007":521,"2008":437,"2009":213,"2010":282,"2011":305,"2012":305,"2013":299,"2014":288,"2015":213,"2016":207,"2017":195,"2018":176,"2019":163,"2020":162,"2021":160,"2022":223,"2023":338,"2024":313,"2025":701},"sect":{"1998":7.57,"1999":8.33,"2000":9.14,"2001":7.35,"2002":7.15,"2003":5.18,"2004":3.47,"2005":1.9,"2006":1.61,"2007":1.21,"2008":1.0,"2009":0.48,"2010":0.63,"2011":0.67,"2012":0.67,"2013":0.65,"2014":0.62,"2015":0.45,"2016":0.44,"2017":0.41,"2018":0.36,"2019":0.33,"2020":0.32,"2021":0.31,"2022":0.43,"2023":0.65,"2024":0.59,"2025":1.31},"desn":{"2001":8.6,"2002":8.9,"2003":9.6,"2004":10.4,"2005":11,"2006":11.3,"2007":10.8,"2008":11.1,"2009":11.1,"2010":11.1,"2011":10,"2012":8.6,"2013":7,"2014":5.8,"2015":5,"2016":4.4,"2017":4.2,"2018":4.2,"2019":4.1,"2020":4.2,"2021":4.1,"2022":4.1,"2023":3.9},"deuda":{"1998":27.5,"1999":34,"2000":38,"2001":41.1,"2002":47.5,"2003":45,"2004":41.5,"2005":38.5,"2006":36,"2007":32.7,"2008":32.4,"2009":35.4,"2010":36.5,"2011":35.8,"2012":34,"2013":37.6,"2014":43.3,"2015":50.4,"2016":49.9,"2017":49.4,"2018":51.8,"2019":51,"2020":65.3,"2021":64.4,"2022":61.3,"2023":55.4,"2024":61,"2025":59.9},"def":{"1998":-3.9,"1999":-5.4,"2000":-2.9,"2001":-2.7,"2002":-3.5,"2003":-2.7,"2004":-1.3,"2005":0,"2006":-1,"2007":-0.8,"2008":0,"2009":-2.7,"2010":-3.3,"2011":-2,"2012":0.2,"2013":-1,"2014":-1.7,"2015":-3.5,"2016":-2.3,"2017":-2.5,"2018":-4.7,"2019":-3.5,"2020":-7.1,"2021":-7.3,"2022":-6.4,"2023":-2.9,"2024":-6,"2025":-5.8},"desem":{"1998":9.7,"1999":13.1,"2000":13.3,"2001":15,"2002":15.6,"2003":14.1,"2004":13.7,"2005":11.8,"2006":12,"2007":11.2,"2008":11.3,"2009":11.3,"2010":11.2,"2011":10.1,"2012":9.9,"2013":8.6,"2014":9,"2015":8.8,"2016":9.1,"2017":8.9,"2018":10,"2019":9.9,"2020":13.9,"2021":11.1,"2022":10.3,"2023":10,"2024":9.1,"2025":8},"infl":{"1998":18.7,"1999":10.9,"2000":9.2,"2001":8,"2002":6.3,"2003":7.1,"2004":5.9,"2005":5,"2006":4.3,"2007":5.5,"2008":7,"2009":4.2,"2010":2.3,"2011":3.4,"2012":3.2,"2013":2,"2014":2.9,"2015":5,"2016":7.5,"2017":4.3,"2018":3.2,"2019":3.5,"2020":2.5,"2021":3.5,"2022":10.2,"2023":11.7,"2024":6.6,"2025":5.1},"coca":{"1999":160,"2000":163,"2001":145,"2002":102,"2003":86,"2004":80,"2005":86,"2006":78,"2007":99,"2008":81,"2009":73,"2010":62,"2011":64,"2012":48,"2013":48,"2014":69,"2015":96,"2016":146,"2017":171,"2018":169,"2019":154,"2020":143,"2021":204,"2022":230,"2023":253,"2024":261},"ext":{"2003":2273,"2004":2351,"2005":1820,"2006":1652,"2007":1082,"2008":830,"2009":1373,"2010":1352,"2011":1805,"2012":2316,"2013":4805,"2014":4888,"2015":5480,"2016":4902,"2017":5532,"2018":7048,"2019":8362,"2020":8188,"2021":8342,"2022":9791,"2023":11078,"2024":13802,"2025":13417},"ipc":{"2012":36,"2013":36,"2014":37,"2015":37,"2016":37,"2017":37,"2018":36,"2019":37,"2020":39,"2021":39,"2022":39,"2023":40,"2024":39,"2025":37}};
+var G = [
+  {k:"pas", n:"Andrés Pastrana", c:"Pastrana", p:"1998-2002", a:1999, b:2002, col:"#3b82c4"},
+  {k:"uri", n:"Álvaro Uribe", c:"Uribe", p:"2002-2010", a:2003, b:2010, col:"#14A38B"},
+  {k:"san", n:"Juan Manuel Santos", c:"Santos", p:"2010-2018", a:2011, b:2018, col:"#9b6bd6"},
+  {k:"duq", n:"Iván Duque", c:"Duque", p:"2018-2022", a:2019, b:2022, col:"#E0A21A"},
+  {k:"pet", n:"Gustavo Petro", c:"Petro", p:"2022-2026", a:2023, b:2025, col:"#d9645a"}
+];
+function gobDe(y){ for(var i=0;i<G.length;i++){ if(y>=G[i].a && y<=G[i].b) return G[i]; } return null; }
+/* menor es mejor: mb=-1 ; mayor es mejor: mb=1 */
+var IND = {
+  pib:{t:"Crecimiento de la economía", s:"Crecimiento real del PIB, % por año", u:" %", d:1, mb:1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/NGDP_RPCH@WEO/COL" target="_blank" rel="noopener">FMI, Perspectivas de la Economía Mundial, oct. 2026</a>', nota:"2020 cayó por la pandemia y 2021-2022 rebotaron; eso pesa en el promedio de Duque."},
+  hom:{t:"Homicidios", s:"Víctimas por cada 100.000 habitantes", u:"", d:1, mb:-1, src:'Fuente: <a href="https://dataunodc.un.org/dp-intentional-homicide-victims" target="_blank" rel="noopener">UNODC</a> 1998-2023; 2024-2025 extendido con la variación de Medicina Legal (preliminar)', nota:"Los años 2024 y 2025 son preliminares."},
+  sect:{t:"Secuestros", s:"Secuestros por cada 100.000 habitantes", u:"", d:2, mb:-1, src:'Fuente: registro oficial histórico (Fondelibertad; Ministerio de Defensa, <a href="https://www.datos.gov.co/d/d7zw-hpf4" target="_blank" rel="noopener">datos.gov.co</a>) y población ONU', nota:"", casos:true},
+  desn:{t:"Hambre", s:"Población subalimentada, % (promedio de tres años)", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.fao.org/faostat/es/#data/FS" target="_blank" rel="noopener">FAO</a>', nota:"La FAO no tiene el dato antes de 2001 ni después de 2023: Pastrana tiene 2 años y Petro solo 1."},
+  deuda:{t:"Deuda pública", s:"Deuda bruta del Estado, % del PIB", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"Esta es la deuda de todo el Estado según el FMI. Con la medida del Ministerio de Hacienda, la deuda bruta del Gobierno Nacional cerró 2025 en 64,7 % del PIB, la más alta desde 2001 (ver «Lo que se dijo»).", delta:true},
+  def:{t:"Déficit fiscal", s:"Balance del Estado, % del PIB (negativo = gasta más de lo que recibe)", u:" %", d:1, mb:1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/GGXCNL_NGDP@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"La regla fiscal se suspendió en 2020-2021 (pandemia, Duque) y en 2025-2027 (Petro, con concepto desfavorable del Comité Autónomo de la Regla Fiscal)."},
+  coca:{t:"Cultivos de coca", s:"Hectáreas sembradas con coca, en miles", u:" mil ha", d:0, mb:-1, src:'Fuente: <a href="https://www.unodc.org/colombia/es/" target="_blank" rel="noopener">UNODC, Sistema Integrado de Monitoreo de Cultivos Ilícitos (SIMCI)</a>', nota:"El último censo publicado es el de 2024 (261.000 hectáreas, récord histórico). La producción potencial de cocaína pasó de 1.738 toneladas en 2022 a 2.664 en 2023. Las cifras de 1999-2001 usan la metodología anterior."},
+  ext:{t:"Extorsión", s:"Casos de extorsión denunciados por año", u:"", d:0, mb:-1, src:'Fuente: registro oficial de delitos (Ministerio de Defensa, <a href="https://www.datos.gov.co/d/q2ib-t9am" target="_blank" rel="noopener">conjunto «EXTORSIÓN»</a>), serie disponible desde 2003', nota:"Son denuncias: muchas extorsiones no se denuncian. 2024 fue el año con más casos de la serie."},
+  ipc:{t:"Corrupción", s:"Índice de Percepción de la Corrupción, 0 a 100 (más alto = menos corrupción percibida)", u:"", d:0, da:1, mind:1, mb:1, src:'Fuente: <a href="https://www.transparency.org/es/cpi" target="_blank" rel="noopener">Transparencia Internacional</a>; serie comparable desde 2012', nota:"Solo hay datos comparables desde 2012, así que no se puede medir a Pastrana ni a Uribe. Los promedios de Duque y Petro son casi iguales, pero con Petro el índice subió a 40 en 2023 y cayó a 37 en 2025, su peor nivel desde 2019."},
+  desem:{t:"Desempleo", s:"Personas sin empleo, % de la fuerza laboral", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/LUR@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"El desempleo de 2020 subió por los cierres de la pandemia. Entre 2022 y 2025 la mayor parte del empleo nuevo salió de la contratación del sector público, no de las empresas."}
+};
+var ORDEN = ["pib","desem","deuda","def","hom","sect","ext","coca","ipc","desn"];
+var actual = "pib";
+function num(v,d){ return v.toLocaleString("es-CO",{minimumFractionDigits:d,maximumFractionDigits:d}); }
+function val(k,y){ var v=S[k][String(y)]; return (v===undefined||v===null)?null:+v; }
+function stats(k,g){
+  var vs=[]; for(var y=g.a;y<=g.b;y++){ var v=val(k,y); if(v!==null) vs.push(v); }
+  var avg = vs.length ? vs.reduce(function(a,b){return a+b;},0)/vs.length : null;
+  var eY=null; for(var z=g.b;z>=g.a;z--){ if(val(k,z)!==null){ eY=z; break; } }
+  return {avg:avg, n:vs.length, rec:val(k,g.a-1), ent:eY===null?null:val(k,eY), entY:eY};
+}
+/* pestañas */
+var tabs=document.getElementById("tabs");
+ORDEN.forEach(function(k){ var b=document.createElement("button"); b.textContent=IND[k].t; b.setAttribute("data-k",k); if(k===actual) b.className="on"; tabs.appendChild(b); });
+tabs.addEventListener("click",function(ev){ var b=ev.target.closest("button"); if(!b) return;
+  tabs.querySelectorAll("button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); actual=b.getAttribute("data-k"); pintar(); });
+/* leyenda */
+var lg=document.getElementById("gleg"), h='<span><i style="background:#4a5a6b"></i>Samper (1998)</span>';
+G.forEach(function(g){ h+='<span><i style="background:'+g.col+'"></i>'+g.c+'</span>'; }); lg.innerHTML=h;
+
+function grafica(k){
+  var ys=[]; for(var y=1998;y<=2025;y++) ys.push(y);
+  var vals=ys.map(function(y){return val(k,y);}).filter(function(v){return v!==null;});
+  var mn=Math.min(0,Math.min.apply(null,vals)), mx=Math.max(0,Math.max.apply(null,vals));
+  var pad=(mx-mn)*0.08; mx+=pad; if(mn<0) mn-=pad;
+  var W=640,H=300,L=40,R=8,T=12,B=34, pw=(W-L-R)/ys.length;
+  function Y(v){ return T+(mx-v)/(mx-mn)*(H-T-B); }
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+IND[k].t+' por año">';
+  /* franjas de gobierno */
+  G.forEach(function(g){ var x0=L+(g.a-1998)*pw, x1=L+(g.b-1998+1)*pw;
+    s+='<rect x="'+x0+'" y="'+T+'" width="'+(x1-x0)+'" height="'+(H-T-B)+'" fill="'+g.col+'" opacity=".07"/>';
+    s+='<text x="'+((x0+x1)/2)+'" y="'+(H-4)+'" text-anchor="middle" style="fill:'+g.col+';font-weight:700">'+g.c+'</text>'; });
+  /* líneas guía */
+  var paso=niceStep((mx-mn)/5);
+  for(var t=Math.ceil(mn/paso)*paso;t<=mx;t+=paso){ var yy=Y(t);
+    s+='<line x1="'+L+'" x2="'+(W-R)+'" y1="'+yy+'" y2="'+yy+'" stroke="#1d3550" stroke-width="'+(Math.abs(t)<1e-9?1.4:.6)+'"/>';
+    s+='<text x="'+(L-5)+'" y="'+(yy+4)+'" text-anchor="end">'+num(+t.toFixed(4),paso<1?1:0)+'</text>'; }
+  ys.forEach(function(y,i){ var v=val(k,y); if(v===null) return; var g=gobDe(y), c=g?g.col:"#4a5a6b";
+    var x=L+i*pw+pw*0.15, w=pw*0.7, y0=Y(0), y1=Y(v);
+    var tt=y+": "+num(v,IND[k].d)+IND[k].u+(IND[k].casos?" ("+S.sec[String(y)]+" secuestros)":"")+(k==="hom"&&y>=2024?" (preliminar)":"");
+    s+='<rect class="bar" x="'+x+'" y="'+Math.min(y0,y1)+'" width="'+w+'" height="'+Math.max(1,Math.abs(y1-y0))+'" rx="2" fill="'+c+'"'+(k==="hom"&&y>=2024?' opacity=".6"':'')+'><title>'+tt+'</title></rect>';
+    if(i%3===0 || y===2025) s+='<text x="'+(x+w/2)+'" y="'+(H-B+13)+'" text-anchor="middle">'+String(y).slice(2)+'</text>'; });
+  return s+'</svg>';
+}
+function niceStep(r){ var p=Math.pow(10,Math.floor(Math.log10(r))), f=r/p; return (f<1.5?1:f<3?2:f<7?5:10)*p; }
+
+function pintar(){
+  var k=actual, I=IND[k];
+  document.getElementById("chT").textContent=I.t;
+  document.getElementById("chS").textContent=I.s+" · 1998 a 2025";
+  document.getElementById("chart").innerHTML=grafica(k);
+  document.getElementById("chSrc").innerHTML=I.src;
+  var st=G.map(function(g){ return {g:g, s:stats(k,g)}; });
+  var cmp=st.filter(function(x){return x.s.avg!==null;});
+  var best=cmp.slice().sort(function(a,b){ return I.mb*(b.s.avg-a.s.avg); })[0];
+  var worst=cmp.slice().sort(function(a,b){ return I.mb*(a.s.avg-b.s.avg); })[0];
+  if(I.mind && best && worst && Math.abs(best.s.avg-worst.s.avg)>=0 ){ /* sin etiqueta si los dos primeros casi empatan */
+    var ord=cmp.slice().sort(function(a,b){ return I.mb*(b.s.avg-a.s.avg); });
+    if(ord.length>1 && Math.abs(ord[0].s.avg-ord[1].s.avg)<I.mind) best=null; }
+  var amax=Math.max.apply(null,cmp.map(function(x){return Math.abs(x.s.avg);}));
+  var html="";
+  st.forEach(function(x){
+    var g=x.g, s=x.s, cls=(x===best?" best":x===worst?" worst":"");
+    var tag=(x===best?'<span class="tag">Mejor</span>':x===worst?'<span class="tag">Peor</span>':'');
+    var parts=[]; if(s.rec!==null) parts.push("Recibió: "+num(s.rec,I.d)+I.u);
+    if(s.ent!==null) parts.push((s.entY<g.b||g.k==="pet"?"Último dato ("+s.entY+")":"Entregó")+": "+num(s.ent,I.d)+I.u);
+    if(s.n===0) parts.push("Sin datos para este periodo");
+    var rd=parts.join(" · ");
+    if(I.casos){ var tot=0; for(var y=g.a;y<=g.b;y++) tot+=S.sec[String(y)]||0; rd+=(rd?" · ":"")+tot.toLocaleString("es-CO")+" secuestros en total"; }
+    if(I.delta && s.rec!==null && s.ent!==null){ var dd=s.ent-s.rec; rd+=" · Cambio: "+(dd>0?"+":"")+num(dd,1)+" puntos"; }
+    html+='<div class="gov'+cls+'"><span class="dot" style="background:'+g.col+'"></span><div class="nm">'+g.n+tag+'<small>'+g.p+(s.n>0&&s.n<(g.b-g.a+1)?" · "+s.n+" año"+(s.n===1?"":"s")+" con dato":"")+'</small></div><div class="v">'+(s.avg===null?"—":num(s.avg,I.da!==undefined?I.da:I.d)+I.u)+'</div>'
+      +'<div class="mt"><i style="width:'+(s.avg===null?0:Math.abs(s.avg)/amax*100)+'%;background:'+g.col+'"></i></div><div class="rd">'+rd+'</div></div>';
+  });
+  html+='<div class="gov"><span class="dot" style="background:#5D6B78"></span><div class="nm">Abelardo de la Espriella<small>desde el 7 ago. 2026</small></div><div class="v" style="font-size:14px;color:var(--soft)">En curso</div><div class="rd">Sin cifras anuales todavía</div></div>';
+  document.getElementById("tbl").innerHTML=html;
+  document.getElementById("nota").textContent=(I.mb>0?"Más alto es mejor. ":"Más bajo es mejor. ")+I.nota;
+  enlaces(best,worst);
+}
+function mensaje(best,worst){
+  var I=IND[actual];
+  if(!best){ var st=G.map(function(g){return {g:g,s:stats(actual,g)};}).filter(function(x){return x.s.avg!==null;});
+    best=st.slice().sort(function(a,b){return I.mb*(b.s.avg-a.s.avg);})[0]; worst=st.slice().sort(function(a,b){return I.mb*(a.s.avg-b.s.avg);})[0]; }
+  if(I.mind){ var o2=G.map(function(g){return {g:g,s:stats(actual,g)};}).filter(function(x){return x.s.avg!==null;}).sort(function(a,b){return I.mb*(b.s.avg-a.s.avg);});
+    if(o2.length>1 && Math.abs(o2[0].s.avg-o2[1].s.avg)<I.mind) return "📊 COLOMBIA, GOBIERNO A GOBIERNO\n"+I.t+": Colombia llegó a 40 puntos en 2023 y cayó a 37 en 2025 en el índice de Transparencia Internacional. Compare cada gobierno con datos verificables.\nMírelo aquí 👉 "+URL_PUBLICA; }
+  return "📊 COLOMBIA, GOBIERNO A GOBIERNO\n"+I.t+" ("+I.s.toLowerCase()+"): el mejor promedio fue el de "+best.g.c+" ("+num(best.s.avg,I.d)+I.u+") y el peor el de "+worst.g.c+" ("+num(worst.s.avg,I.d)+I.u+"). Datos del FMI, la ONU, la FAO y registros oficiales, de Pastrana a hoy.\nCompárelo aquí 👉 "+URL_PUBLICA;
+}
+var shTxt="";
+function openShare(txt){ shTxt=txt;
+  if(navigator.share){ navigator.share({title:"Colombia, gobierno a gobierno",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); }); }
+  else showModal(txt); }
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Colombia, gobierno a gobierno")+"&body="+t;
+  document.getElementById("shm").classList.add("on"); }
+function enlaces(b,w){ var m=mensaje(b||undefined,b?w:undefined);
+  document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
+  document.getElementById("shFb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(URL_PUBLICA);
+  document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m); }
+function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
+function copiar(txt,ok){ try{ navigator.clipboard.writeText(txt).then(function(){toast(ok);},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); } }
+document.getElementById("mCopy").addEventListener("click",function(){ copiar(shTxt,"✅ Mensaje copiado. Péguelo donde quiera."); });
+document.getElementById("shCopy").addEventListener("click",function(){ copiar(mensaje(),"✅ Mensaje copiado. Péguelo en sus grupos y redes."); });
+
+/* subsidios (r = continuación o nuevo nombre de un programa anterior) */
+var SUB = {
+  pas:[["Familias en Acción","2000 · Red de Apoyo Social"],["Jóvenes en Acción","2001 · Red de Apoyo Social"],["Empleo en Acción","2000 · Red de Apoyo Social"]],
+  uri:[["Subsidio al adulto mayor (PPSAM)","2003 · Ley 797 de 2003"],["Familias Guardabosques","2003"],["Agro Ingreso Seguro","2007 · Ley 1133 de 2007"]],
+  san:[["Viviendas 100 % subsidiadas","2012 · Ley 1537 de 2012"],["Ser Pilo Paga","2014"],["Mi Casa Ya","2015"],["Colombia Mayor","2012 · nuevo nombre del PPSAM",1],["Jóvenes en Acción","2012 · relanzamiento",1]],
+  duq:[["Generación E","2018-2019"],["Devolución del IVA","Ley 2010 de 2019"],["Ingreso Solidario","2020 · Decreto 518 de 2020"],["Subsidio a la nómina (PAEF)","2020 · Decreto 639 de 2020"],["Matrícula cero (estratos 1 a 3)","2021 · Ley 2155 de 2021"]],
+  pet:[["Jóvenes en Paz","2023 · Decreto 1649 de 2023"],["Renta Ciudadana","2023 · Decreto 1960: transforma Familias en Acción",1],["Renta Joven","2024 · antes Jóvenes en Acción",1],["Gratuidad en todo el pregrado público","Ley 2307 de 2023 · amplía la matrícula cero",1],["Pilar solidario de pensiones","Ley 2381 de 2024 · amplía Colombia Mayor; rige desde abril de 2027",1]]
+};
+var sh="";
+G.forEach(function(g){ sh+='<div class="col"><h4 style="border-color:'+g.col+'">'+g.c+'<small>'+g.p+'</small></h4><ul>';
+  SUB[g.k].forEach(function(r){ sh+='<li'+(r[2]?' class="ren"':'')+'>'+r[0]+'<small>'+r[1]+(r[2]?' · no es un programa nuevo':'')+'</small></li>'; });
+  sh+='</ul></div>'; });
+document.getElementById("subs").innerHTML=sh+'<p style="grid-column:1/-1;font-size:12.5px;color:var(--dim)"><span style="color:#f1c35a">En amarillo:</span> continuación, ampliación o nuevo nombre de un programa que ya existía.</p>';
+pintar();
+})();
+</script>
+</body>
+</html>
