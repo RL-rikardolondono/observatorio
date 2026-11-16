@@ -128,7 +128,7 @@ footer a{color:var(--soft)}
     <span class="kicker"><i></i> Cálculo en tiempo real · Datos oficiales</span>
     <h1>Reloj de<em>Vida Saludable</em></h1>
     <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
-    <p class="sub">Si toda su vida fuera un solo día, ¿qué hora sería ahora? Responda 10 preguntas sobre sus hábitos y descubra su esperanza de vida estimada y cuántos años puede ganar.</p>
+    <p class="sub">Si toda su vida fuera un solo día, ¿qué hora sería ahora? Responda unas preguntas sobre sus hábitos y descubra su esperanza de vida estimada y cuántos años puede ganar.</p>
   </section>
 
   <section id="calcule" style="padding-top:10px">
@@ -147,6 +147,14 @@ footer a{color:var(--soft)}
             <label class="field">Estatura (cm)<input type="number" id="talla" min="120" max="220" inputmode="numeric" placeholder="Ej. 170"></label>
             <label class="field">Peso (kg)<input type="number" id="peso" min="30" max="250" inputmode="numeric" placeholder="Ej. 72"></label>
           </div>
+        </div>
+        <div class="q">
+          <label class="field" style="max-width:240px">Cintura a la altura del ombligo (cm) · opcional<input type="number" id="cintura" min="50" max="200" inputmode="numeric" placeholder="Ej. 86"></label>
+          <p class="hint" style="margin:8px 0 0">Si entrena con pesas o tiene mucha masa muscular, el peso engaña. Con la cintura, el cálculo usa la relación cintura-estatura, que distingue el músculo de la grasa abdominal.</p>
+        </div>
+        <div class="q">
+          <div class="lbl">Ejercicios de fuerza (pesas, bandas, calistenia)</div>
+          <div class="opts" data-k="fuerza"><button data-v="no">No hago</button><button data-v="1">1 a 2 veces por semana</button><button data-v="3">3 o más veces por semana</button></div>
         </div>
         <div class="q">
           <div class="lbl">¿Fuma?</div>
@@ -254,6 +262,8 @@ footer a{color:var(--soft)}
       <li>Sueño: Cappuccio y col., Sleep, 2010.</li>
       <li>Diabetes: Emerging Risk Factors Collaboration, JAMA, 2015. Presión arterial: Prospective Studies Collaboration, The Lancet, 2002.</li>
       <li>Relaciones sociales: Holt-Lunstad y col., PLoS Medicine, 2010.</li>
+      <li>Ejercicios de fuerza: Momma y col., British Journal of Sports Medicine, 2022.</li>
+      <li>Relación cintura-estatura: Ashwell y col., Obesity Reviews, 2012.</li>
     </ul>
     <p class="disc">Cómo se calcula: se parte de la esperanza de vida oficial del DANE para su sexo y se ajusta un modelo de mortalidad por edad (Gompertz-Makeham). Cada hábito modifica el riesgo según el efecto promedio publicado en los estudios citados. El resultado es una <b>estimación poblacional con fines educativos</b>, no un diagnóstico ni un pronóstico individual: consulte siempre a su médico. Esta página no guarda ni envía sus datos.</p>
   </section>
@@ -279,6 +289,7 @@ var B = 0.085, C = 0.0006;             /* Gompertz-Makeham */
 var HR = {
   tabaco:   { nunca:0.92, ex10:1.0, ex:1.3, poco:1.8, mucho:2.4 },
   ejercicio:{ nada:1.3, poco:1.0, ok:0.85, mucho:0.8 },
+  fuerza:   { no:1.0, "1":0.85, "3":0.87 },
   alcohol:  { no:1.0, mod:1.0, medio:1.1, alto:1.3, atracon:1.5 },
   frutas:   { "0":1.15, "1":1.0, "3":0.92, "5":0.87 },
   sueno:    { corto:1.12, ok:1.0, largo:1.3 },
@@ -286,10 +297,11 @@ var HR = {
   diabetes: { no:1.0, ctrl:1.6, mal:2.2 },
   social:   { solo:1.3, algo:1.0, fuerte:0.85 }
 };
-var MEJOR = { tabaco:"nunca", ejercicio:"mucho", alcohol:"no", frutas:"5", sueno:"ok", presion:"ctrl", diabetes:"ctrl", social:"fuerte" };
+var MEJOR = { tabaco:"nunca", ejercicio:"mucho", fuerza:"1", alcohol:"no", frutas:"5", sueno:"ok", presion:"ctrl", diabetes:"ctrl", social:"fuerte" };
 var NOMBRE = {
   tabaco:{ex:"Mantenerse sin fumar",poco:"Dejar de fumar",mucho:"Dejar de fumar"},
   ejercicio:"Moverse más de 300 minutos a la semana",
+  fuerza:"Hacer ejercicios de fuerza 1 a 2 veces por semana",
   alcohol:"Reducir el alcohol",
   frutas:"Comer 5 porciones de frutas y verduras al día",
   sueno:"Dormir entre 6 y 9 horas",
@@ -298,7 +310,7 @@ var NOMBRE = {
   social:"Cultivar vínculos con familia y amigos",
   imc:"Llegar a un peso saludable"
 };
-var sel = { sexo:null, tabaco:null, ejercicio:null, alcohol:null, frutas:null, sueno:null, presion:null, diabetes:null, social:null };
+var sel = { sexo:null, tabaco:null, ejercicio:null, fuerza:null, alcohol:null, frutas:null, sueno:null, presion:null, diabetes:null, social:null };
 
 function hrIMC(imc){
   if(!imc) return 1;
@@ -307,6 +319,11 @@ function hrIMC(imc){
   if(imc<30) return 1.05;
   if(imc<35) return 1.4;
   return 1.9;
+}
+/* con la cintura se usa la relación cintura-estatura (distingue músculo de grasa); sin ella, el IMC */
+function hrCuerpo(imc, whtr){
+  if(whtr){ if(whtr<0.5) return 0.95; if(whtr<0.6) return 1.15; return 1.5; }
+  return hrIMC(imc);
 }
 /* esperanza de vida restante a la edad x con multiplicador M sobre el riesgo por edad */
 function eRest(a, x, M){
@@ -328,10 +345,10 @@ function calibrar(sexo){
 calibrar("m"); calibrar("f");
 
 function num(id){ var v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:null; }
-function multiplicador(s, imc){
+function multiplicador(s, imc, whtr){
   var M=1, k;
   for(k in HR){ if(s[k]) M*=HR[k][s[k]]; }
-  M*=hrIMC(imc);
+  M*=hrCuerpo(imc, whtr);
   return Math.min(6, Math.max(0.35, M));
 }
 function fmt1(n){ return n.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1}); }
@@ -359,11 +376,12 @@ setDial(0);
 
 var ultimo=null;
 function calcular(){
-  var edad=num("edad"), talla=num("talla"), peso=num("peso");
+  var edad=num("edad"), talla=num("talla"), peso=num("peso"), cintura=num("cintura");
   var imc = (talla && peso && talla>=120 && talla<=220 && peso>=30 && peso<=250) ? peso/Math.pow(talla/100,2) : null;
+  var whtr = (cintura && talla && cintura>=50 && cintura<=200 && talla>=120 && talla<=220) ? cintura/talla : null;
   var listo = sel.sexo && edad!==null && edad>=15 && edad<=100;
   if(!listo){ ultimo=null; document.getElementById("verdict").textContent="Complete al menos su sexo y su edad (entre 15 y 100 años)."; return; }
-  var a=A[sel.sexo], M=multiplicador(sel,imc);
+  var a=A[sel.sexo], M=multiplicador(sel,imc,whtr);
   var rest=eRest(a,edad,M), base=eRest(a,edad,1), total=edad+rest, dif=rest-base;
   var frac=Math.min(0.999, edad/total), mins=Math.round(frac*24*60), hh=Math.floor(mins/60), mm=mins%60;
   var hora=String(hh).padStart(2,"0")+":"+String(mm).padStart(2,"0");
@@ -372,24 +390,27 @@ function calcular(){
   document.getElementById("eEdad").textContent=fmt1(total);
   document.getElementById("eRest").textContent=fmt1(rest);
   var d=document.getElementById("delta");
-  if(Math.abs(dif)<0.3){ d.className="delta"; d.textContent="Igual al promedio de su edad y sexo en Colombia"; }
-  else if(dif>0){ d.className="delta up"; d.textContent="▲ "+fmt1(dif)+" años más que el promedio colombiano"; }
-  else { d.className="delta down"; d.textContent="▼ "+fmt1(-dif)+" años menos que el promedio colombiano"; }
+  var ref=(sel.sexo==="f"?"una colombiana":"un colombiano")+" de su edad vive en promedio hasta los "+fmt1(edad+base)+" años";
+  if(Math.abs(dif)<0.3){ d.className="delta"; d.textContent="Igual al promedio: "+ref; }
+  else if(dif>0){ d.className="delta up"; d.textContent="▲ "+fmt1(dif)+" años más que el promedio: "+ref; }
+  else { d.className="delta down"; d.textContent="▼ "+fmt1(-dif)+" años menos que el promedio: "+ref; }
   var faltan=Object.keys(HR).filter(function(k){return !sel[k];}).length + (imc?0:1);
   document.getElementById("verdict").textContent = faltan ? "Responda las "+faltan+" preguntas que faltan para afinar su resultado." : (hh<12?"Todavía es de mañana en su vida: cada hábito que mejore hoy le suma horas.":"Cada hábito que mejore hoy todavía le suma tiempo.");
   ultimo={hora:hora,total:total};
-  ganancias(a,edad,M,imc,rest);
+  ganancias(a,edad,M,imc,rest,whtr);
   enlaces();
 }
-function ganancias(a,edad,M,imc,rest){
-  var out=[], k, v, m2, g, nom;
+function ganancias(a,edad,M,imc,rest,whtr){
+  var out=[], k, v, m2, g, nom, mj, hc;
   for(k in MEJOR){
-    v=sel[k]; if(!v || v===MEJOR[k] || HR[k][MEJOR[k]]>=HR[k][v]) continue;
-    m2=Math.min(6,Math.max(0.35,M/HR[k][v]*HR[k][MEJOR[k]])); g=eRest(a,edad,m2)-rest;
+    v=sel[k]; mj=(k==="presion" && v==="nose")?"normal":MEJOR[k];
+    if(!v || v===mj || HR[k][mj]>=HR[k][v]) continue;
+    m2=Math.min(6,Math.max(0.35,M/HR[k][v]*HR[k][mj])); g=eRest(a,edad,m2)-rest;
     nom=typeof NOMBRE[k]==="string"?NOMBRE[k]:(NOMBRE[k][v]||"Mejorar este hábito");
     if(g>=0.1) out.push([nom,g]);
   }
-  if(imc && (imc<18.5 || imc>=25)){ m2=Math.min(6,Math.max(0.35,M/hrIMC(imc)*0.95)); g=eRest(a,edad,m2)-rest; if(g>=0.1) out.push([NOMBRE.imc+" (su IMC: "+fmt1(imc)+")",g]); }
+  hc=hrCuerpo(imc,whtr);
+  if(hc>0.95){ m2=Math.min(6,Math.max(0.35,M/hc*0.95)); g=eRest(a,edad,m2)-rest; if(g>=0.1) out.push([whtr?"Reducir la grasa abdominal (cintura menor que la mitad de su estatura)":NOMBRE.imc+" (su IMC: "+fmt1(imc)+")",g]); }
   out.sort(function(x,y){return y[1]-x[1];});
   var box=document.getElementById("gains");
   if(!out.length){ box.innerHTML='<div class="empty">Con sus respuestas actuales no vemos hábitos por mejorar. ¡Siga así y hágase chequeos periódicos!</div>'; return; }
@@ -418,7 +439,7 @@ document.querySelectorAll(".opts").forEach(function(g){
     b.classList.add("on"); sel[g.getAttribute("data-k")]=b.getAttribute("data-v"); calcular();
   });
 });
-["edad","talla","peso"].forEach(function(id){ document.getElementById(id).addEventListener("input",calcular); });
+["edad","talla","peso","cintura"].forEach(function(id){ document.getElementById(id).addEventListener("input",calcular); });
 enlaces();
 })();
 </script>
