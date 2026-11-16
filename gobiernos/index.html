@@ -129,6 +129,7 @@ footer a{color:var(--soft)}
 .gov .tag{font:700 10.5px "Public Sans";letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:6px;margin-left:6px;vertical-align:2px}
 .gov.best .tag{background:rgba(95,211,165,.15);color:#5fd3a5}.gov.worst .tag{background:rgba(255,138,141,.15);color:#ff8a8d}
 .nota{font-size:13px;color:var(--dim);margin-top:10px}
+.gov .gn{display:block;margin-top:5px;padding:7px 9px;border-radius:8px;background:rgba(224,162,26,.12);border:1px solid rgba(224,162,26,.35);color:#f1c35a;font-size:12.5px;line-height:1.4}
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .chk{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
 .chk h3{font-size:24px;font-weight:800;line-height:1.1;margin:10px 0 8px}
@@ -228,8 +229,8 @@ footer a{color:var(--soft)}
         <article class="chk">
           <div class="vd red">Empleo sostenido con gasto público</div>
           <h3>«Bajó el desempleo»</h3>
-          <p>El desempleo bajó de 10,3 % en 2022 a 8,0 % en 2025 (FMI). Pero según análisis independientes, <b>la mayor parte del empleo nuevo salió de la contratación del propio Estado</b>, no del crecimiento de las empresas: la contratación pública fue la principal fuente de empleo y superó a siete sectores productivos. El gasto en personal del Estado creció 11,1 % real, algo que no se veía desde 2012 (Observatorio Fiscal de la Universidad Javeriana). Todo esto ocurrió con la <b>regla fiscal suspendida</b> desde junio de 2025 para 2025-2027, con concepto desfavorable del Comité Autónomo de la Regla Fiscal.</p>
-          <p class="cf">Fuentes: FMI (oct. 2026); Valora Analitik; Observatorio Fiscal U. Javeriana vía El Colombiano y Portafolio; CARF (13 jun. 2025).</p>
+          <p>El desempleo bajó de 10,3 % en 2022 a 8,0 % en 2025 (FMI). Pero según análisis independientes, <b>la mayor parte del empleo nuevo salió de la contratación del propio Estado</b>, no del crecimiento de las empresas: la contratación pública fue la principal fuente de empleo y superó a siete sectores productivos. El gasto en personal del Estado creció 11,1 % real, algo que no se veía desde 2012 (Observatorio Fiscal de la Universidad Javeriana). Ese gasto se pagó con deuda: en 2025 el déficit primario llegó a <b>3,5 % del PIB, el más alto en tres décadas fuera de crisis</b>, y todo ocurrió con la <b>regla fiscal suspendida</b> desde junio de 2025 para 2025-2027, con concepto desfavorable del Comité Autónomo de la Regla Fiscal. Por eso el menor desempleo de este gobierno no muestra una economía más fuerte, sino un Estado que contrató más con plata prestada.</p>
+          <p class="cf">Fuentes: FMI (oct. 2026); Valora Analitik; Observatorio Fiscal U. Javeriana vía El Colombiano y Portafolio; CARF (13 jun. 2025 y pronunciamiento de 2026 sobre el déficit primario de 2025).</p>
         </article>
         <article class="chk">
           <div class="vd red">Cierto</div>
@@ -359,13 +360,13 @@ var IND = {
   pib:{t:"Crecimiento de la economía", s:"Crecimiento real del PIB, % por año", u:" %", d:1, mb:1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/NGDP_RPCH@WEO/COL" target="_blank" rel="noopener">FMI, Perspectivas de la Economía Mundial, oct. 2026</a>', nota:"2020 cayó por la pandemia y 2021-2022 rebotaron; eso pesa en el promedio de Duque."},
   hom:{t:"Homicidios", s:"Víctimas por cada 100.000 habitantes", u:"", d:1, mb:-1, src:'Fuente: <a href="https://dataunodc.un.org/dp-intentional-homicide-victims" target="_blank" rel="noopener">UNODC</a> 1998-2023; 2024-2025 extendido con la variación de Medicina Legal (preliminar)', nota:"Los años 2024 y 2025 son preliminares."},
   sect:{t:"Secuestros", s:"Secuestros por cada 100.000 habitantes", u:"", d:2, mb:-1, src:'Fuente: registro oficial histórico (Fondelibertad; Ministerio de Defensa, <a href="https://www.datos.gov.co/d/d7zw-hpf4" target="_blank" rel="noopener">datos.gov.co</a>) y población ONU', nota:"", casos:true},
-  desn:{t:"Hambre", s:"Población subalimentada, % (promedio de tres años)", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.fao.org/faostat/es/#data/FS" target="_blank" rel="noopener">FAO</a>', nota:"La FAO no tiene el dato antes de 2001 ni después de 2023: Pastrana tiene 2 años y Petro solo 1."},
+  desn:{t:"Hambre", s:"Población subalimentada, % (promedio de tres años)", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.fao.org/faostat/es/#data/FS" target="_blank" rel="noopener">FAO</a>', nota:"La FAO no tiene el dato antes de 2001 ni después de 2023. A Petro no se le asigna «mejor»: solo tiene un dato, y ese promedio (2022-2024) incluye un año de Duque. La reducción del hambre venía desde 2011, con Santos.", minN:2, gn:{pet:"⚠ Un solo dato (promedio FAO 2022-2024, que incluye 2022, último año de Duque). La baja del hambre viene desde 2011; no se puede atribuir a este gobierno."}},
   deuda:{t:"Deuda pública", s:"Deuda bruta del Estado, % del PIB", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/GGXWDG_NGDP@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"Esta es la deuda de todo el Estado según el FMI. Con la medida del Ministerio de Hacienda, la deuda bruta del Gobierno Nacional cerró 2025 en 64,7 % del PIB, la más alta desde 2001 (ver «Lo que se dijo»).", delta:true},
   def:{t:"Déficit fiscal", s:"Balance del Estado, % del PIB (negativo = gasta más de lo que recibe)", u:" %", d:1, mb:1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/GGXCNL_NGDP@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"La regla fiscal se suspendió en 2020-2021 (pandemia, Duque) y en 2025-2027 (Petro, con concepto desfavorable del Comité Autónomo de la Regla Fiscal)."},
   coca:{t:"Cultivos de coca", s:"Hectáreas sembradas con coca, en miles", u:" mil ha", d:0, mb:-1, src:'Fuente: <a href="https://www.unodc.org/colombia/es/" target="_blank" rel="noopener">UNODC, Sistema Integrado de Monitoreo de Cultivos Ilícitos (SIMCI)</a>', nota:"El último censo publicado es el de 2024 (261.000 hectáreas, récord histórico). La producción potencial de cocaína pasó de 1.738 toneladas en 2022 a 2.664 en 2023. Las cifras de 1999-2001 usan la metodología anterior."},
   ext:{t:"Extorsión", s:"Casos de extorsión denunciados por año", u:"", d:0, mb:-1, src:'Fuente: registro oficial de delitos (Ministerio de Defensa, <a href="https://www.datos.gov.co/d/q2ib-t9am" target="_blank" rel="noopener">conjunto «EXTORSIÓN»</a>), serie disponible desde 2003', nota:"Son denuncias: muchas extorsiones no se denuncian. 2024 fue el año con más casos de la serie."},
   ipc:{t:"Corrupción", s:"Índice de Percepción de la Corrupción, 0 a 100 (más alto = menos corrupción percibida)", u:"", d:0, da:1, mind:1, mb:1, src:'Fuente: <a href="https://www.transparency.org/es/cpi" target="_blank" rel="noopener">Transparencia Internacional</a>; serie comparable desde 2012', nota:"Solo hay datos comparables desde 2012, así que no se puede medir a Pastrana ni a Uribe. Los promedios de Duque y Petro son casi iguales, pero con Petro el índice subió a 40 en 2023 y cayó a 37 en 2025, su peor nivel desde 2019."},
-  desem:{t:"Desempleo", s:"Personas sin empleo, % de la fuerza laboral", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/LUR@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"El desempleo de 2020 subió por los cierres de la pandemia. Entre 2022 y 2025 la mayor parte del empleo nuevo salió de la contratación del sector público, no de las empresas."}
+  desem:{t:"Desempleo", s:"Personas sin empleo, % de la fuerza laboral", u:" %", d:1, mb:-1, src:'Fuente: <a href="https://www.imf.org/external/datamapper/LUR@WEO/COL" target="_blank" rel="noopener">FMI, oct. 2026</a>', nota:"El desempleo de 2020 subió por los cierres de la pandemia. El de Petro no es un logro de la economía productiva: la mayor parte del empleo nuevo salió de la contratación del propio Estado, pagada con deuda y con la regla fiscal suspendida.", gn:{pet:"⚠ Empleo sostenido con contratación del Estado financiada con deuda: en 2025 el déficit primario fue de 3,5 % del PIB, el más alto en tres décadas fuera de crisis (Comité Autónomo de la Regla Fiscal), y la deuda bruta del Gobierno Nacional llegó a 64,7 % del PIB, la más alta desde 2001."}}
 };
 var ORDEN = ["pib","desem","deuda","def","hom","sect","ext","coca","ipc","desn"];
 var actual = "pib";
@@ -419,7 +420,7 @@ function pintar(){
   document.getElementById("chart").innerHTML=grafica(k);
   document.getElementById("chSrc").innerHTML=I.src;
   var st=G.map(function(g){ return {g:g, s:stats(k,g)}; });
-  var cmp=st.filter(function(x){return x.s.avg!==null;});
+  var cmp=st.filter(function(x){return x.s.avg!==null && (!I.minN || x.s.n>=I.minN);});
   var best=cmp.slice().sort(function(a,b){ return I.mb*(b.s.avg-a.s.avg); })[0];
   var worst=cmp.slice().sort(function(a,b){ return I.mb*(a.s.avg-b.s.avg); })[0];
   if(I.mind && best && worst && Math.abs(best.s.avg-worst.s.avg)>=0 ){ /* sin etiqueta si los dos primeros casi empatan */
@@ -429,12 +430,13 @@ function pintar(){
   var html="";
   st.forEach(function(x){
     var g=x.g, s=x.s, cls=(x===best?" best":x===worst?" worst":"");
-    var tag=(x===best?'<span class="tag">Mejor</span>':x===worst?'<span class="tag">Peor</span>':'');
+    var tag=(x===best?'<span class="tag">'+(I.gn&&I.gn[g.k]?'Más bajo ⚠':'Mejor')+'</span>':x===worst?'<span class="tag">Peor</span>':'');
     var parts=[]; if(s.rec!==null) parts.push("Recibió: "+num(s.rec,I.d)+I.u);
     if(s.ent!==null) parts.push((s.entY<g.b||g.k==="pet"?"Último dato ("+s.entY+")":"Entregó")+": "+num(s.ent,I.d)+I.u);
     if(s.n===0) parts.push("Sin datos para este periodo");
     var rd=parts.join(" · ");
     if(I.casos){ var tot=0; for(var y=g.a;y<=g.b;y++) tot+=S.sec[String(y)]||0; rd+=(rd?" · ":"")+tot.toLocaleString("es-CO")+" secuestros en total"; }
+    if(I.gn && I.gn[g.k]) rd+='<span class="gn">'+I.gn[g.k]+'</span>';
     if(I.delta && s.rec!==null && s.ent!==null){ var dd=s.ent-s.rec; rd+=" · Cambio: "+(dd>0?"+":"")+num(dd,1)+" puntos"; }
     html+='<div class="gov'+cls+'"><span class="dot" style="background:'+g.col+'"></span><div class="nm">'+g.n+tag+'<small>'+g.p+(s.n>0&&s.n<(g.b-g.a+1)?" · "+s.n+" año"+(s.n===1?"":"s")+" con dato":"")+'</small></div><div class="v">'+(s.avg===null?"—":num(s.avg,I.da!==undefined?I.da:I.d)+I.u)+'</div>'
       +'<div class="mt"><i style="width:'+(s.avg===null?0:Math.abs(s.avg)/amax*100)+'%;background:'+g.col+'"></i></div><div class="rd">'+rd+'</div></div>';
@@ -446,10 +448,11 @@ function pintar(){
 }
 function mensaje(best,worst){
   var I=IND[actual];
-  if(!best){ var st=G.map(function(g){return {g:g,s:stats(actual,g)};}).filter(function(x){return x.s.avg!==null;});
+  if(!best){ var st=G.map(function(g){return {g:g,s:stats(actual,g)};}).filter(function(x){return x.s.avg!==null && (!I.minN || x.s.n>=I.minN);});
     best=st.slice().sort(function(a,b){return I.mb*(b.s.avg-a.s.avg);})[0]; worst=st.slice().sort(function(a,b){return I.mb*(a.s.avg-b.s.avg);})[0]; }
   if(I.mind){ var o2=G.map(function(g){return {g:g,s:stats(actual,g)};}).filter(function(x){return x.s.avg!==null;}).sort(function(a,b){return I.mb*(b.s.avg-a.s.avg);});
     if(o2.length>1 && Math.abs(o2[0].s.avg-o2[1].s.avg)<I.mind) return "📊 COLOMBIA, GOBIERNO A GOBIERNO\n"+I.t+": Colombia llegó a 40 puntos en 2023 y cayó a 37 en 2025 en el índice de Transparencia Internacional. Compare cada gobierno con datos verificables.\nMírelo aquí 👉 "+URL_PUBLICA; }
+  if(I.gn && I.gn[best.g.k]) return "📊 COLOMBIA, GOBIERNO A GOBIERNO\n"+I.t+": el promedio más bajo fue el de "+best.g.c+" ("+num(best.s.avg,I.d)+I.u+"), pero ojo: "+I.gn[best.g.k].replace("⚠ ","")+"\nCompárelo aquí 👉 "+URL_PUBLICA;
   return "📊 COLOMBIA, GOBIERNO A GOBIERNO\n"+I.t+" ("+I.s.toLowerCase()+"): el mejor promedio fue el de "+best.g.c+" ("+num(best.s.avg,I.d)+I.u+") y el peor el de "+worst.g.c+" ("+num(worst.s.avg,I.d)+I.u+"). Datos del FMI, la ONU, la FAO y registros oficiales, de Pastrana a hoy.\nCompárelo aquí 👉 "+URL_PUBLICA;
 }
 var shTxt="";
