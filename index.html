@@ -225,6 +225,10 @@ footer a{color:var(--soft)}
       <div class="cnt"><div class="t">💸 Deuda mundial (US$)</div><div class="n r" id="cDebt">—</div><div class="s">Gobiernos, empresas y hogares</div></div>
       <div class="cnt"><div class="t">🚀 Gasto militar en <span class="yr"></span> (US$)</div><div class="n o" id="cMil">—</div><div class="s">Al ritmo récord de 2025</div></div>
       <div class="cnt"><div class="t">🌡 CO₂ en el aire</div><div class="n a">432,3 ppm</div><div class="s">Récord histórico (mayo 2026). Antes de la industria: 280</div></div>
+      <div class="cnt"><div class="t">⚔️ Muertes por violencia armada en <span class="yr"></span></div><div class="n r" id="cWar">—</div><div class="s">Al ritmo de 2025: unas 244.600 al año</div></div>
+      <div class="cnt"><div class="t">☢️ Ojivas nucleares</div><div class="n o">12.187</div><div class="s">4.012 desplegadas · unas 2.100 en alerta máxima</div></div>
+      <div class="cnt"><div class="t">🏚️ Personas que han huido en <span class="yr"></span></div><div class="n a" id="cFled">—</div><div class="s">Al ritmo de 2025: 5,4 millones al año</div></div>
+      <div class="cnt"><div class="t">⏳ Tiempo en récord: 85 segundos</div><div class="n" id="cRec">—</div><div class="s">Desde el 27 ene. 2026, el punto más cercano a la medianoche en la historia</div></div>
     </div>
     <div class="whileread">Desde que usted abrió esta página: <b id="wPop">0</b> personas más en el planeta · <b id="wDebt">US$0</b> más de deuda · <b id="wMil">US$0</b> gastados en armas.</div>
   </section>
@@ -267,7 +271,7 @@ footer a{color:var(--soft)}
       <svg viewBox="0 0 200 200" aria-hidden="true"><rect x="4" y="4" width="192" height="192" rx="46" fill="#1E3A4C"/><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
       <div>
         <h2>El mundo no espera. <span>Su empresa tampoco.</span></h2>
-        <p>Este reloj fue concebido por el <b>Dr. Ricardo Londoño González</b>, médico, escritor e investigador, y desarrollado con <b>SkyNet Genesis</b>, creadores de software inteligente para colegios, clínicas, contadores, conjuntos residenciales, hoteles, farmacias y empresas de Colombia. Si el tiempo se acaba, que no se le vaya en papeleo.</p>
+        <p>Una obra del <b>Dr. Ricardo Londoño González</b> —médico, escritor e investigador— desarrollada junto a <b>SkyNet Genesis</b>, la casa de software inteligente que acompaña a colegios, clínicas, contadores, conjuntos residenciales, hoteles, farmacias y empresas de Colombia. Si el tiempo apremia, que su empresa no lo pierda en papeleo.</p>
         <div class="chips"><span>Contabilidad y facturación</span><span>Nómina</span><span>Colegios e institutos</span><span>IPS y clínicas</span><span>SG-SST</span><span>Inventario</span></div>
         <div class="cta-row" style="justify-content:inherit">
           <a class="btn teal" href="https://skynetgenesis.com" target="_blank" rel="noopener">Conozca nuestras aplicaciones →</a>
@@ -281,7 +285,7 @@ footer a{color:var(--soft)}
     <div class="sec-h" style="text-align:left;margin-bottom:16px"><h2 style="font-size:30px">Fuentes de los datos</h2></div>
     <ul class="sources">
       <li><a href="https://thebulletin.org/doomsday-clock/" target="_blank" rel="noopener">Bulletin of the Atomic Scientists — Doomsday Clock 2026 (85 segundos)</a></li>
-      <li><a href="https://www.uu.se/en/news/2026/2026-06-09-ucdp-record-number-of-conflicts-between-states" target="_blank" rel="noopener">UCDP, Universidad de Uppsala — conflictos armados en 2025</a></li>
+      <li><a href="https://www.uu.se/en/news/2026/2026-06-09-ucdp-record-number-of-conflicts-between-states" target="_blank" rel="noopener">UCDP, Universidad de Uppsala — conflictos armados y muertes por violencia organizada en 2025</a></li>
       <li><a href="https://www.sipri.org/media/press-release/2026/increasing-focus-nuclear-weapons-amid-heightened-escalation-risks-new-sipri-yearbook-out-now" target="_blank" rel="noopener">SIPRI Yearbook 2026 — fuerzas nucleares</a></li>
       <li><a href="https://www.sipri.org/" target="_blank" rel="noopener">SIPRI — gasto militar mundial 2025 (abril 2026)</a></li>
       <li><a href="https://www.iif.com/Products/Global-Debt-Monitor" target="_blank" rel="noopener">IIF — Global Debt Monitor (septiembre 2026)</a></li>
@@ -427,6 +431,11 @@ function live(){
   document.getElementById("cPop").textContent=fmt(pop);
   document.getElementById("cDebt").textContent=fmt(debt);
   document.getElementById("cMil").textContent=fmt(mil);
+  var yfrac=(now-y0)/1000;
+  document.getElementById("cWar").textContent=fmt(yfrac*244600/(365.25*86400));
+  document.getElementById("cFled").textContent=fmt(yfrac*5.4e6/(365.25*86400));
+  var r=(now-Date.UTC(2026,0,27,15))/1000, d=Math.floor(r/86400), h=Math.floor(r%86400/3600), m=Math.floor(r%3600/60), sg=Math.floor(r%60);
+  document.getElementById("cRec").textContent=d+" d "+String(h).padStart(2,"0")+":"+String(m).padStart(2,"0")+":"+String(sg).padStart(2,"0");
   document.getElementById("wPop").textContent=fmt(el_*POP_RATE);
   document.getElementById("wDebt").textContent="US$"+fmt(el_*DEBT_RATE);
   document.getElementById("wMil").textContent="US$"+fmt(el_*MIL_RATE);
