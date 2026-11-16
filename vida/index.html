@@ -104,6 +104,12 @@ input[type=number]:focus{outline:2px solid var(--teal);border-color:transparent}
 footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
 footer a{color:var(--soft)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#0c2230;border:1px solid #1b3a4c;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
 .toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
 @media (max-width:900px){.grid{grid-template-columns:1fr}.result{position:static}.facts{grid-template-columns:repeat(2,1fr)}.clinic,.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}.sources{columns:1}}
 @media (max-width:480px){.row2{grid-template-columns:1fr 1fr}.facts{grid-template-columns:1fr}.share{grid-template-columns:1fr}}
@@ -201,7 +207,8 @@ footer a{color:var(--soft)}
         <div class="delta" id="delta"></div>
         <div class="verdict" id="verdict">Complete sus datos para ver el resultado.</div>
         <div class="share">
-          <a class="btn wa full" id="shWa" target="_blank" rel="noopener">📲 Compartir en WhatsApp</a>
+          <button class="btn teal full" id="shAll">📤 Compartir mi resultado (todas las redes)</button>
+          <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
           <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
           <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
           <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
@@ -277,6 +284,21 @@ footer a{color:var(--soft)}
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="shm" id="shm" aria-hidden="true">
+<div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir el Reloj de Vida Saludable</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div>
+</div>
 
 <script>
 (function(){
@@ -420,6 +442,23 @@ function mensaje(){
   if(!ultimo) return "⏳ RELOJ DE VIDA SALUDABLE\n¿Qué hora es en el reloj de su vida? Calcúlelo aquí 👉 "+URL_PUBLICA;
   return "⏳ RELOJ DE VIDA SALUDABLE\nSi mi vida fuera un solo día, ahora serían las "+ultimo.hora+". ¿Y usted qué hora tiene?\nCalcúlelo aquí 👉 "+URL_PUBLICA;
 }
+var shTxt="";
+function openShare(txt){
+  shTxt=txt;
+  if(navigator.share){
+    navigator.share({title:"Reloj de Vida Saludable",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); });
+  } else showModal(txt);
+}
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Reloj de Vida Saludable")+"&body="+t;
+  document.getElementById("shm").classList.add("on");
+}
 function enlaces(){
   var m=mensaje();
   document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
@@ -427,6 +466,11 @@ function enlaces(){
   document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m);
 }
 function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
+document.getElementById("mCopy").addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(shTxt).then(function(){toast("✅ Mensaje copiado. Péguelo donde quiera.");},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
 document.getElementById("shCopy").addEventListener("click",function(){
   var txt=mensaje();
   try{ navigator.clipboard.writeText(txt).then(function(){toast("✅ Mensaje copiado. Péguelo en sus grupos y redes.");},function(){toast("Enlace: "+URL_PUBLICA);}); }
