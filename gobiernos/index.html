@@ -129,6 +129,25 @@ footer a{color:var(--soft)}
 .gov .tag{font:700 10.5px "Public Sans";letter-spacing:.06em;text-transform:uppercase;padding:2px 6px;border-radius:6px;margin-left:6px;vertical-align:2px}
 .gov.best .tag{background:rgba(95,211,165,.15);color:#5fd3a5}.gov.worst .tag{background:rgba(255,138,141,.15);color:#ff8a8d}
 .nota{font-size:13px;color:var(--dim);margin-top:10px}
+.indice{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:20px}
+.indice a{background:#0b1b2c;border:1px solid var(--line);color:#d5e2ea;border-radius:99px;padding:8px 14px;font:600 14px "Public Sans";text-decoration:none}
+.indice a:hover{background:var(--teal);border-color:var(--teal);color:#fff}
+.ipanel{margin-bottom:24px;scroll-margin-top:72px}
+.ipanel .chart{overflow-x:auto;-webkit-overflow-scrolling:touch}
+@media (max-width:760px){.ipanel .chart svg{min-width:760px}.ipanel .chart::after{content:"← deslice para ver todos los años →";display:block;text-align:center;font-size:12px;color:var(--dim);margin-top:4px}}
+.ipanel .tblrow{display:grid;grid-template-columns:repeat(3,1fr);gap:0 22px;margin-top:12px;border-top:1px solid var(--line)}
+.ipanel .shk{margin-top:12px}
+.share.global{max-width:560px;margin:10px auto 0}
+.bal{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.bcard{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:18px}
+.bcard h3{font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.05}
+.bcard .big{font:700 26px "Barlow Condensed";color:#ff8a8d;margin:4px 0 6px}
+.bcard svg{width:100%;height:auto;display:block}
+.bcard text{font-family:"Public Sans";fill:#8fa3b6;font-size:12px}
+.bcard p{color:#c9d5e1;font-size:13.5px;margin-top:6px}
+.bcard .src{font-size:11.5px}
+.balnota{margin-top:16px}.balnota p{color:#c9d5e1;font-size:14.5px}.balnota b{color:#fff}.balnota .cf{font-size:13px;color:#8fa3b6;margin-top:8px}
+@media (max-width:900px){.ipanel .tblrow{grid-template-columns:1fr}.bal{grid-template-columns:1fr}}
 .gov .gn{display:block;margin-top:5px;padding:7px 9px;border-radius:8px;background:rgba(224,162,26,.12);border:1px solid rgba(224,162,26,.35);color:#f1c35a;font-size:12.5px;line-height:1.4}
 .checks{display:grid;grid-template-columns:1fr 1fr;gap:16px}
 .chk{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
@@ -181,27 +200,24 @@ footer a{color:var(--soft)}
 
   <div class="wrap">
     <section style="padding-top:14px">
-      <div class="tabs" id="tabs"></div>
-      <div class="grid">
-        <div class="panel">
-          <h3 class="ch-t" id="chT">—</h3>
-          <p class="ch-s" id="chS"></p>
-          <div class="chart" id="chart"></div>
-          <div class="gleg" id="gleg"></div>
-          <div class="src" id="chSrc"></div>
-        </div>
-        <div class="panel card">
-          <div class="tlbl">Promedio anual de cada gobierno</div>
-          <div id="tbl"></div>
-          <p class="nota" id="nota"></p>
-          <div class="share">
-            <button class="btn teal full" id="shAll">📤 Compartir (todas las redes)</button>
-            <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
-            <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
-            <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
-            <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
-          </div>
-        </div>
+      <div class="sec-h"><h2>Tema por tema, <span>de 1998 a 2025</span></h2><p>Cada gráfica muestra todos los años con el color del gobierno de turno. Debajo está el promedio de cada presidente, cuánto recibió y cuánto entregó.</p></div>
+      <nav class="indice" id="indice"></nav>
+      <div id="paneles"></div>
+      <div class="share global">
+        <button class="btn teal full" id="shAll">📤 Compartir la herramienta (todas las redes)</button>
+        <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
+        <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
+      </div>
+    </section>
+
+    <section id="balance">
+      <div class="sec-h"><h2>Balance del gobierno Petro <span>(2022-2026)</span></h2><p>Es el último gobierno terminado. Estas son las cifras en las que el país retrocedió, comparadas con el gobierno anterior.</p></div>
+      <div class="bal" id="bal"></div>
+      <div class="panel balnota">
+        <p><b>Además:</b> la deuda bruta del Gobierno Nacional cerró 2025 en <b>64,7 % del PIB</b>, la más alta desde 2001; en 2025 el déficit primario fue de <b>3,5 % del PIB</b>, el más alto en tres décadas fuera de crisis, y la regla fiscal quedó suspendida de 2025 a 2027 con concepto desfavorable del Comité Autónomo de la Regla Fiscal. La producción de gas cayó y en 2025 el país tuvo el mayor déficit comercial de su historia.</p>
+        <p class="cf">Donde no empeoró: los homicidios quedaron en un nivel parecido al de Duque (25 por cada 100.000 habitantes), y el desempleo bajó a 8 %, pero sostenido con contratación del Estado pagada con deuda. Fuentes en cada gráfica y en «Método y fuentes».</p>
       </div>
     </section>
 
@@ -378,21 +394,16 @@ function stats(k,g){
   var eY=null; for(var z=g.b;z>=g.a;z--){ if(val(k,z)!==null){ eY=z; break; } }
   return {avg:avg, n:vs.length, rec:val(k,g.a-1), ent:eY===null?null:val(k,eY), entY:eY};
 }
-/* pestañas */
-var tabs=document.getElementById("tabs");
-ORDEN.forEach(function(k){ var b=document.createElement("button"); b.textContent=IND[k].t; b.setAttribute("data-k",k); if(k===actual) b.className="on"; tabs.appendChild(b); });
-tabs.addEventListener("click",function(ev){ var b=ev.target.closest("button"); if(!b) return;
-  tabs.querySelectorAll("button").forEach(function(x){x.classList.remove("on");}); b.classList.add("on"); actual=b.getAttribute("data-k"); pintar(); });
 /* leyenda */
-var lg=document.getElementById("gleg"), h='<span><i style="background:#4a5a6b"></i>Samper (1998)</span>';
-G.forEach(function(g){ h+='<span><i style="background:'+g.col+'"></i>'+g.c+'</span>'; }); lg.innerHTML=h;
+var LEG='<span><i style="background:#4a5a6b"></i>Samper (1998)</span>';
+G.forEach(function(g){ LEG+='<span><i style="background:'+g.col+'"></i>'+g.c+'</span>'; });
 
 function grafica(k){
   var ys=[]; for(var y=1998;y<=2025;y++) ys.push(y);
   var vals=ys.map(function(y){return val(k,y);}).filter(function(v){return v!==null;});
   var mn=Math.min(0,Math.min.apply(null,vals)), mx=Math.max(0,Math.max.apply(null,vals));
   var pad=(mx-mn)*0.08; mx+=pad; if(mn<0) mn-=pad;
-  var W=640,H=300,L=40,R=8,T=12,B=34, pw=(W-L-R)/ys.length;
+  var W=1000,H=380,L=52,R=10,T=14,B=38, pw=(W-L-R)/ys.length;
   function Y(v){ return T+(mx-v)/(mx-mn)*(H-T-B); }
   var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+IND[k].t+' por año">';
   /* franjas de gobierno */
@@ -408,17 +419,18 @@ function grafica(k){
     var x=L+i*pw+pw*0.15, w=pw*0.7, y0=Y(0), y1=Y(v);
     var tt=y+": "+num(v,IND[k].d)+IND[k].u+(IND[k].casos?" ("+S.sec[String(y)]+" secuestros)":"")+(k==="hom"&&y>=2024?" (preliminar)":"");
     s+='<rect class="bar" x="'+x+'" y="'+Math.min(y0,y1)+'" width="'+w+'" height="'+Math.max(1,Math.abs(y1-y0))+'" rx="2" fill="'+c+'"'+(k==="hom"&&y>=2024?' opacity=".6"':'')+'><title>'+tt+'</title></rect>';
-    if(i%3===0 || y===2025) s+='<text x="'+(x+w/2)+'" y="'+(H-B+13)+'" text-anchor="middle">'+String(y).slice(2)+'</text>'; });
+    if(i%2===0 || y===2025) s+='<text x="'+(x+w/2)+'" y="'+(H-B+13)+'" text-anchor="middle">'+String(y).slice(2)+'</text>'; });
   return s+'</svg>';
 }
 function niceStep(r){ var p=Math.pow(10,Math.floor(Math.log10(r))), f=r/p; return (f<1.5?1:f<3?2:f<7?5:10)*p; }
 
-function pintar(){
-  var k=actual, I=IND[k];
-  document.getElementById("chT").textContent=I.t;
-  document.getElementById("chS").textContent=I.s+" · 1998 a 2025";
-  document.getElementById("chart").innerHTML=grafica(k);
-  document.getElementById("chSrc").innerHTML=I.src;
+function render(k){
+  var I=IND[k], P=document.getElementById("p-"+k);
+  P.querySelector(".ch-t").textContent=I.t;
+  P.querySelector(".ch-s").textContent=I.s+" · 1998 a 2025";
+  P.querySelector(".chart").innerHTML=grafica(k);
+  P.querySelector(".gleg").innerHTML=LEG;
+  P.querySelector(".src").innerHTML=I.src;
   var st=G.map(function(g){ return {g:g, s:stats(k,g)}; });
   var cmp=st.filter(function(x){return x.s.avg!==null && (!I.minN || x.s.n>=I.minN);});
   var best=cmp.slice().sort(function(a,b){ return I.mb*(b.s.avg-a.s.avg); })[0];
@@ -442,9 +454,8 @@ function pintar(){
       +'<div class="mt"><i style="width:'+(s.avg===null?0:Math.abs(s.avg)/amax*100)+'%;background:'+g.col+'"></i></div><div class="rd">'+rd+'</div></div>';
   });
   html+='<div class="gov"><span class="dot" style="background:#5D6B78"></span><div class="nm">Abelardo de la Espriella<small>desde el 7 ago. 2026</small></div><div class="v" style="font-size:14px;color:var(--soft)">En curso</div><div class="rd">Sin cifras anuales todavía</div></div>';
-  document.getElementById("tbl").innerHTML=html;
-  document.getElementById("nota").textContent=(I.mb>0?"Más alto es mejor. ":"Más bajo es mejor. ")+I.nota;
-  enlaces(best,worst);
+  P.querySelector(".tblrow").innerHTML=html;
+  P.querySelector(".nota").textContent=(I.mb>0?"Más alto es mejor. ":"Más bajo es mejor. ")+I.nota;
 }
 function mensaje(best,worst){
   var I=IND[actual];
@@ -468,16 +479,17 @@ function showModal(txt){
   document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
   document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Colombia, gobierno a gobierno")+"&body="+t;
   document.getElementById("shm").classList.add("on"); }
-function enlaces(b,w){ var m=mensaje(b||undefined,b?w:undefined);
+function msgGeneral(){ return "📊 COLOMBIA, GOBIERNO A GOBIERNO\nDe Pastrana a hoy: secuestros, extorsión, coca, homicidios, deuda, empleo y corrupción, con datos del FMI, la ONU y registros oficiales. Mire cómo le fue al país con cada presidente.\nMírelo aquí 👉 "+URL_PUBLICA; }
+function enlaces(){ var m=msgGeneral();
   document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
   document.getElementById("shFb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(URL_PUBLICA);
   document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m); }
 function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
-document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("shAll").addEventListener("click",function(){ openShare(msgGeneral()); });
 document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
 function copiar(txt,ok){ try{ navigator.clipboard.writeText(txt).then(function(){toast(ok);},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); } }
 document.getElementById("mCopy").addEventListener("click",function(){ copiar(shTxt,"✅ Mensaje copiado. Péguelo donde quiera."); });
-document.getElementById("shCopy").addEventListener("click",function(){ copiar(mensaje(),"✅ Mensaje copiado. Péguelo en sus grupos y redes."); });
+document.getElementById("shCopy").addEventListener("click",function(){ copiar(msgGeneral(),"✅ Mensaje copiado. Péguelo en sus grupos y redes."); });
 
 /* subsidios (r = continuación o nuevo nombre de un programa anterior) */
 var SUB = {
@@ -492,7 +504,44 @@ G.forEach(function(g){ sh+='<div class="col"><h4 style="border-color:'+g.col+'">
   SUB[g.k].forEach(function(r){ sh+='<li'+(r[2]?' class="ren"':'')+'>'+r[0]+'<small>'+r[1]+(r[2]?' · no es un programa nuevo':'')+'</small></li>'; });
   sh+='</ul></div>'; });
 document.getElementById("subs").innerHTML=sh+'<p style="grid-column:1/-1;font-size:12.5px;color:var(--dim)"><span style="color:#f1c35a">En amarillo:</span> continuación, ampliación o nuevo nombre de un programa que ya existía.</p>';
-pintar();
+/* paneles: todas las gráficas a la vista */
+var ORDEN2=["sect","ext","hom","coca","ipc","deuda","def","desem","pib","desn"];
+var cont=document.getElementById("paneles"), idx=document.getElementById("indice"), ih="";
+ORDEN2.forEach(function(k){
+  var d=document.createElement("div"); d.className="panel ipanel"; d.id="p-"+k;
+  d.innerHTML='<h3 class="ch-t"></h3><p class="ch-s"></p><div class="chart"></div><div class="gleg"></div><div class="src"></div><div class="tlbl" style="margin-top:14px">Promedio anual de cada gobierno</div><div class="tblrow"></div><p class="nota"></p><button class="btn ghost sm shk">📤 Compartir esta gráfica</button>';
+  cont.appendChild(d); render(k);
+  d.querySelector(".shk").addEventListener("click",function(){ actual=k; openShare(mensaje()); });
+  ih+='<a href="#p-'+k+'">'+IND[k].t+'</a>';
+});
+idx.innerHTML=ih+'<a href="#balance">Balance Petro</a>';
+enlaces();
+
+/* balance del gobierno Petro */
+var BAL=[
+ {t:"Secuestros", big:"+214 %", d:[[2018,176],[2019,163],[2020,162],[2021,160],[2022,223],[2023,338],[2024,313],[2025,701]], f:0, txt:"De 223 casos en 2022 a 701 en 2025, la cifra más alta desde 2005.", src:"Ministerio de Defensa (datos.gov.co)"},
+ {t:"Extorsión", big:"Récord", d:[[2018,7048],[2019,8362],[2020,8188],[2021,8342],[2022,9791],[2023,11078],[2024,13802],[2025,13417]], f:0, txt:"13.802 denuncias en 2024, el año con más casos de la serie (+41 % frente a 2022).", src:"Ministerio de Defensa (datos.gov.co)"},
+ {t:"Cultivos de coca", big:"261.000 ha", d:[[2018,169],[2019,154],[2020,143],[2021,204],[2022,230],[2023,253],[2024,261]], f:0, u:" mil ha", txt:"Récord histórico en 2024 (miles de hectáreas). La producción potencial de cocaína subió 53 % en 2023.", src:"UNODC-SIMCI"},
+ {t:"Percepción de corrupción", big:"40 → 37", d:[[2018,36],[2019,37],[2020,39],[2021,39],[2022,39],[2023,40],[2024,39],[2025,37]], f:0, txt:"Puntaje de 0 a 100 (más bajo = más corrupción percibida). Cayó a 37 en 2025 y Colombia perdió siete puestos.", src:"Transparencia Internacional"},
+ {t:"Producción de gas", big:"−18 %", d:[[2023,1546],[2024,1432],[2025,1265]], f:0, u:" MPCD", txt:"Millones de pies cúbicos diarios (producción fiscalizada): de 1.546 en 2023 a 1.265 en 2025. En 2024 las importaciones de gas subieron 166 %.", src:"Agencia Nacional de Hidrocarburos vía Campetrol, Acipet y La República"},
+ {t:"Tarifa de energía", big:"+27 %", d:[[2020,588],[2021,626],[2022,734],[2023,842],[2024,934]], f:0, pre:"$", txt:"Pesos por kilovatio hora, promedio nacional: de $734 en 2022 a $934 en 2024. El alza venía desde 2021.", src:"Bancolombia vía Portafolio"},
+ {t:"Producción de petróleo", big:"−4 %", d:[[2019,888],[2020,794],[2022,748],[2023,777],[2024,773],[2025,746]], f:0, u:" mil", txt:"Miles de barriles diarios: bajó de 777.000 en 2023 a 746.000 en 2025, lejos de los 888.000 de 2019.", src:"Agencia Nacional de Hidrocarburos vía Campetrol y Portafolio"},
+ {t:"Exportaciones de carbón", big:"−60 %", d:[[2022,12289],[2025,4901]], f:0, pre:"US$", u:" mill.", txt:"Millones de dólares: de US$12.289 millones en 2022 a US$4.901 millones en 2025. En 2025 el déficit comercial fue el mayor de la historia (US$16.377 millones).", src:"DANE vía Forbes y Bloomberg Línea"}
+];
+function mini(b){
+  var W=520,H=230,L=8,R=8,T=26,B=28, n=b.d.length, pw=(W-L-R)/n;
+  var mx=Math.max.apply(null,b.d.map(function(x){return x[1];}))*1.12;
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+b.t+'">';
+  b.d.forEach(function(p,i){ var g=gobDe(p[0]), c=g?g.col:"#4a5a6b", x=L+i*pw+pw*.18, w=pw*.64, h=(H-T-B)*p[1]/mx, y=H-B-h;
+    var lab=(b.pre||"")+num(p[1],b.f);
+    s+='<rect x="'+x+'" y="'+y+'" width="'+w+'" height="'+h+'" rx="3" fill="'+c+'"><title>'+p[0]+': '+lab+(b.u||"")+'</title></rect>';
+    s+='<text x="'+(x+w/2)+'" y="'+(y-6)+'" text-anchor="middle" style="fill:#e8eef5;font-weight:700">'+lab+'</text>';
+    s+='<text x="'+(x+w/2)+'" y="'+(H-9)+'" text-anchor="middle">'+p[0]+'</text>'; });
+  return s+'</svg>';
+}
+var bh="";
+BAL.forEach(function(b){ bh+='<div class="bcard"><h3>'+b.t+'</h3><div class="big">'+b.big+'</div>'+mini(b)+'<p>'+b.txt+'</p><div class="src">Fuente: '+b.src+'</div></div>'; });
+document.getElementById("bal").innerHTML=bh+'<p style="grid-column:1/-1;font-size:12.5px;color:var(--dim)">Colores: <span style="color:#9b6bd6">Santos</span> · <span style="color:#E0A21A">Duque</span> · <span style="color:#d9645a">Petro</span>. Cada año se asigna al gobierno que lo gobernó la mayor parte.</p>';
 })();
 </script>
 </body>
