@@ -148,6 +148,12 @@ footer a{color:var(--soft)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:#0B4F8A;color:#fff;font:700 16px "Public Sans";padding:15px 22px;border-radius:12px;box-shadow:0 10px 30px rgba(0,0,0,.5);z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
 .toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
 .mbar{display:none}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#11141a;border:1px solid #2f3542;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
 
 .reveal{opacity:0;transform:translateY(18px);transition:opacity .8s,transform .8s}
 .reveal.in{opacity:1;transform:none}
@@ -257,7 +263,8 @@ footer a{color:var(--soft)}
         <div class="verdict" id="verdict">—</div>
         <div class="vs" id="vsText">—</div>
         <div class="share">
-          <a class="btn wa full" id="shWa" target="_blank" rel="noopener">📲 Compartir en WhatsApp</a>
+          <button class="btn red full" id="shAll">📤 Compartir mi resultado</button>
+          <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
           <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
           <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
           <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
@@ -312,6 +319,19 @@ footer a{color:var(--soft)}
   <a class="btn red" href="#calcule">⏱ Calcule el suyo</a>
   <button class="btn wa" data-share="wa-main">📲 Compartir</button>
 </div>
+<div class="shm" id="shm" aria-hidden="true"><div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir el Reloj del Fin del Mundo</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 
 <script>
@@ -490,12 +510,34 @@ function updUser(){
   document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(t);
 }
 updUser();
+document.getElementById("shAll").addEventListener("click",function(){ openShare(shareText(segundos(indice(vals)))); });
 document.getElementById("resetBtn").addEventListener("click", function(){
   F.forEach(function(f){ vals[f.id]=f.s; document.getElementById("r_"+f.id).value=f.s; document.getElementById("v_"+f.id).textContent=f.s; });
   updUser(); toast("Listo: el reloj volvió a los datos reales.");
 });
 
 /* ---------- Compartir ---------- */
+var shTxt="";
+function openShare(txt){
+  shTxt=txt;
+  if(navigator.share){
+    navigator.share({title:"Reloj del Fin del Mundo",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); });
+  } else showModal(txt);
+}
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Reloj del Fin del Mundo")+"&body="+t;
+  document.getElementById("shm").classList.add("on");
+}
+document.getElementById("mClose").addEventListener("click",function(){document.getElementById("shm").classList.remove("on");});
+document.getElementById("mCopy").addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(shTxt).then(function(){toast("✅ Mensaje copiado. Péguelo donde quiera.");},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
 function toast(m){ var t=document.getElementById("toast"); t.textContent=m; t.classList.add("on"); clearTimeout(t._h); t._h=setTimeout(function(){ t.classList.remove("on"); }, 5500); }
 document.getElementById("shCopy").addEventListener("click", function(){
   var txt=shareText(segundos(indice(vals)));
@@ -505,7 +547,7 @@ document.getElementById("shCopy").addEventListener("click", function(){
 });
 Array.prototype.forEach.call(document.querySelectorAll('[data-share="wa-main"]'), function(b){
   b.addEventListener("click", function(){
-    var a=document.createElement("a"); a.href="https://wa.me/?text="+encodeURIComponent(shareText(SEC0)); a.target="_blank"; a.rel="noopener"; document.body.appendChild(a); a.click(); a.remove();
+    openShare(shareText(SEC0));
   });
 });
 
