@@ -90,6 +90,17 @@ select{width:100%;background:#071822;border:1px solid var(--line);color:#fff;bor
 footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
 footer a{color:var(--soft)}
 .toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.fuentes{max-width:900px;margin:18px auto 0;background:rgba(11,79,138,.18);border:1px solid #1f4266;border-radius:14px;padding:12px 16px;font-size:13.5px;color:#c9d5e1;text-align:left}
+.fuentes b{color:#fff}
+.fuentes a{color:#8fe0d0}
+.ind .src{grid-column:1/-1;font-size:11.5px;color:#8fa3b6}
+.ind .src a{color:#8fe0d0}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#0f2034;border:1px solid #1d3550;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
 .toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
 @media (max-width:900px){.grid{grid-template-columns:1fr}.rankl{columns:1}.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}}
 @media (max-width:480px){.share{grid-template-columns:1fr}}
@@ -113,6 +124,7 @@ footer a{color:var(--soft)}
       <h1>Mapa de Riesgos<em>de Colombia</em></h1>
       <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
       <p class="sub">Pobreza y violencia en los 33 territorios del país. Toque su departamento en el mapa o búsquelo en la lista y vea en qué puesto está.</p>
+      <div class="fuentes"><b>Fuentes oficiales:</b> pobreza multidimensional y pobreza monetaria 2025 del <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/pobreza-y-condiciones-de-vida" target="_blank" rel="noopener">DANE</a> (Departamento Administrativo Nacional de Estadística); homicidios 2025 del <a href="https://www.datos.gov.co/d/m8fd-ahd9" target="_blank" rel="noopener">Ministerio de Defensa Nacional</a> en el Portal de Datos Abiertos del Estado; población 2025 según las <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">proyecciones del DANE</a>. El índice combinado es un cálculo propio del Observatorio a partir de esas cifras.</div>
     </div>
   </div>
 
@@ -138,7 +150,8 @@ footer a{color:var(--soft)}
           <div class="rank" id="cRank"></div>
           <div id="cInd"></div>
           <div class="share">
-            <a class="btn wa full" id="shWa" target="_blank" rel="noopener">📲 Compartir en WhatsApp</a>
+            <button class="btn teal full" id="shAll">📤 Compartir (todas las redes)</button>
+            <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
             <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
             <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
             <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
@@ -173,6 +186,7 @@ footer a{color:var(--soft)}
         <li><b>Pobreza monetaria 2025</b> (% de personas con ingresos bajo la línea de pobreza): DANE, Gran Encuesta Integrada de Hogares, publicada en agosto de 2026. El DANE la publica para 23 departamentos y Bogotá.</li>
         <li><b>Homicidios 2025</b> (por cada 100.000 habitantes): homicidios intencionales y feminicidios del Ministerio de Defensa Nacional (Portal de Datos Abiertos, conjunto «HOMICIDIO»), divididos entre la población 2025 proyectada por el DANE con base en el censo de 2018.</li>
         <li><b>Índice combinado</b> (0 a 100): promedio de la posición relativa de cada territorio en pobreza multidimensional y en homicidios; es una medida propia del Observatorio para comparar, no un indicador oficial.</li>
+        <li>Documentos oficiales: <a href="https://www.dane.gov.co/files/operaciones/PM/pres-PMultidimensional-2025.pdf" target="_blank" rel="noopener">DANE, Pobreza multidimensional 2025</a> · <a href="https://www.dane.gov.co/files/operaciones/PM/pres-PMDepartamental-2025.pdf" target="_blank" rel="noopener">DANE, Pobreza monetaria departamental 2025</a> · <a href="https://www.datos.gov.co/d/m8fd-ahd9" target="_blank" rel="noopener">Ministerio de Defensa, conjunto de datos HOMICIDIO</a> · <a href="https://www.dane.gov.co/index.php/estadisticas-por-tema/demografia-y-poblacion/proyecciones-de-poblacion" target="_blank" rel="noopener">DANE, proyecciones de población</a>.</li>
         <li>Mapa: «@svg-maps/colombia» de Victor Cazanave, licencia CC BY 4.0.</li>
       </ul>
       <p class="disc">En los territorios con poca población (por ejemplo San Andrés, Guaviare, Vaupés o Guainía) unos pocos casos cambian mucho la tasa de homicidios: tome esas cifras con prudencia. Las cifras de homicidios del Ministerio de Defensa pueden diferir de las de Medicina Legal por diferencias de registro. Esta página no guarda datos personales.</p>
@@ -187,6 +201,21 @@ footer a{color:var(--soft)}
   </div>
 </footer>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="shm" id="shm" aria-hidden="true">
+<div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir el Mapa de Riesgos</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div>
+</div>
 
 <script>
 (function(){
@@ -223,6 +252,7 @@ function pr(k){ /* posición relativa 0-100 (0 = menor valor) */
 }
 var pIpm = pr("ipm"), pHom = pr("hom");
 ids.forEach(function(id){ byId[id].idx = Math.round((pIpm[id]+pHom[id])/2*10)/10; });
+var FUENTE = { ipm:"Fuente: DANE, Encuesta Nacional de Calidad de Vida 2025", hom:"Fuente: Ministerio de Defensa Nacional (datos.gov.co) y población DANE 2025", pm:"Fuente: DANE, Gran Encuesta Integrada de Hogares 2025", idx:"Cálculo del Observatorio con las cifras oficiales del DANE y del Ministerio de Defensa" };
 function orden(k){ return ids.filter(function(id){ return byId[id][k]!==null; }).sort(function(a,b){ return byId[b][k]-byId[a][k]; }); }
 function puesto(k,id){ var o=orden(k); return { p:o.indexOf(id)+1, de:o.length }; }
 function fmt(v,k){ return v===null ? "Sin dato" : v.toLocaleString("es-CO",{minimumFractionDigits:IND[k].f,maximumFractionDigits:IND[k].f})+IND[k].u; }
@@ -238,7 +268,7 @@ function color(k,v){
 }
 document.getElementById("lgBar").style.background="linear-gradient(90deg,"+mix(C0,C0,0)+","+mix(C1,C1,0)+","+mix(C2,C2,0)+")";
 
-var actual="idx", sel="mag", paths={};
+var actual="idx", sel=null, paths={};
 var dep=document.getElementById("dep");
 ids.slice().sort(function(a,b){ return byId[a].n.localeCompare(byId[b].n,"es"); }).forEach(function(id){
   var o=document.createElement("option"); o.value=id; o.textContent=byId[id].n; dep.appendChild(o);
@@ -266,10 +296,10 @@ function ficha(){
   document.getElementById("cName").textContent=d.n;
   document.getElementById("cRank").textContent = d[actual]===null ? "Sin dato oficial de "+IND[actual].rk : "Puesto "+p.p+" de "+p.de+" en "+IND[actual].rk+" (1 = mayor)";
   var html="";
-  html+='<div class="ind"><span>Índice combinado</span><b>'+fmt(d.idx,"idx")+'</b>'+barra("idx",d.idx)+'<small>Puesto '+puesto("idx",sel).p+' de 33 · medida propia del Observatorio</small></div>';
-  html+='<div class="ind"><span>Pobreza multidimensional</span><b>'+fmt(d.ipm,"ipm")+'</b>'+barra("ipm",d.ipm)+'<small>Puesto '+puesto("ipm",sel).p+' de 33 · '+IND.ipm.nac+'</small></div>';
-  html+='<div class="ind"><span>Homicidios por 100.000 hab.</span><b>'+fmt(d.hom,"hom")+'</b>'+barra("hom",d.hom)+'<small>'+d.casos.toLocaleString("es-CO")+' homicidios en 2025 · puesto '+puesto("hom",sel).p+' de 33 · '+IND.hom.nac+'</small></div>';
-  html+='<div class="ind"><span>Pobreza monetaria</span><b>'+fmt(d.pm,"pm")+'</b>'+barra("pm",d.pm)+'<small>'+(d.pm===null?"El DANE no publica este dato para este territorio":"Puesto "+puesto("pm",sel).p+" de 24 · "+IND.pm.nac)+'</small></div>';
+  html+='<div class="ind"><span>Índice combinado</span><b>'+fmt(d.idx,"idx")+'</b>'+barra("idx",d.idx)+'<small>Puesto '+puesto("idx",sel).p+' de 33 · medida propia del Observatorio</small><div class="src">'+FUENTE.idx+'</div></div>';
+  html+='<div class="ind"><span>Pobreza multidimensional</span><b>'+fmt(d.ipm,"ipm")+'</b>'+barra("ipm",d.ipm)+'<small>Puesto '+puesto("ipm",sel).p+' de 33 · '+IND.ipm.nac+'</small><div class="src">'+FUENTE.ipm+'</div></div>';
+  html+='<div class="ind"><span>Homicidios por 100.000 hab.</span><b>'+fmt(d.hom,"hom")+'</b>'+barra("hom",d.hom)+'<small>'+d.casos.toLocaleString("es-CO")+' homicidios en 2025 · puesto '+puesto("hom",sel).p+' de 33 · '+IND.hom.nac+'</small><div class="src">'+FUENTE.hom+'</div></div>';
+  html+='<div class="ind"><span>Pobreza monetaria</span><b>'+fmt(d.pm,"pm")+'</b>'+barra("pm",d.pm)+'<small>'+(d.pm===null?"El DANE no publica este dato para este territorio":"Puesto "+puesto("pm",sel).p+" de 24 · "+IND.pm.nac)+'</small><div class="src">'+FUENTE.pm+'</div></div>';
   document.getElementById("cInd").innerHTML=html;
   ids.forEach(function(id){ if(paths[id]) paths[id].classList.toggle("sel", id===sel); });
   dep.value=sel; enlaces();
@@ -277,7 +307,24 @@ function ficha(){
 function elegir(id){ sel=id; ficha(); }
 function mensaje(){
   var d=byId[sel], p=puesto("idx",sel);
-  return "🗺️ MAPA DE RIESGOS DE COLOMBIA\n"+d.n+" está en el puesto "+p.p+" de 33 en riesgo (pobreza y violencia, datos oficiales 2025). ¿Y su departamento?\nMírelo aquí 👉 "+URL_PUBLICA;
+  return "🗺️ MAPA DE RIESGOS DE COLOMBIA\n"+d.n+" está en el puesto "+p.p+" de 33 en riesgo (pobreza y violencia, datos oficiales 2025 del DANE y del Ministerio de Defensa). ¿Y su departamento?\nMírelo aquí 👉 "+URL_PUBLICA;
+}
+var shTxt="";
+function openShare(txt){
+  shTxt=txt;
+  if(navigator.share){
+    navigator.share({title:"Mapa de Riesgos de Colombia",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); });
+  } else showModal(txt);
+}
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Mapa de Riesgos de Colombia")+"&body="+t;
+  document.getElementById("shm").classList.add("on");
 }
 function enlaces(){
   var m=mensaje();
@@ -286,6 +333,11 @@ function enlaces(){
   document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m);
 }
 function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
+document.getElementById("mCopy").addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(shTxt).then(function(){toast("✅ Mensaje copiado. Péguelo donde quiera.");},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
 document.getElementById("shCopy").addEventListener("click",function(){
   var txt=mensaje();
   try{ navigator.clipboard.writeText(txt).then(function(){toast("✅ Mensaje copiado. Péguelo en sus grupos y redes.");},function(){toast("Enlace: "+URL_PUBLICA);}); }
@@ -294,7 +346,7 @@ document.getElementById("shCopy").addEventListener("click",function(){
 document.getElementById("tabs").addEventListener("click",function(ev){
   var b=ev.target.closest("button"); if(!b) return;
   document.querySelectorAll("#tabs button").forEach(function(x){ x.classList.remove("on"); });
-  b.classList.add("on"); actual=b.getAttribute("data-k"); pintar();
+  b.classList.add("on"); actual=b.getAttribute("data-k"); sel=orden(actual)[0]; pintar();
 });
 document.getElementById("rank").addEventListener("click",function(ev){
   var li=ev.target.closest("li"); if(!li) return; elegir(li.getAttribute("data-id"));
@@ -323,6 +375,7 @@ fetch(MAPA_SVG).then(function(r){ if(!r.ok) throw new Error(r.status); return r.
 }).catch(function(){
   document.getElementById("maperr").textContent="No se pudo cargar el dibujo del mapa. Use la lista de departamentos y el ranking.";
 });
+sel=orden(actual)[0];
 pintar();
 })();
 </script>
