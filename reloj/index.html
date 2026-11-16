@@ -219,7 +219,7 @@ footer a{color:var(--soft)}
   <section class="reveal" id="vivo">
     <div class="sec-h">
       <h2>El mundo <span>en este segundo</span></h2>
-      <p>Estimaciones en tiempo real, proyectadas a partir de la última cifra publicada por la ONU, el IIF y SIPRI. Datos revisados al 16 de noviembre de 2026; cada semana se verifica si las fuentes oficiales publicaron cifras nuevas y, si es así, se actualizan.</p>
+      <p>Estimaciones en tiempo real, proyectadas a partir de la última cifra publicada por la ONU, el IIF y SIPRI. Datos revisados al 16 de noviembre de 2026; las cifras se actualizan cuando las fuentes oficiales publican datos nuevos.</p>
     </div>
     <div class="live">
       <div class="cnt"><div class="t">👥 Población mundial</div><div class="n" id="cPop">—</div><div class="s">+2 personas cada segundo</div></div>
@@ -295,7 +295,7 @@ footer a{color:var(--soft)}
       <li><a href="https://wmo.int/media/news/wmo-confirms-2025-was-one-of-warmest-years-record" target="_blank" rel="noopener">OMM — temperatura mundial 2025</a></li>
       <li><a href="https://www.unhcr.org/global-trends" target="_blank" rel="noopener">ACNUR — Global Trends 2026 (desplazamiento forzado)</a></li>
     </ul>
-    <p class="disc">El <b>Índice SkyNet</b> es un indicador simbólico elaborado por SkyNet Genesis a partir de datos públicos; las puntuaciones de riesgo de cada variable son una valoración propia y no una predicción. El reloj oficial del Boletín de los Científicos Atómicos es una referencia aparte. Los contadores en vivo son estimaciones proyectadas a partir de la última cifra publicada por cada fuente. Datos revisados al 16 de noviembre de 2026; cada semana se verifica si hay cifras nuevas en las fuentes y se actualizan cifras y puntuaciones. Esta página no guarda datos personales.</p>
+    <p class="disc">El <b>Índice SkyNet</b> es un indicador simbólico elaborado por SkyNet Genesis a partir de datos públicos; las puntuaciones de riesgo de cada variable son una valoración propia y no una predicción. El reloj oficial del Boletín de los Científicos Atómicos es una referencia aparte. Los contadores en vivo son estimaciones proyectadas a partir de la última cifra publicada por cada fuente. Datos revisados al 16 de noviembre de 2026; cifras y puntuaciones se actualizan cuando las fuentes oficiales publican datos nuevos. Esta página no guarda datos personales.</p>
   </section>
 </div>
 </main>
@@ -318,7 +318,7 @@ footer a{color:var(--soft)}
 (function(){
 "use strict";
 var URL_PUBLICA = "https://observatorio.skynetgenesis.com/reloj/";
-var DATOS_AL = "16 de noviembre de 2026"; /* fecha de la última verificación de fuentes (semanal) */
+var DATOS_AL = "16 de noviembre de 2026"; /* fecha de la última actualización de datos */
 var fmt = function(n){ return Math.floor(n).toLocaleString("es-CO"); };
 
 /* ---------- Variables (datos reales y puntuación de riesgo) ---------- */
