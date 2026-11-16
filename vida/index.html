@@ -1,0 +1,426 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Reloj de Vida Saludable · Observatorio SkyNet Genesis</title>
+<meta name="description" content="¿Qué hora es en el reloj de su vida? Calcule su esperanza de vida estimada según su edad, sexo y hábitos, con datos del DANE y estudios científicos internacionales.">
+<meta property="og:title" content="⏳ Reloj de Vida Saludable — ¿qué hora es en el reloj de su vida?">
+<meta property="og:description" content="Calcule su esperanza de vida estimada según sus hábitos y descubra cuántos años puede ganar. Datos del DANE y estudios científicos.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://observatorio.skynetgenesis.com/vida/">
+<link rel="canonical" href="https://observatorio.skynetgenesis.com/vida/">
+<meta name="author" content="Ricardo Londoño González · SkyNet Genesis">
+<meta name="theme-color" content="#06141c">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#06141c;--card:#0c2230;--card2:#0a1b26;--line:#1b3a4c;--txt:#e8f0f5;--soft:#9fb4c2;--dim:#6c8494;
+--teal:#14A38B;--teal2:#0E8571;--blue:#0B4F8A;--blue2:#1867B0;--amber:#E0A21A;--red:#e5484d;--wa:#1F8A4C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:"Public Sans",system-ui,sans-serif;line-height:1.55;color-scheme:dark}
+a{color:inherit}
+h1,h2,h3{font-family:"Barlow Condensed",sans-serif;letter-spacing:.02em}
+.wrap{max-width:1100px;margin:0 auto;padding:0 20px}
+.glow{position:fixed;inset:0;pointer-events:none;background:radial-gradient(ellipse at 50% 0%,rgba(20,163,139,.20),transparent 55%),radial-gradient(ellipse at 90% 100%,rgba(24,103,176,.14),transparent 60%)}
+header{position:sticky;top:0;z-index:10;background:rgba(6,20,28,.85);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:32px;height:32px}
+.brand b{font-family:"Barlow Condensed";font-weight:700;font-size:18px;letter-spacing:.06em;line-height:.95}
+.brand b span{display:block;color:var(--amber);font-size:11.5px;letter-spacing:.22em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;font:700 15px "Public Sans";padding:12px 18px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.teal{background:var(--teal);color:#fff}.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.wa{background:var(--wa);color:#fff}.btn.fb{background:#1b4ea0;color:#fff}.btn.x{background:#000;color:#fff;border:1px solid #333}
+.btn.sm{padding:9px 14px;font-size:14px}
+.hero{position:relative;text-align:center;padding:46px 0 18px}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:#8fe0d0;font:600 13px "Public Sans";letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(20,163,139,.4);background:rgba(20,163,139,.08);padding:6px 12px;border-radius:99px}
+.kicker i{width:8px;height:8px;border-radius:50%;background:var(--teal);box-shadow:0 0 10px var(--teal);animation:blink 1.4s steps(2) infinite}
+@keyframes blink{50%{opacity:.2}}
+.hero h1{font-size:clamp(44px,8.5vw,96px);font-weight:800;line-height:.9;margin:16px 0 8px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--teal);display:block}
+.credit{font-family:"Barlow Condensed";font-size:clamp(16px,2.2vw,21px);letter-spacing:.14em;text-transform:uppercase;color:#cfdbe3;margin:2px 0 14px}
+.credit b{color:var(--amber)}
+.sub{color:var(--soft);font-size:clamp(16px,2.1vw,19px);max-width:680px;margin:0 auto}
+section{position:relative;padding:40px 0}
+.grid{display:grid;grid-template-columns:1.05fr .95fr;gap:24px;align-items:start}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:22px}
+.panel h2{font-size:26px;font-weight:700;text-transform:uppercase;margin-bottom:4px}
+.panel .hint{color:var(--dim);font-size:13.5px;margin-bottom:12px}
+.q{padding:13px 0;border-bottom:1px solid var(--line)}
+.q:last-child{border-bottom:0}
+.q>label,.q>.lbl{display:block;font-weight:600;font-size:15px;margin-bottom:8px}
+.row2{display:grid;grid-template-columns:1fr 1fr 1fr;gap:10px}
+.field{display:flex;flex-direction:column;gap:4px;font-size:12.5px;color:var(--soft)}
+input[type=number]{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:11px 12px;font:600 16px "Public Sans"}
+input[type=number]:focus{outline:2px solid var(--teal);border-color:transparent}
+.opts{display:flex;flex-wrap:wrap;gap:7px}
+.opts button{background:#071822;border:1px solid var(--line);color:#d5e2ea;border-radius:99px;padding:8px 13px;font:500 14px "Public Sans";cursor:pointer;transition:all .15s}
+.opts button:hover{border-color:var(--teal)}
+.opts button.on{background:var(--teal);border-color:var(--teal);color:#fff;font-weight:700}
+.result{position:sticky;top:78px;text-align:center;background:radial-gradient(circle at 50% 0%,rgba(20,163,139,.22),transparent 70%),var(--card);border:1px solid rgba(20,163,139,.45)}
+.dial{width:min(300px,78vw);margin:4px auto 0}
+.dial svg{width:100%;height:auto;overflow:visible}
+.time{font-family:"Share Tech Mono";font-size:clamp(46px,7vw,64px);color:#fff;line-height:1;margin-top:4px;text-shadow:0 0 22px rgba(20,163,139,.6)}
+.time small{display:block;font:600 13px "Public Sans";letter-spacing:.16em;text-transform:uppercase;color:var(--soft);margin-top:8px}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:10px;margin:16px 0 10px}
+.stat{background:#071822;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{display:block;font-family:"Barlow Condensed";font-size:34px;font-weight:800;line-height:1}
+.stat span{font-size:12.5px;color:var(--soft)}
+.delta{font-weight:700;font-size:16px;margin:6px 0}
+.delta.up{color:#5ee0c4}.delta.down{color:#ff8f8f}
+.verdict{color:var(--soft);font-size:14px;margin-bottom:12px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:6px}
+.share .full{grid-column:1/-1}
+.share .btn{font-size:14px;padding:11px 10px}
+.gains{margin-top:6px}
+.gain{display:flex;justify-content:space-between;align-items:center;gap:12px;padding:12px 14px;border:1px solid var(--line);border-radius:12px;background:#071822;margin-bottom:8px;text-align:left}
+.gain b{color:#5ee0c4;font-family:"Share Tech Mono";font-size:18px;white-space:nowrap}
+.gain span{font-size:14.5px}
+.empty{color:var(--dim);font-size:14.5px;padding:10px 0}
+.sec-h{text-align:center;margin-bottom:22px}
+.sec-h h2{font-size:clamp(30px,4.6vw,44px);font-weight:800;text-transform:uppercase;line-height:1}
+.sec-h h2 span{color:var(--teal)}
+.sec-h p{color:var(--soft);max-width:700px;margin:10px auto 0}
+.facts{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.fact{background:var(--card);border:1px solid var(--line);border-radius:14px;padding:18px}
+.fact b{display:block;font-family:"Barlow Condensed";font-size:38px;font-weight:800;color:var(--teal);line-height:1}
+.fact p{font-size:14px;color:var(--soft);margin-top:6px}
+.fact small{display:block;font-size:11.5px;color:var(--dim);margin-top:8px}
+.clinic{background:linear-gradient(135deg,#0b3a35,#0a2230);border:1px solid #1f5a52;border-radius:20px;padding:30px;display:grid;grid-template-columns:1fr auto;gap:20px;align-items:center}
+.clinic h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;text-transform:uppercase;line-height:1.05}
+.clinic p{color:#bcd3d0;margin-top:8px}
+.sky{background:linear-gradient(135deg,#0b2a47,#0a1726);border:1px solid #1f4266;border-radius:20px;padding:30px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.sky svg{width:96px;height:96px}
+.sky h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;text-transform:uppercase;line-height:1.05}
+.sky p{color:#b8c6d4;margin:10px 0 16px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.sources{font-size:13.5px;color:var(--soft);columns:2;column-gap:30px}
+.sources li{margin:0 0 8px 18px;break-inside:avoid}
+.disc{margin-top:18px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
+footer a{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.result{position:static}.facts{grid-template-columns:repeat(2,1fr)}.clinic,.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}.sources{columns:1}}
+@media (max-width:480px){.row2{grid-template-columns:1fr 1fr}.facts{grid-template-columns:1fr}.share{grid-template-columns:1fr}}
+@media (prefers-reduced-motion:reduce){*{animation:none!important;transition:none!important}}
+</style>
+</head>
+<body>
+<div class="glow"></div>
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://observatorio.skynetgenesis.com/" aria-label="Observatorio SkyNet Genesis">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+      <b>OBSERVATORIO<span>SKYNET GENESIS</span></b>
+    </a>
+    <a class="btn ghost sm" href="https://observatorio.skynetgenesis.com/">Observatorio</a>
+  </div>
+</header>
+
+<main>
+<div class="wrap">
+  <section class="hero">
+    <span class="kicker"><i></i> Cálculo en tiempo real · Datos oficiales</span>
+    <h1>Reloj de<em>Vida Saludable</em></h1>
+    <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
+    <p class="sub">Si toda su vida fuera un solo día, ¿qué hora sería ahora? Responda 10 preguntas sobre sus hábitos y descubra su esperanza de vida estimada y cuántos años puede ganar.</p>
+  </section>
+
+  <section id="calcule" style="padding-top:10px">
+    <div class="grid">
+      <div class="panel">
+        <h2>Sus datos</h2>
+        <p class="hint">Nada de lo que escriba sale de su teléfono o computador: el cálculo se hace aquí mismo.</p>
+
+        <div class="q">
+          <div class="lbl">Sexo</div>
+          <div class="opts" data-k="sexo"><button data-v="m">Hombre</button><button data-v="f">Mujer</button></div>
+        </div>
+        <div class="q">
+          <div class="row2">
+            <label class="field">Edad (años)<input type="number" id="edad" min="15" max="100" inputmode="numeric" placeholder="Ej. 45"></label>
+            <label class="field">Estatura (cm)<input type="number" id="talla" min="120" max="220" inputmode="numeric" placeholder="Ej. 170"></label>
+            <label class="field">Peso (kg)<input type="number" id="peso" min="30" max="250" inputmode="numeric" placeholder="Ej. 72"></label>
+          </div>
+        </div>
+        <div class="q">
+          <div class="lbl">¿Fuma?</div>
+          <div class="opts" data-k="tabaco"><button data-v="nunca">Nunca he fumado</button><button data-v="ex10">Lo dejé hace más de 10 años</button><button data-v="ex">Lo dejé hace menos de 10 años</button><button data-v="poco">Fumo menos de 10 al día</button><button data-v="mucho">Fumo 10 o más al día</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Actividad física (caminar rápido, deporte, bicicleta)</div>
+          <div class="opts" data-k="ejercicio"><button data-v="nada">Casi nada</button><button data-v="poco">Menos de 150 min a la semana</button><button data-v="ok">150 a 300 min</button><button data-v="mucho">Más de 300 min</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Alcohol</div>
+          <div class="opts" data-k="alcohol"><button data-v="no">No o casi nunca</button><button data-v="mod">Hasta 7 tragos a la semana</button><button data-v="medio">8 a 14 a la semana</button><button data-v="alto">Más de 14 a la semana</button><button data-v="atracon">5 o más en una ocasión, cada semana</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Frutas y verduras al día</div>
+          <div class="opts" data-k="frutas"><button data-v="0">Menos de 1 porción</button><button data-v="1">1 a 2 porciones</button><button data-v="3">3 a 4 porciones</button><button data-v="5">5 o más</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Horas de sueño por noche</div>
+          <div class="opts" data-k="sueno"><button data-v="corto">Menos de 6</button><button data-v="ok">6 a 9</button><button data-v="largo">Más de 9</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Presión arterial</div>
+          <div class="opts" data-k="presion"><button data-v="normal">Normal</button><button data-v="nose">No sé</button><button data-v="ctrl">Alta, controlada</button><button data-v="alta">Alta, sin control</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Diabetes</div>
+          <div class="opts" data-k="diabetes"><button data-v="no">No</button><button data-v="ctrl">Sí, controlada</button><button data-v="mal">Sí, sin control</button></div>
+        </div>
+        <div class="q">
+          <div class="lbl">Familia, amigos y comunidad</div>
+          <div class="opts" data-k="social"><button data-v="solo">Me siento solo(a)</button><button data-v="algo">Tengo algunas relaciones</button><button data-v="fuerte">Tengo vínculos fuertes</button></div>
+        </div>
+      </div>
+
+      <div class="panel result" id="res">
+        <div style="color:var(--soft);font-size:13px;letter-spacing:.14em;text-transform:uppercase;font-weight:600">Su vida en un solo día</div>
+        <div class="dial"><svg id="dial" viewBox="-160 -160 320 320" role="img" aria-label="Reloj de 24 horas que representa su vida"></svg></div>
+        <div class="time" id="hora">--:--<small>en el reloj de su vida</small></div>
+        <div class="stats">
+          <div class="stat"><b id="eEdad">—</b><span>Edad estimada que alcanzaría</span></div>
+          <div class="stat"><b id="eRest">—</b><span>Años de vida por delante</span></div>
+        </div>
+        <div class="delta" id="delta"></div>
+        <div class="verdict" id="verdict">Complete sus datos para ver el resultado.</div>
+        <div class="share">
+          <a class="btn wa full" id="shWa" target="_blank" rel="noopener">📲 Compartir en WhatsApp</a>
+          <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
+          <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
+          <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="ganar">
+    <div class="sec-h"><h2>Lo que más <span>le suma</span></h2><p>Años que podría ganar si mejora cada hábito, según su perfil.</p></div>
+    <div class="panel"><div class="gains" id="gains"><div class="empty">Complete sus datos para ver sus mejores oportunidades.</div></div></div>
+  </section>
+
+  <section>
+    <div class="sec-h"><h2>Colombia <span>en cifras</span></h2></div>
+    <div class="facts">
+      <div class="fact"><b>76,6</b><p>años de esperanza de vida al nacer en Colombia</p><small>DANE, proyecciones 2025</small></div>
+      <div class="fact"><b>74,1</b><p>años para los hombres</p><small>DANE, proyecciones 2025</small></div>
+      <div class="fact"><b>79,2</b><p>años para las mujeres</p><small>DANE, proyecciones 2025</small></div>
+      <div class="fact"><b>65,0</b><p>años de vida saludable al nacer (sin enfermedad ni discapacidad)</p><small>OMS, estimación 2021</small></div>
+    </div>
+  </section>
+
+  <section>
+    <div class="clinic">
+      <div>
+        <h2>Su reloj no está escrito en piedra</h2>
+        <p>Un chequeo médico a tiempo detecta presión alta, diabetes y otros riesgos antes de que le resten años. En <b>Clínica Reina Elizabeth IPS</b> (Santa Marta) lo atendemos en la sede o en su casa.</p>
+      </div>
+      <a class="btn wa" href="https://wa.me/573128886611?text=Hola%2C%20hice%20el%20Reloj%20de%20Vida%20Saludable%20y%20quiero%20agendar%20un%20chequeo" target="_blank" rel="noopener">Agendar chequeo por WhatsApp</a>
+    </div>
+  </section>
+
+  <section>
+    <div class="sky">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><rect x="4" y="4" width="192" height="192" rx="46" fill="#1E3A4C"/><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+      <div>
+        <h2>Una obra de SkyNet Genesis</h2>
+        <p>Creado por el investigador colombiano <b>Ricardo Londoño González</b> en asocio con <b>SkyNet Genesis</b>, casa de software inteligente para clínicas, colegios, contadores, conjuntos residenciales y empresas de Colombia.</p>
+        <div class="cta-row">
+          <a class="btn teal" href="https://skynetgenesis.com" target="_blank" rel="noopener">Conozca nuestras aplicaciones →</a>
+          <a class="btn wa" href="https://wa.me/573044375758?text=Hola%2C%20vi%20el%20Reloj%20de%20Vida%20Saludable%20y%20quiero%20conocer%20las%20aplicaciones%20de%20SkyNet%20Genesis" target="_blank" rel="noopener">WhatsApp 304 437 5758</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="fuentes" style="padding-top:16px">
+    <div class="sec-h" style="text-align:left;margin-bottom:14px"><h2 style="font-size:30px">Método y fuentes</h2></div>
+    <ul class="sources">
+      <li>DANE — Proyecciones de población basadas en el CNPV 2018, actualización 2025 (esperanza de vida por sexo).</li>
+      <li>OMS — Esperanza de vida saludable (HALE), Global Health Observatory.</li>
+      <li>Tabaco: Jha y col., New England Journal of Medicine, 2013.</li>
+      <li>Actividad física: Arem y col., JAMA Internal Medicine, 2015; recomendaciones OMS 2020.</li>
+      <li>Peso corporal: Global BMI Mortality Collaboration, The Lancet, 2016.</li>
+      <li>Alcohol: Wood y col., The Lancet, 2018.</li>
+      <li>Frutas y verduras: Aune y col., International Journal of Epidemiology, 2017.</li>
+      <li>Sueño: Cappuccio y col., Sleep, 2010.</li>
+      <li>Diabetes: Emerging Risk Factors Collaboration, JAMA, 2015. Presión arterial: Prospective Studies Collaboration, The Lancet, 2002.</li>
+      <li>Relaciones sociales: Holt-Lunstad y col., PLoS Medicine, 2010.</li>
+    </ul>
+    <p class="disc">Cómo se calcula: se parte de la esperanza de vida oficial del DANE para su sexo y se ajusta un modelo de mortalidad por edad (Gompertz-Makeham). Cada hábito modifica el riesgo según el efecto promedio publicado en los estudios citados. El resultado es una <b>estimación poblacional con fines educativos</b>, no un diagnóstico ni un pronóstico individual: consulte siempre a su médico. Esta página no guarda ni envía sus datos.</p>
+  </section>
+</div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Parte del <a href="https://observatorio.skynetgenesis.com/"><b>Observatorio SkyNet Genesis</b></a> · Creado por el investigador colombiano <b style="color:#E0A21A">Ricardo Londoño González</b> en asocio con <a href="https://skynetgenesis.com" target="_blank" rel="noopener"><b>SkyNet Genesis</b></a><br>
+    contacto@skynetgenesis.com · WhatsApp 304 437 5758 · Uso libre: comparta esta página con quien quiera.
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+<script>
+(function(){
+"use strict";
+var URL_PUBLICA = "https://observatorio.skynetgenesis.com/vida/";
+var E0 = { m: 74.1, f: 79.2 };          /* DANE 2025 */
+var B = 0.085, C = 0.0006;             /* Gompertz-Makeham */
+
+/* Riesgo relativo de mortalidad frente al promedio de la población (estudios citados) */
+var HR = {
+  tabaco:   { nunca:0.92, ex10:1.0, ex:1.3, poco:1.8, mucho:2.4 },
+  ejercicio:{ nada:1.3, poco:1.0, ok:0.85, mucho:0.8 },
+  alcohol:  { no:1.0, mod:1.0, medio:1.1, alto:1.3, atracon:1.5 },
+  frutas:   { "0":1.15, "1":1.0, "3":0.92, "5":0.87 },
+  sueno:    { corto:1.12, ok:1.0, largo:1.3 },
+  presion:  { normal:0.95, nose:1.05, ctrl:1.1, alta:1.6 },
+  diabetes: { no:1.0, ctrl:1.6, mal:2.2 },
+  social:   { solo:1.3, algo:1.0, fuerte:0.85 }
+};
+var MEJOR = { tabaco:"nunca", ejercicio:"mucho", alcohol:"no", frutas:"5", sueno:"ok", presion:"ctrl", diabetes:"ctrl", social:"fuerte" };
+var NOMBRE = {
+  tabaco:{ex:"Mantenerse sin fumar",poco:"Dejar de fumar",mucho:"Dejar de fumar"},
+  ejercicio:"Moverse más de 300 minutos a la semana",
+  alcohol:"Reducir el alcohol",
+  frutas:"Comer 5 porciones de frutas y verduras al día",
+  sueno:"Dormir entre 6 y 9 horas",
+  presion:{nose:"Medirse la presión y controlarla",alta:"Controlar la presión arterial"},
+  diabetes:{mal:"Controlar la diabetes"},
+  social:"Cultivar vínculos con familia y amigos",
+  imc:"Llegar a un peso saludable"
+};
+var sel = { sexo:null, tabaco:null, ejercicio:null, alcohol:null, frutas:null, sueno:null, presion:null, diabetes:null, social:null };
+
+function hrIMC(imc){
+  if(!imc) return 1;
+  if(imc<18.5) return 1.4;
+  if(imc<25) return 0.95;
+  if(imc<30) return 1.05;
+  if(imc<35) return 1.4;
+  return 1.9;
+}
+/* esperanza de vida restante a la edad x con multiplicador M sobre el riesgo por edad */
+function eRest(a, x, M){
+  var s=0, dt=0.25, t, H;
+  for(t=0; t<130-x; t+=dt){
+    H = C*t + (M*a/B)*Math.exp(B*x)*(Math.exp(B*t)-1);
+    s += Math.exp(-H)*dt;
+    if(H>40) break;
+  }
+  return s;
+}
+/* calibra el parámetro a para que la esperanza de vida al nacer sea la del DANE */
+var A = {};
+function calibrar(sexo){
+  var lo=1e-7, hi=1e-2, mid, i;
+  for(i=0;i<60;i++){ mid=Math.sqrt(lo*hi); if(eRest(mid,0,1)>E0[sexo]) lo=mid; else hi=mid; }
+  A[sexo]=mid;
+}
+calibrar("m"); calibrar("f");
+
+function num(id){ var v=parseFloat(document.getElementById(id).value); return isFinite(v)?v:null; }
+function multiplicador(s, imc){
+  var M=1, k;
+  for(k in HR){ if(s[k]) M*=HR[k][s[k]]; }
+  M*=hrIMC(imc);
+  return Math.min(6, Math.max(0.35, M));
+}
+function fmt1(n){ return n.toLocaleString("es-CO",{minimumFractionDigits:1,maximumFractionDigits:1}); }
+
+/* reloj de 24 h */
+var svg=document.getElementById("dial"), NS="http://www.w3.org/2000/svg";
+function el(t,a){ var e=document.createElementNS(NS,t); for(var k in a) e.setAttribute(k,a[k]); svg.appendChild(e); return e; }
+el("circle",{cx:0,cy:0,r:150,fill:"#071822",stroke:"#1b3a4c","stroke-width":2});
+var arc=el("path",{d:"",fill:"rgba(20,163,139,.22)",stroke:"none"});
+for(var h=0;h<24;h++){
+  var ang=h/24*2*Math.PI, r1=h%6===0?118:130, x1=Math.sin(ang)*r1, y1=-Math.cos(ang)*r1, x2=Math.sin(ang)*142, y2=-Math.cos(ang)*142;
+  el("line",{x1:x1,y1:y1,x2:x2,y2:y2,stroke:h%6===0?"#e8f0f5":"#3d5f73","stroke-width":h%6===0?4:2,"stroke-linecap":"round"});
+}
+[["0",0],["6",6],["12",12],["18",18]].forEach(function(p){
+  var ang=p[1]/24*2*Math.PI, t=el("text",{x:Math.sin(ang)*98,y:-Math.cos(ang)*98+7,"text-anchor":"middle",fill:"#9fb4c2","font-size":20,"font-family":"Barlow Condensed","font-weight":700}); t.textContent=p[0]+"h";
+});
+var hand=el("line",{x1:0,y1:0,x2:0,y2:-120,stroke:"#14A38B","stroke-width":6,"stroke-linecap":"round"});
+el("circle",{cx:0,cy:0,r:9,fill:"#E0A21A"});
+function setDial(frac){
+  var ang=frac*2*Math.PI, x=Math.sin(ang)*150, y=-Math.cos(ang)*150, large=frac>0.5?1:0;
+  arc.setAttribute("d", frac<=0?"":"M0 0 L0 -150 A150 150 0 "+large+" 1 "+x+" "+y+" Z");
+  hand.setAttribute("x2", Math.sin(ang)*120); hand.setAttribute("y2", -Math.cos(ang)*120);
+}
+setDial(0);
+
+var ultimo=null;
+function calcular(){
+  var edad=num("edad"), talla=num("talla"), peso=num("peso");
+  var imc = (talla && peso && talla>=120 && talla<=220 && peso>=30 && peso<=250) ? peso/Math.pow(talla/100,2) : null;
+  var listo = sel.sexo && edad!==null && edad>=15 && edad<=100;
+  if(!listo){ ultimo=null; document.getElementById("verdict").textContent="Complete al menos su sexo y su edad (entre 15 y 100 años)."; return; }
+  var a=A[sel.sexo], M=multiplicador(sel,imc);
+  var rest=eRest(a,edad,M), base=eRest(a,edad,1), total=edad+rest, dif=rest-base;
+  var frac=Math.min(0.999, edad/total), mins=Math.round(frac*24*60), hh=Math.floor(mins/60), mm=mins%60;
+  var hora=String(hh).padStart(2,"0")+":"+String(mm).padStart(2,"0");
+  setDial(frac);
+  document.getElementById("hora").innerHTML=hora+"<small>en el reloj de su vida</small>";
+  document.getElementById("eEdad").textContent=fmt1(total);
+  document.getElementById("eRest").textContent=fmt1(rest);
+  var d=document.getElementById("delta");
+  if(Math.abs(dif)<0.3){ d.className="delta"; d.textContent="Igual al promedio de su edad y sexo en Colombia"; }
+  else if(dif>0){ d.className="delta up"; d.textContent="▲ "+fmt1(dif)+" años más que el promedio colombiano"; }
+  else { d.className="delta down"; d.textContent="▼ "+fmt1(-dif)+" años menos que el promedio colombiano"; }
+  var faltan=Object.keys(HR).filter(function(k){return !sel[k];}).length + (imc?0:1);
+  document.getElementById("verdict").textContent = faltan ? "Responda las "+faltan+" preguntas que faltan para afinar su resultado." : (hh<12?"Todavía es de mañana en su vida: cada hábito que mejore hoy le suma horas.":"Cada hábito que mejore hoy todavía le suma tiempo.");
+  ultimo={hora:hora,total:total};
+  ganancias(a,edad,M,imc,rest);
+  enlaces();
+}
+function ganancias(a,edad,M,imc,rest){
+  var out=[], k, v, m2, g, nom;
+  for(k in MEJOR){
+    v=sel[k]; if(!v || v===MEJOR[k] || HR[k][MEJOR[k]]>=HR[k][v]) continue;
+    m2=Math.min(6,Math.max(0.35,M/HR[k][v]*HR[k][MEJOR[k]])); g=eRest(a,edad,m2)-rest;
+    nom=typeof NOMBRE[k]==="string"?NOMBRE[k]:(NOMBRE[k][v]||"Mejorar este hábito");
+    if(g>=0.1) out.push([nom,g]);
+  }
+  if(imc && (imc<18.5 || imc>=25)){ m2=Math.min(6,Math.max(0.35,M/hrIMC(imc)*0.95)); g=eRest(a,edad,m2)-rest; if(g>=0.1) out.push([NOMBRE.imc+" (su IMC: "+fmt1(imc)+")",g]); }
+  out.sort(function(x,y){return y[1]-x[1];});
+  var box=document.getElementById("gains");
+  if(!out.length){ box.innerHTML='<div class="empty">Con sus respuestas actuales no vemos hábitos por mejorar. ¡Siga así y hágase chequeos periódicos!</div>'; return; }
+  box.innerHTML=out.map(function(o){ return '<div class="gain"><span>'+o[0]+'</span><b>+'+fmt1(o[1])+' años</b></div>'; }).join("");
+}
+function mensaje(){
+  if(!ultimo) return "⏳ RELOJ DE VIDA SALUDABLE\n¿Qué hora es en el reloj de su vida? Calcúlelo aquí 👉 "+URL_PUBLICA;
+  return "⏳ RELOJ DE VIDA SALUDABLE\nSi mi vida fuera un solo día, ahora serían las "+ultimo.hora+". ¿Y usted qué hora tiene?\nCalcúlelo aquí 👉 "+URL_PUBLICA;
+}
+function enlaces(){
+  var m=mensaje();
+  document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
+  document.getElementById("shFb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(URL_PUBLICA);
+  document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m);
+}
+function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shCopy").addEventListener("click",function(){
+  var txt=mensaje();
+  try{ navigator.clipboard.writeText(txt).then(function(){toast("✅ Mensaje copiado. Péguelo en sus grupos y redes.");},function(){toast("Enlace: "+URL_PUBLICA);}); }
+  catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+document.querySelectorAll(".opts").forEach(function(g){
+  g.addEventListener("click",function(ev){
+    var b=ev.target.closest("button"); if(!b) return;
+    g.querySelectorAll("button").forEach(function(x){x.classList.remove("on");});
+    b.classList.add("on"); sel[g.getAttribute("data-k")]=b.getAttribute("data-v"); calcular();
+  });
+});
+["edad","talla","peso"].forEach(function(id){ document.getElementById(id).addEventListener("input",calcular); });
+enlaces();
+})();
+</script>
+</body>
+</html>
