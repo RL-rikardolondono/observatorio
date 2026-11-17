@@ -225,6 +225,6 @@ border:2px solid #f2b632;box-shadow:0 0 0 4px rgba(242,182,50,.15),0 18px 50px r
     contacto@skynetgenesis.com · WhatsApp 304 437 5758 · Uso libre citando la fuente.
   </div>
 </footer>
-<script>(function(){var A="https://abacus.jasoncameron.dev/",N="skynetgenesis-obs",K="portada",n=false;try{n=!localStorage.getItem("obs_"+K);localStorage.setItem("obs_"+K,"1")}catch(e){}try{fetch(A+"hit/"+N+"/"+K+"-visitas").catch(function(){});if(n)fetch(A+"hit/"+N+"/"+K+"-personas").catch(function(){})}catch(e){}})();</script>
+<script>(function(){try{if(!navigator.sendBeacon)return;navigator.sendBeacon("https://skynetgenesis.com/obs-contador.php",new Blob([JSON.stringify({k:"portada"})],{type:"text/plain"}))}catch(e){}})();</script>
 </body>
 </html>
