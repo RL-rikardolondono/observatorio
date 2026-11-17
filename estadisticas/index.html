@@ -31,24 +31,25 @@ button{margin-top:18px;font:700 16px 'Public Sans',sans-serif;background:#14A38B
 <div class="w">
   <h1>Estadísticas del <span>Observatorio</span></h1>
   <p class="sub">Cuántas personas han entrado a cada herramienta. Página privada: no aparece en buscadores ni en los menús. <span id="hora"></span></p>
-  <div class="tot"><div><b id="tp">—</b><span>personas en total (suma de las herramientas)</span></div><div><b id="tv">—</b><span>visitas en total</span></div></div>
-  <table><thead><tr><th>Herramienta</th><th style="text-align:right">Personas</th><th style="text-align:right">Visitas</th></tr></thead><tbody id="tb"></tbody></table>
+  <div class="tot" style="grid-template-columns:1fr 1fr 1fr"><div><b id="th" style="color:#5fe0c8">—</b><span>personas hoy</span></div><div><b id="tp">—</b><span>personas en total</span></div><div><b id="tv">—</b><span>visitas en total</span></div></div>
+  <table><thead><tr><th>Herramienta</th><th style="text-align:right">Hoy</th><th style="text-align:right">Personas</th><th style="text-align:right">Visitas</th></tr></thead><tbody id="tb"></tbody></table>
   <button id="act">🔄 Actualizar</button>
-  <p class="note"><b>Personas:</b> cada teléfono o computador se cuenta una sola vez por herramienta (si alguien borra los datos del navegador o usa otro aparato, cuenta de nuevo). <b>Visitas:</b> cada vez que se abre la página. El conteo empezó el 17 de noviembre de 2026; las visitas anteriores no quedaron registradas. Servicio de conteo gratuito (Abacus); no guarda datos personales.</p>
+  <p class="note"><b>Personas:</b> cada teléfono o computador se cuenta una vez por día en cada herramienta (si vuelve otro día, cuenta de nuevo). <b>Visitas:</b> cada vez que se abre la página. El conteo lo hace el propio servidor de skynetgenesis.com (archivo obs-contador.php), sin cookies y sin guardar direcciones IP. Las visitas anteriores al 17 de noviembre de 2026 no quedaron registradas.</p>
 </div>
 <script>
-var A="https://abacus.jasoncameron.dev/get/skynetgenesis-obs/";
+var URLC="https://skynetgenesis.com/obs-contador.php";
 var T=[["portada","Portada del Observatorio",""],["vision2027","🔮 SkyNet Génesis Visión 2027","vision2027/"],["reloj","Reloj del Fin del Mundo","reloj/"],["vida","Reloj de Vida Saludable","vida/"],["mapa","Mapa de Riesgos de Colombia","mapa/"],["gobiernos","Colombia, gobierno a gobierno","gobiernos/"],["deuda","Reloj de la Deuda","deuda/"],["sueldo","¿Cuánto vale su sueldo?","sueldo/"],["cocaina","La ola de cocaína","cocaina/"],["planeta","El planeta desde que usted nació","planeta/"],["armas","Armas o pan","armas/"],["lugar","Su lugar entre 8.000 millones","lugar/"],["riqueza","¿Qué tan rico es usted en el mundo?","riqueza/"],["sismos","La Tierra se mueve: sismos en vivo","sismos/"]];
-function num(k){return fetch(A+k).then(function(r){return r.ok?r.json():{value:0}}).then(function(d){return d.value>0?d.value:0}).catch(function(){return 0})}
-function f(n){return n.toLocaleString("es-CO")}
+function f(n){return (n||0).toLocaleString("es-CO")}
+function hoyStr(){var d=new Date(Date.now()-5*3600e3);return d.toISOString().slice(0,10)}
 function cargar(){
-  Promise.all(T.map(function(t){return Promise.all([num(t[0]+"-personas"),num(t[0]+"-visitas")])})).then(function(R){
-    var rows=T.map(function(t,i){return {t:t,p:R[i][0],v:R[i][1]}}).sort(function(a,b){return b.p-a.p});
-    var max=Math.max.apply(null,rows.map(function(r){return r.p}).concat([1])),tp=0,tv=0;
-    document.getElementById("tb").innerHTML=rows.map(function(r){tp+=r.p;tv+=r.v;return '<tr><td><a href="../'+r.t[2]+'" target="_blank">'+r.t[1]+'</a><div class="bar" style="width:'+Math.round(r.p/max*100)+'%"></div></td><td class="n">'+f(r.p)+'</td><td class="n" style="color:#a3b3c4">'+f(r.v)+'</td></tr>'}).join("");
-    document.getElementById("tp").textContent=f(tp);document.getElementById("tv").textContent=f(tv);
-    document.getElementById("hora").textContent="Actualizado: "+new Date().toLocaleString("es-CO");
-  });
+  fetch(URLC+"?v="+Date.now(),{cache:"no-store"}).then(function(r){return r.json()}).then(function(D){
+    var H=D.herramientas||{}, Hoy=(D.dias||{})[hoyStr()]||{};
+    var rows=T.map(function(t){var x=H[t[0]]||{},y=Hoy[t[0]]||{};return {t:t,p:x.p||0,v:x.v||0,h:y.p||0}}).sort(function(a,b){return b.p-a.p});
+    var max=Math.max.apply(null,rows.map(function(r){return r.p}).concat([1])),tp=0,tv=0,th=0;
+    document.getElementById("tb").innerHTML=rows.map(function(r){tp+=r.p;tv+=r.v;th+=r.h;return '<tr><td><a href="../'+r.t[2]+'" target="_blank">'+r.t[1]+'</a><div class="bar" style="width:'+Math.round(r.p/max*100)+'%"></div></td><td class="n" style="color:#5fe0c8">'+f(r.h)+'</td><td class="n">'+f(r.p)+'</td><td class="n" style="color:#a3b3c4">'+f(r.v)+'</td></tr>'}).join("");
+    document.getElementById("tp").textContent=f(tp);document.getElementById("tv").textContent=f(tv);document.getElementById("th").textContent=f(th);
+    document.getElementById("hora").textContent="Actualizado: "+new Date().toLocaleString("es-CO")+(D.desde?" · Contando desde el "+D.desde:"");
+  }).catch(function(){document.getElementById("hora").textContent="No se pudo leer el contador; intente de nuevo en un momento."});
 }
 document.getElementById("act").onclick=cargar;cargar();
 </script>
