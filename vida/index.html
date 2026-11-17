@@ -487,6 +487,6 @@ document.querySelectorAll(".opts").forEach(function(g){
 enlaces();
 })();
 </script>
-<script>(function(){try{if(!navigator.sendBeacon)return;navigator.sendBeacon("https://skynetgenesis.com/obs-contador.php",new Blob([JSON.stringify({k:"vida"})],{type:"text/plain"}))}catch(e){}})();</script>
+<script>(function(){var U="https://skynetgenesis.com/obs-contador.php",K="vida";try{navigator.sendBeacon&&navigator.sendBeacon(U,new Blob([JSON.stringify({k:K})],{type:"text/plain"}))}catch(e){}function f(n){return(n||0).toLocaleString("es-CO")}var P="display:inline-flex;align-items:center;gap:6px;font:700 14px 'Public Sans',sans-serif;color:#ffd27a;background:rgba(224,162,26,.12);border:1px solid rgba(224,162,26,.4);border-radius:999px;padding:6px 12px;";setTimeout(function(){fetch(U+"?t="+Date.now()).then(function(r){return r.json()}).then(function(D){var H=D.herramientas||{};if(K==="portada"){[].forEach.call(document.querySelectorAll("a.tool"),function(a){var m=(a.getAttribute("href")||"").match(/^([a-z0-9]+)\//);if(!m)return;var x=H[m[1]]||{},s=document.createElement("span");s.style.cssText=P+"margin-top:12px;font-size:13px;width:max-content";s.textContent="👁 "+f(x.v)+" visitas";a.appendChild(s)})}else{var x=H[K]||{},s=document.createElement("div");s.style.cssText=P+"margin-top:16px";s.textContent="👁 "+f(x.v)+" visitas · "+f(x.p)+" personas";(document.querySelector(".hero .wrap")||document.querySelector("main")||document.body).appendChild(s)}})["catch"](function(){})},900)})();</script>
 </body>
 </html>
