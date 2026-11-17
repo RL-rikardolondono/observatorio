@@ -197,9 +197,9 @@ footer a{color:var(--soft)}
     </section>
 
     <section>
-      <div class="sec-h"><h2>El sueldo frente a <span>los precios y la comida</span></h2><p>Desde enero de 2019 = 100. La línea verde es el salario mínimo: sube de golpe cada enero y luego se queda quieto todo el año. La azul son los precios en general y la roja, la comida (alimentos y bebidas no alcohólicas). Cuando la verde queda por encima, el mínimo alcanza para más; cuando la roja la alcanza, la comida se come el aumento.</p></div>
+      <div class="sec-h"><h2>El sueldo frente a <span>los precios y la comida</span></h2><p>Desde enero de 2019 = 100. La línea verde es el salario mínimo: sube de golpe cada enero y luego se queda quieto todo el año. La azul muestra cuánto han subido los precios en total desde 2019 y la roja, la comida (alimentos y bebidas no alcohólicas). La punteada amarilla es la inflación de cada año, en porcentaje (escala de la derecha; 2026 va de enero a octubre). Cuando la verde queda por encima, el mínimo alcanza para más; cuando la roja la alcanza, la comida se come el aumento.</p></div>
       <div class="panel chart" id="ch0"></div>
-      <div class="lg3"><span><i style="background:#14A38B"></i>Salario mínimo</span><span><i style="background:#5fa8d3"></i>Precios en general (IPC)</span><span><i style="background:#ff6b6f"></i>Comida (alimentos y bebidas)</span></div>
+      <div class="lg3"><span><i style="background:#14A38B"></i>Salario mínimo</span><span><i style="background:#5fa8d3"></i>Precios acumulados (IPC)</span><span><i style="background:repeating-linear-gradient(90deg,#E0A21A 0 7px,transparent 7px 11px)"></i>Inflación de cada año (%, escala derecha)</span><span><i style="background:#ff6b6f"></i>Comida (alimentos y bebidas)</span></div>
       <div class="out" id="pp" style="margin-top:16px"></div>
       <p class="note">Fuente: DANE, variación anual del IPC total y de la división «Alimentos y bebidas no alcohólicas» a diciembre de cada año (2019-2025) y en lo corrido de 2026 hasta octubre. El DANE publica esta división con la canasta actual desde 2019. Salario mínimo por decreto de cada año.</p>
     </section>
@@ -365,7 +365,7 @@ function barras(id,datos,opt){
   document.getElementById(id).innerHTML=s+'</svg>';
 }
 (function(){
-  var W=1000,H=380,ml=46,mr=20,mt=20,mb=34, x0=2019, x1=2026.83;
+  var W=1000,H=380,ml=46,mr=46,mt=20,mb=34, x0=2019, x1=2026.83;
   var P=[{t:2019,g:100,f:100}], g=100,f=100;
   for(var y=2019;y<=2025;y++){ g*=1+INF[y]/100; f*=1+ALI[y]/100; P.push({t:y+1,g:g,f:f}); }
   P.push({t:2026.83,g:g*(1+CORRIDO_2026/100),f:f*(1+ALI_CORRIDO_2026/100)});
@@ -379,6 +379,12 @@ function barras(id,datos,opt){
   s+='<path d="'+w+'" fill="none" stroke="#14A38B" stroke-width="3.5"/>';
   function linea(k,c){ return '<path d="'+P.map(function(p,i){return (i?"L":"M")+X(p.t)+","+Y(p[k]);}).join(" ")+'" fill="none" stroke="'+c+'" stroke-width="3"/>'; }
   s+=linea("g","#5fa8d3")+linea("f","#ff6b6f");
+  /* inflación de cada año (%), escala derecha 0-30 % */
+  function Y2(pc){ return H-mb-pc/30*(H-mt-mb); }
+  for(var q=0;q<=30;q+=10) s+='<text x="'+(W-mr+6)+'" y="'+(Y2(q)+4)+'" fill="#E0A21A" font-size="11" font-family="Public Sans">'+q+' %</text>';
+  var IA=[]; for(var y3=2019;y3<=2025;y3++) IA.push({t:y3+0.5,v:INF[y3]}); IA.push({t:2026.42,v:CORRIDO_2026});
+  s+='<path d="'+IA.map(function(p,i){return (i?"L":"M")+X(p.t)+","+Y2(p.v);}).join(" ")+'" fill="none" stroke="#E0A21A" stroke-width="2.5" stroke-dasharray="7 5"/>';
+  IA.forEach(function(p){ s+='<circle cx="'+X(p.t)+'" cy="'+Y2(p.v)+'" r="4" fill="#E0A21A"/><text x="'+X(p.t)+'" y="'+(Y2(p.v)-9)+'" text-anchor="middle" fill="#f0c45a" font-size="12" font-weight="700" font-family="Public Sans">'+p.v.toLocaleString("es-CO",{maximumFractionDigits:1})+' %</text>'; });
   P.forEach(function(p,i){ if(i===P.length-1){ s+='<text x="'+(X(p.t)-4)+'" y="'+(Y(p.f)-8)+'" text-anchor="end" fill="#ff8a8d" font-size="12" font-weight="700" font-family="Public Sans">'+Math.round(p.f)+'</text><text x="'+(X(p.t)-4)+'" y="'+(Y(p.g)+16)+'" text-anchor="end" fill="#8fc8ea" font-size="12" font-weight="700" font-family="Public Sans">'+Math.round(p.g)+'</text>'; } });
   s+='<text x="'+(X(2026.83)-4)+'" y="'+(Y(SM[2026]/SM[2019]*100)-8)+'" text-anchor="end" fill="#5fd4bd" font-size="12" font-weight="700" font-family="Public Sans">'+Math.round(SM[2026]/SM[2019]*100)+'</text>';
   document.getElementById("ch0").innerHTML=s+'</svg>';
