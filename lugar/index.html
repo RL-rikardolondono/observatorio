@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Su lugar entre 8.000 millones · Observatorio SkyNet Genesis</title>
+<meta name="description" content="Escriba su fecha de nacimiento y descubra qué número de habitante del planeta le tocó, cuántas personas han nacido desde entonces y cuántas vueltas ha dado al Sol. Datos del Banco Mundial y la ONU.">
+<meta property="og:title" content="🌍 ¿Qué número de habitante del planeta es usted?">
+<meta property="og:description" content="Escriba su fecha de nacimiento y descubra su lugar entre los 8.000 millones de habitantes de la Tierra.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://observatorio.skynetgenesis.com/lugar/">
+<link rel="canonical" href="https://observatorio.skynetgenesis.com/lugar/">
+<meta name="author" content="SkyNet Genesis">
+<meta name="theme-color" content="#081320">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081320;--card:#0f2034;--card2:#0b1928;--line:#1d3550;--txt:#e8eef5;--soft:#a3b3c4;--dim:#6f8296;
+--teal:#14A38B;--blue:#0B4F8A;--blue2:#1867B0;--amber:#E0A21A;--red:#e5484d;--wa:#1F8A4C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:"Public Sans",system-ui,sans-serif;line-height:1.55;color-scheme:dark}
+a{color:inherit}
+h1,h2,h3{font-family:"Barlow Condensed",sans-serif;letter-spacing:.02em}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(8,19,32,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:32px;height:32px}
+.brand b{font-family:"Barlow Condensed";font-weight:700;font-size:18px;letter-spacing:.06em;line-height:.95}
+.brand b span{display:block;color:var(--amber);font-size:11.5px;letter-spacing:.22em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;font:700 15px "Public Sans";padding:12px 18px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.teal{background:var(--teal);color:#fff}.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.wa{background:var(--wa);color:#fff}.btn.fb{background:#1b4ea0;color:#fff}.btn.x{background:#000;color:#fff;border:1px solid #333}
+.btn.sm{padding:9px 14px;font-size:14px}
+.hero{text-align:center;padding:44px 0 14px;background:radial-gradient(ellipse at 50% 0%,rgba(24,103,176,.25),transparent 60%)}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:#8fe0d0;font:600 13px "Public Sans";letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(20,163,139,.4);background:rgba(20,163,139,.08);padding:6px 12px;border-radius:99px}
+.hero h1{font-size:clamp(42px,8vw,90px);font-weight:800;line-height:.9;margin:16px 0 8px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--amber);display:block}
+.credit{font-family:"Barlow Condensed";font-size:clamp(16px,2.2vw,21px);letter-spacing:.14em;text-transform:uppercase;color:#cfdbe3;margin:2px 0 14px}
+.credit b{color:var(--amber)}
+.sub{color:var(--soft);font-size:clamp(16px,2.1vw,19px);max-width:720px;margin:0 auto}
+section{padding:34px 0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+.tabs button{background:#0b1b2c;border:1px solid var(--line);color:#d5e2ea;border-radius:99px;padding:9px 15px;font:600 14px "Public Sans";cursor:pointer}
+.tabs button.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.mapbox{position:relative}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapbox path{stroke:#081320;stroke-width:.8;cursor:pointer;transition:filter .15s}
+.mapbox path:hover,.mapbox path.sel{stroke:#fff;stroke-width:1.6;filter:brightness(1.2)}
+.legend{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--soft);margin-top:10px}
+.legend .bar{flex:1;height:10px;border-radius:9px}
+.nodata{display:inline-block;width:12px;height:12px;border-radius:3px;background:#2a3a4c;vertical-align:middle;margin-right:4px}
+.tip{position:absolute;pointer-events:none;background:#06101b;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:none;white-space:nowrap;z-index:5}
+.maperr{color:var(--soft);padding:30px 10px;text-align:center}
+select{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:11px 12px;font:600 16px "Public Sans"}
+.card h2{font-size:34px;font-weight:800;text-transform:uppercase;line-height:1;margin:14px 0 4px}
+.card .rank{color:var(--amber);font-weight:700;font-size:15px}
+.ind{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.ind:last-of-type{border-bottom:0}
+.ind span{font-size:14px;color:var(--soft)}
+.ind b{font-family:"Share Tech Mono";font-size:21px;font-weight:400}
+.ind small{grid-column:1/-1;font-size:12px;color:var(--dim)}
+.meter{grid-column:1/-1;height:6px;border-radius:9px;background:#1b2a3b;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:9px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.share .full{grid-column:1/-1}
+.share .btn{font-size:14px;padding:11px 10px}
+.rankl{list-style:none;columns:2;column-gap:24px}
+.rankl li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);break-inside:avoid;font-size:14.5px;cursor:pointer}
+.rankl li:hover{color:#fff}
+.rankl li b{font-family:"Share Tech Mono";font-weight:400}
+.rankl li em{font-style:normal;color:var(--dim);margin-right:6px;font-family:"Share Tech Mono"}
+.sec-h{text-align:center;margin-bottom:18px}
+.sec-h h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;text-transform:uppercase;line-height:1}
+.sec-h h2 span{color:var(--amber)}
+.sec-h p{color:var(--soft);max-width:720px;margin:10px auto 0}
+.sky{background:linear-gradient(135deg,#0b2a47,#0a1726);border:1px solid #1f4266;border-radius:20px;padding:30px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.sky svg{width:96px;height:96px}
+.sky h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;text-transform:uppercase;line-height:1.05}
+.sky p{color:#b8c6d4;margin:10px 0 16px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.sources{font-size:13.5px;color:var(--soft);padding-left:18px}
+.sources li{margin-bottom:8px}
+.disc{margin-top:16px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
+footer a{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.fuentes{max-width:900px;margin:18px auto 0;background:rgba(11,79,138,.18);border:1px solid #1f4266;border-radius:14px;padding:12px 16px;font-size:13.5px;color:#c9d5e1;text-align:left}
+.fuentes b{color:#fff}
+.fuentes a{color:#8fe0d0}
+.ind .src{grid-column:1/-1;font-size:11.5px;color:#8fa3b6}
+.ind .src a{color:#8fe0d0}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#0f2034;border:1px solid #1d3550;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
+.toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.rankl{columns:1}.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}}
+@media (max-width:480px){.share{grid-template-columns:1fr}}
+
+.big{font-family:"Share Tech Mono",monospace;font-size:clamp(30px,6.4vw,66px);color:#ff6b6f;letter-spacing:.01em;margin:18px 0 4px;text-shadow:0 0 24px rgba(229,72,77,.35);word-break:break-all}
+.bigl{color:var(--soft);font-size:14.5px}
+.cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ct{background:linear-gradient(180deg,rgba(229,72,77,.14),rgba(229,72,77,.04));border:1px solid rgba(229,72,77,.4);border-radius:16px;padding:16px}
+.ct .l{font:700 12px "Public Sans";letter-spacing:.07em;text-transform:uppercase;color:#ffb3b5}
+.ct .v{font-family:"Share Tech Mono";font-size:clamp(22px,2.6vw,30px);color:#fff;margin:6px 0 4px;word-break:break-all}
+.ct .d{font-size:12.5px;color:#d9c3c4}
+.calc{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}
+.calc label{display:block;font-size:13px;color:var(--soft);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.calc input{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px;font:700 22px "Share Tech Mono"}
+.res{font-size:16px;color:#d5e2ea}
+.res b{font-family:"Share Tech Mono";font-weight:400;color:#ffd27a;font-size:22px}
+.res p{padding:10px 0;border-bottom:1px solid var(--line)}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.gleg{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:13px;color:var(--soft);margin-top:10px}
+.gleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+.cmp div{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:14px}
+.cmp b{display:block;font-family:"Barlow Condensed";font-size:34px;font-weight:800;color:#fff}
+.cmp span{font-size:13px;color:var(--soft)}
+@media (max-width:900px){.cnt{grid-template-columns:repeat(2,1fr)}.calc{grid-template-columns:1fr}.cmp{grid-template-columns:1fr}.chart svg{min-width:720px}}
+@media (max-width:480px){.cnt{grid-template-columns:1fr}}
+</style><style>
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kq{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.kq .v{font:800 clamp(30px,4vw,44px) "Barlow Condensed";color:#fff;line-height:1}
+.kq .l{font-size:13.5px;color:var(--soft);margin-top:6px}
+.kq .s{font-size:11.5px;color:var(--dim);margin-top:4px}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.lg3{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;font-size:13.5px;color:var(--soft);margin-top:10px}
+.lg3 i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+.hb{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin:10px 0;font-size:15px}
+.hb .bar{height:24px;border-radius:6px}
+.hb b{font-family:"Share Tech Mono";font-weight:400;text-align:right}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+@media (max-width:900px){.kp{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.chart svg{min-width:640px}.hb{grid-template-columns:110px 1fr 76px;font-size:14px}}
+</style>
+<style>
+
+.pick{max-width:720px;margin:0 auto;text-align:center}
+.pick label{display:block;font:700 14px "Public Sans";letter-spacing:.12em;text-transform:uppercase;color:var(--soft);margin-bottom:10px}
+.pick select{max-width:320px;margin:0 auto;display:block;font:800 30px "Barlow Condensed";text-align:center;padding:10px 12px}
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:14px;margin-top:22px}
+.kq{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.kq .t{font:700 12px "Public Sans";letter-spacing:.08em;text-transform:uppercase;color:var(--soft)}
+.kq .v{font:800 clamp(30px,4vw,46px) "Barlow Condensed";color:#fff;line-height:1;margin:8px 0 6px}
+.kq .v.h{color:#ff7a5c}
+.kq .l{font-size:14px;color:#d5e2ea}
+.kq .s{font-size:12px;color:var(--dim);margin-top:6px}
+.frase{max-width:820px;margin:22px auto 0;text-align:center;font:700 clamp(22px,3vw,30px) "Barlow Condensed";line-height:1.2;color:#fff}
+.frase b{color:#ff7a5c}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+@media (max-width:900px){.kp{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}}
+@media (max-width:480px){.kp{grid-template-columns:1fr}}
+.two>*{min-width:0}
+@media (max-width:900px){.chart svg{min-width:0!important}}
+
+.pick input[type=date]{max-width:340px;margin:0 auto;display:block;font:800 28px "Barlow Condensed";text-align:center;padding:10px 12px}
+.num{font-family:"Share Tech Mono",monospace;font-size:clamp(26px,6.4vw,62px);color:#ffd27a;text-align:center;letter-spacing:.01em;margin:10px 0 2px;text-shadow:0 0 24px rgba(224,162,26,.35);white-space:nowrap}
+.numl{text-align:center;color:var(--soft);font-size:15px}
+.vivos{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:18px}
+.vivos div{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.vivos b{display:block;font-family:"Share Tech Mono",monospace;font-size:clamp(24px,3.4vw,36px);color:#8fe0d0;font-weight:400}
+.vivos span{font-size:13.5px;color:#d5e2ea}
+@media (max-width:700px){.vivos{grid-template-columns:1fr}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://observatorio.skynetgenesis.com/" aria-label="Observatorio SkyNet Genesis">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+      <b>OBSERVATORIO<span>SKYNET GENESIS</span></b>
+    </a>
+    <a class="btn ghost sm" href="https://observatorio.skynetgenesis.com/">Observatorio</a>
+  </div>
+</header>
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <span class="kicker">Datos oficiales · Banco Mundial y Naciones Unidas</span>
+      <h1>Su lugar entre<em>8.000 millones</em></h1>
+      <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
+      <p class="sub">Escriba su fecha de nacimiento y descubra qué número de habitante del planeta le tocó, cuántas personas han nacido desde ese día y cuántas vueltas ha dado alrededor del Sol.</p>
+      <div class="fuentes"><b>Fuentes oficiales:</b> población mundial y tasa de natalidad del <a href="https://data.worldbank.org/indicator/SP.POP.TOTL" target="_blank" rel="noopener">Banco Mundial</a> (con base en las Perspectivas de la Población Mundial de las Naciones Unidas); personas nacidas en toda la historia según el <a href="https://www.prb.org/articles/how-many-people-have-ever-lived-on-earth/" target="_blank" rel="noopener">Population Reference Bureau</a>. Detalle en «Método y fuentes».</div>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section style="padding-top:18px">
+      <div class="panel pick">
+        <label for="fn">¿Cuándo nació?</label>
+        <input type="date" id="fn" min="1960-01-01" value="1985-06-15">
+        <div class="num" id="hab">—</div>
+        <div class="numl">Usted fue, aproximadamente, el habitante número <b id="habt"></b> de la Tierra el día que nació.</div>
+      </div>
+      <div class="kp" id="kp"></div>
+      <div class="share" style="max-width:620px;margin:20px auto 0">
+        <button class="btn teal full" id="shAll">📤 Compartir mi número (todas las redes)</button>
+        <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
+        <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
+      </div>
+    </section>
+
+    <section>
+      <div class="sec-h"><h2>El planeta <span>en este momento</span></h2><p>Estimación en vivo a partir de las últimas cifras oficiales.</p></div>
+      <div class="vivos">
+        <div><b id="pobv">—</b><span>personas en el mundo ahora mismo</span></div>
+        <div><b id="nacv">0</b><span>bebés han nacido en el mundo desde que usted abrió esta página</span></div>
+      </div>
+      <div class="frase" style="margin-top:26px">Se calcula que en toda la historia han nacido unos <b>117.000 millones</b> de seres humanos. Los que estamos vivos hoy somos apenas <b id="pct7">cerca del 7 %</b>.</div>
+    </section>
+
+    <section>
+      <div class="sec-h"><h2>Cómo creció <span>la humanidad</span></h2><p>Habitantes del mundo desde 1960. El punto marca el año en que usted nació.</p></div>
+      <div class="panel chart" id="ch1"></div>
+    </section>
+
+
+<section>
+      <div class="sky">
+        <svg viewBox="0 0 200 200" aria-hidden="true"><rect x="4" y="4" width="192" height="192" rx="46" fill="#1E3A4C"/><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+        <div>
+          <h2>Datos para decidir mejor</h2>
+          <p>Una obra de <b>SkyNet Genesis</b>, casa de software inteligente para alcaldías, concejos, colegios, clínicas y empresas de Colombia.</p>
+          <div class="cta-row">
+            <a class="btn teal" href="https://skynetgenesis.com" target="_blank" rel="noopener">Conozca nuestras aplicaciones →</a>
+            <a class="btn wa" href="https://wa.me/573044375758?text=Hola%2C%20vi%20el%20Observatorio%20Su%20lugar%20entre%208.000%20millones%20y%20quiero%20conocer%20las%20aplicaciones%20de%20SkyNet%20Genesis" target="_blank" rel="noopener">WhatsApp 304 437 5758</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="fuentes" style="padding-top:12px">
+      <div class="sec-h" style="text-align:left;margin-bottom:12px"><h2 style="font-size:30px">Método y fuentes</h2></div>
+      <ul class="sources">
+        <li><b>Su número de habitante:</b> la población del mundo el día de su nacimiento, interpolada entre los datos anuales del Banco Mundial (SP.POP.TOTL, a mitad de cada año, actualizado el 11 de noviembre de 2026; 2025: 8.215 millones). Es una aproximación: nadie lleva la cuenta exacta de cada nacimiento del planeta.</li>
+        <li><b>Nacidos desde entonces:</b> tasa bruta de natalidad del mundo del Banco Mundial (SP.DYN.CBRT.IN, nacimientos por cada 1.000 habitantes; 2024: 16,3) multiplicada por la población de cada año. Para 2025 y 2026 se usa la tasa de 2024, la última publicada.</li>
+        <li><b>Contadores en vivo:</b> la población crece al ritmo de 2024-2025 (unos 74 millones de personas más al año) y los nacimientos al ritmo de unos 134 millones al año (16,3 por 1.000). Son estimaciones, no un registro en tiempo real.</li>
+        <li><b>Toda la historia:</b> Population Reference Bureau (Kaneda y Haub, 2022): unos 117.000 millones de nacimientos desde hace 190.000 años; los vivos en 2022 eran el 6,8 %.</li>
+        <li><b>Vueltas al Sol:</b> un año dura 365,24 días y en cada vuelta la Tierra recorre unos 940 millones de kilómetros (NASA).</li>
+        <li>Si nació antes de 1960, el cálculo empieza en 1960, el primer año de la serie del Banco Mundial.</li>
+      </ul>
+      <p class="disc">Herramienta informativa. Su fecha de nacimiento no sale de su teléfono ni se guarda en ninguna parte.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Parte del <a href="https://observatorio.skynetgenesis.com/"><b>Observatorio SkyNet Genesis</b></a> · Creado por <a href="https://skynetgenesis.com" target="_blank" rel="noopener"><b>SkyNet Genesis</b></a><br>
+    contacto@skynetgenesis.com · WhatsApp 304 437 5758 · Uso libre citando la fuente.
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="shm" id="shm" aria-hidden="true">
+<div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir mi número</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var URL_PUBLICA="https://observatorio.skynetgenesis.com/lugar/";
+var POB={1960:3022,1961:3063,1962:3117,1963:3184,1964:3251,1965:3319,1966:3389,1967:3459,1968:3531,1969:3605,1970:3680,1971:3759,1972:3834,1973:3911,1974:3987,1975:4062,1976:4136,1977:4209,1978:4283,1979:4360,1980:4437,1981:4517,1982:4599,1983:4683,1984:4766,1985:4850,1986:4937,1987:5027,1988:5117,1989:5207,1990:5299,1991:5388,1992:5477,1993:5564,1994:5651,1995:5736,1996:5822,1997:5908,1998:5994,1999:6078,2000:6162,2001:6245,2002:6327,2003:6409,2004:6492,2005:6575,2006:6660,2007:6744,2008:6830,2009:6916,2010:7001,2011:7087,2012:7176,2013:7265,2014:7354,2015:7441,2016:7528,2017:7614,2018:7696,2019:7777,2020:7854,2021:7920,2022:7989,2023:8063,2024:8141,2025:8215};
+var CBR={1960:32.00,1961:31.23,1962:35.16,1963:36.35,1964:35.19,1965:34.52,1966:33.48,1967:33.19,1968:33.32,1969:32.82,1970:32.57,1971:31.84,1972:31.38,1973:30.74,1974:29.89,1975:29.23,1976:28.43,1977:28.04,1978:27.78,1979:27.71,1980:27.78,1981:28.25,1982:28.47,1983:27.89,1984:27.64,1985:27.64,1986:27.72,1987:27.61,1988:27.15,1989:26.67,1990:26.26,1991:25.64,1992:24.96,1993:24.56,1994:24.19,1995:23.79,1996:23.47,1997:23.13,1998:22.71,1999:22.30,2000:22.08,2001:21.75,2002:21.42,2003:21.14,2004:20.96,2005:20.79,2006:20.64,2007:20.57,2008:20.52,2009:20.36,2010:20.19,2011:20.30,2012:20.41,2013:19.87,2014:19.77,2015:19.25,2016:19.29,2017:18.76,2018:18.19,2019:17.80,2020:17.15,2021:16.84,2022:16.56,2023:16.33,2024:16.27};
+var CREC=74e6, YR=365.2422*86400000;
+function anioDec(t){ var d=new Date(t); var y=d.getUTCFullYear(); return y+(t-Date.UTC(y,0,1))/(Date.UTC(y+1,0,1)-Date.UTC(y,0,1)); }
+function popAt(t){ var x=anioDec(t)-0.5, y=Math.floor(x), f=x-y;
+  if(y<1960) return (POB[1960]-(POB[1961]-POB[1960])*(1960-x))*1e6;
+  if(y>=2025) return POB[2025]*1e6+CREC*(x-2025);
+  return (POB[y]+(POB[y+1]-POB[y])*f)*1e6; }
+function cbr(y){ return CBR[y]!=null?CBR[y]:(y<1960?CBR[1960]:CBR[2024]); }
+function nacidosEntre(t0,t1){ var s=0, a=anioDec(t0), b=anioDec(t1);
+  for(var y=Math.floor(a); y<=Math.floor(b); y++){ var ini=Math.max(a,y), fin=Math.min(b,y+1); if(fin>ini) s+=cbr(y)/1000*popAt(Date.UTC(y,6,1))*(fin-ini); }
+  return s; }
+var fecha=Date.UTC(1985,5,15), T0=Date.now();
+function n(v,d){ return v.toLocaleString("es-CO",{maximumFractionDigits:d||0}); }
+function res(){ var now=Date.now(), hab=popAt(fecha), nac=nacidosEntre(fecha,now), dias=Math.floor((now-fecha)/86400000); return {hab:hab,nac:nac,dias:dias,vueltas:(now-fecha)/YR}; }
+function mensaje(){ var r=res(); return "🌍 SOY EL HABITANTE NÚMERO "+n(r.hab,0)+" DEL PLANETA\nDesde que nací han nacido "+n(r.nac/1e9,2)+" mil millones de personas, he vivido "+n(r.dias,0)+" días y he dado "+n(r.vueltas,1)+" vueltas al Sol. ¿Y usted qué número es? Datos del Banco Mundial y la ONU.\nDescúbralo aquí: "+URL_PUBLICA; }
+var shTxt="";
+function openShare(txt){
+  shTxt=txt;
+  if(navigator.share){
+    navigator.share({title:"Su lugar entre 8.000 millones",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); });
+  } else showModal(txt);
+}
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Su lugar entre 8.000 millones")+"&body="+t;
+  document.getElementById("shm").classList.add("on");
+}
+function enlaces(){
+  var m=mensaje();
+  document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
+  document.getElementById("shFb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(URL_PUBLICA);
+  document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m);
+}
+function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
+document.getElementById("mCopy").addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(shTxt).then(function(){toast("✅ Mensaje copiado. Péguelo donde quiera.");},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+document.getElementById("shCopy").addEventListener("click",function(){
+  var txt=mensaje();
+  try{ navigator.clipboard.writeText(txt).then(function(){toast("✅ Mensaje copiado. Péguelo en sus grupos y redes.");},function(){toast("Enlace: "+URL_PUBLICA);}); }
+  catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+enlaces();
+
+var inp=document.getElementById("fn");
+inp.max=new Date().toISOString().slice(0,10);
+function fmtF(t){ var m=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"], d=new Date(t); return d.getUTCDate()+" de "+m[d.getUTCMonth()]+" de "+d.getUTCFullYear(); }
+function pintar(){
+  var r=res(), now=Date.now();
+  document.getElementById("hab").textContent="# "+n(r.hab,0);
+  document.getElementById("habt").textContent=n(r.hab/1e9,2)+" mil millones";
+  var hito=Math.ceil((r.dias+1)/1000)*1000, fh=fecha+hito*86400000;
+  var popHoy=popAt(now);
+  document.getElementById("kp").innerHTML=
+   '<div class="kq"><div class="t">Nacidos desde ese día</div><div class="v">'+n(r.nac/1e9,2)+'</div><div class="l">mil millones de bebés en el mundo</div><div class="s">Estimación con la natalidad del Banco Mundial</div></div>'+
+   '<div class="kq"><div class="t">Personas más que entonces</div><div class="v h">+'+n((popHoy-r.hab)/1e9,2)+'</div><div class="l">mil millones de habitantes</div><div class="s">'+n(r.hab/1e9,2)+' → '+n(popHoy/1e9,2)+' mil millones</div></div>'+
+   '<div class="kq"><div class="t">Días vividos</div><div class="v">'+n(r.dias,0)+'</div><div class="l">Cumple '+n(hito,0)+' días el</div><div class="s"><b style="color:#ffd27a">'+fmtF(fh)+'</b></div></div>'+
+   '<div class="kq"><div class="t">Vueltas al Sol</div><div class="v">'+n(r.vueltas,1)+'</div><div class="l">'+n(r.vueltas*940,0)+' millones de km</div><div class="s">recorridos con la Tierra</div></div>';
+  grafica(); enlaces();
+}
+function grafica(){
+  var W=1000,H=320,ml=56,mr=20,mt=20,mb=36,y0=1960,y1=2025,min=2000,max=9000;
+  function X(y){ return ml+(y-y0)/(y1-y0)*(W-ml-mr); } function Yv(v){ return H-mb-(v-min)/(max-min)*(H-mt-mb); }
+  var s='<svg viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Población mundial desde 1960">';
+  for(var v=2000;v<=9000;v+=1000) s+='<line x1="'+ml+'" x2="'+(W-mr)+'" y1="'+Yv(v)+'" y2="'+Yv(v)+'" stroke="#1d3550"/><text x="'+(ml-8)+'" y="'+(Yv(v)+4)+'" text-anchor="end" fill="#6f8296" font-size="12" font-family="Public Sans">'+n(v/1000,0)+' mil mill.</text>';
+  [1960,1970,1980,1990,2000,2010,2020].forEach(function(y){ s+='<text x="'+X(y)+'" y="'+(H-12)+'" text-anchor="middle" fill="#a3b3c4" font-size="13" font-family="Public Sans">'+y+'</text>'; });
+  var pts=[]; for(var y=y0;y<=y1;y++) pts.push(X(y).toFixed(1)+","+Yv(POB[y]).toFixed(1));
+  s+='<path d="M'+pts.join(" L")+' L'+X(y1)+','+Yv(min)+' L'+X(y0)+','+Yv(min)+'Z" fill="rgba(95,168,211,.18)"/><path d="M'+pts.join(" L")+'" fill="none" stroke="#5fa8d3" stroke-width="3"/>';
+  var ad=Math.min(y1,Math.max(y0,anioDec(fecha))), pv=popAt(fecha)/1e6, cx=X(ad), cy=Yv(pv);
+  s+='<circle cx="'+cx+'" cy="'+cy+'" r="8" fill="#ffd27a" stroke="#fff" stroke-width="3"/><text x="'+(cx+(cx>W-260?-12:12))+'" y="'+(cy-14)+'" text-anchor="'+(cx>W-260?"end":"start")+'" paint-order="stroke" stroke="#0b1928" stroke-width="5" fill="#fff" font-size="15" font-weight="700" font-family="Public Sans">Usted: '+n(pv/1000,2)+' mil millones</text>';
+  document.getElementById("ch1").innerHTML=s+'</svg>';
+}
+function leer(){ var v=inp.value; if(!/^\d{4}-\d{2}-\d{2}$/.test(v)) return; var p=v.split("-"); var t=Date.UTC(+p[0],+p[1]-1,+p[2]); if(t>Date.now()||isNaN(t)) return; fecha=t; pintar(); }
+inp.addEventListener("change",leer); inp.addEventListener("input",leer);
+var pv=document.getElementById("pobv"), nv=document.getElementById("nacv"), NACSEG=cbr(2024)/1000*popAt(Date.now())/(YR/1000);
+function tic(){ var now=Date.now(); pv.textContent=n(popAt(now),0); nv.textContent=n((now-T0)/1000*NACSEG,0); }
+setInterval(tic,250); tic();
+document.getElementById("pct7").textContent="cerca del "+n(popAt(Date.now())/(117.02e9+nacidosEntre(Date.UTC(2022,6,1),Date.now()))*100,1)+" %";
+pintar();
+})();
+</script>
+</body>
+</html>
