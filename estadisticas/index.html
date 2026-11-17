@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="robots" content="noindex,nofollow">
+<title>Estadísticas · Observatorio SkyNet Genesis</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@700;800&family=Public+Sans:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+body{margin:0;background:#06101b;color:#e8eef4;font-family:'Public Sans',sans-serif}
+.w{max-width:860px;margin:0 auto;padding:28px 18px 60px}
+h1{font:800 clamp(32px,6vw,48px)/1 'Barlow Condensed',sans-serif;text-transform:uppercase;margin:0 0 6px}
+h1 span{color:#E0A21A}
+.sub{color:#a3b3c4;margin:0 0 22px;font-size:15px}
+.tot{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-bottom:22px}
+.tot div{background:#0b1b2c;border:1px solid #1d3550;border-radius:16px;padding:18px;text-align:center}
+.tot b{display:block;font:800 clamp(38px,8vw,60px)/1 'Barlow Condensed',sans-serif;color:#ffd27a}
+.tot span{color:#d5e2ea;font-size:14px}
+table{width:100%;border-collapse:collapse;background:#0b1b2c;border-radius:14px;overflow:hidden}
+th,td{padding:12px 14px;text-align:left;border-bottom:1px solid #1d3550;font-size:15px}
+th{background:#0f2338;color:#a3b3c4;font-weight:700;font-size:13px;text-transform:uppercase;letter-spacing:.06em}
+td.n{text-align:right;font:800 22px 'Barlow Condensed',sans-serif;color:#fff}
+td a{color:#5fe0c8;text-decoration:none}
+.bar{height:6px;border-radius:9px;background:#14A38B;margin-top:6px}
+button{margin-top:18px;font:700 16px 'Public Sans',sans-serif;background:#14A38B;color:#fff;border:0;border-radius:10px;padding:12px 18px;cursor:pointer}
+.note{color:#7f93a6;font-size:13px;margin-top:16px;line-height:1.5}
+</style>
+</head>
+<body>
+<div class="w">
+  <h1>Estadísticas del <span>Observatorio</span></h1>
+  <p class="sub">Cuántas personas han entrado a cada herramienta. Página privada: no aparece en buscadores ni en los menús. <span id="hora"></span></p>
+  <div class="tot"><div><b id="tp">—</b><span>personas en total (suma de las herramientas)</span></div><div><b id="tv">—</b><span>visitas en total</span></div></div>
+  <table><thead><tr><th>Herramienta</th><th style="text-align:right">Personas</th><th style="text-align:right">Visitas</th></tr></thead><tbody id="tb"></tbody></table>
+  <button id="act">🔄 Actualizar</button>
+  <p class="note"><b>Personas:</b> cada teléfono o computador se cuenta una sola vez por herramienta (si alguien borra los datos del navegador o usa otro aparato, cuenta de nuevo). <b>Visitas:</b> cada vez que se abre la página. El conteo empezó el 17 de noviembre de 2026; las visitas anteriores no quedaron registradas. Servicio de conteo gratuito (Abacus); no guarda datos personales.</p>
+</div>
+<script>
+var A="https://abacus.jasoncameron.dev/get/skynetgenesis-obs/";
+var T=[["portada","Portada del Observatorio",""],["vision2027","🔮 SkyNet Génesis Visión 2027","vision2027/"],["reloj","Reloj del Fin del Mundo","reloj/"],["vida","Reloj de Vida Saludable","vida/"],["mapa","Mapa de Riesgos de Colombia","mapa/"],["gobiernos","Colombia, gobierno a gobierno","gobiernos/"],["deuda","Reloj de la Deuda","deuda/"],["sueldo","¿Cuánto vale su sueldo?","sueldo/"],["cocaina","La ola de cocaína","cocaina/"],["planeta","El planeta desde que usted nació","planeta/"],["armas","Armas o pan","armas/"],["lugar","Su lugar entre 8.000 millones","lugar/"],["riqueza","¿Qué tan rico es usted en el mundo?","riqueza/"],["sismos","La Tierra se mueve: sismos en vivo","sismos/"]];
+function num(k){return fetch(A+k).then(function(r){return r.ok?r.json():{value:0}}).then(function(d){return d.value>0?d.value:0}).catch(function(){return 0})}
+function f(n){return n.toLocaleString("es-CO")}
+function cargar(){
+  Promise.all(T.map(function(t){return Promise.all([num(t[0]+"-personas"),num(t[0]+"-visitas")])})).then(function(R){
+    var rows=T.map(function(t,i){return {t:t,p:R[i][0],v:R[i][1]}}).sort(function(a,b){return b.p-a.p});
+    var max=Math.max.apply(null,rows.map(function(r){return r.p}).concat([1])),tp=0,tv=0;
+    document.getElementById("tb").innerHTML=rows.map(function(r){tp+=r.p;tv+=r.v;return '<tr><td><a href="../'+r.t[2]+'" target="_blank">'+r.t[1]+'</a><div class="bar" style="width:'+Math.round(r.p/max*100)+'%"></div></td><td class="n">'+f(r.p)+'</td><td class="n" style="color:#a3b3c4">'+f(r.v)+'</td></tr>'}).join("");
+    document.getElementById("tp").textContent=f(tp);document.getElementById("tv").textContent=f(tv);
+    document.getElementById("hora").textContent="Actualizado: "+new Date().toLocaleString("es-CO");
+  });
+}
+document.getElementById("act").onclick=cargar;cargar();
+</script>
+</body>
+</html>
