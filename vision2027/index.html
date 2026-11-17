@@ -386,6 +386,6 @@ document.getElementById("tabla").addEventListener("click",function(e){ var f=e.t
 portada(); resumen(); tabla();
 })();
 </script>
-<script>(function(){var A="https://abacus.jasoncameron.dev/",N="skynetgenesis-obs",K="vision2027",n=false;try{n=!localStorage.getItem("obs_"+K);localStorage.setItem("obs_"+K,"1")}catch(e){}try{fetch(A+"hit/"+N+"/"+K+"-visitas").catch(function(){});if(n)fetch(A+"hit/"+N+"/"+K+"-personas").catch(function(){})}catch(e){}})();</script>
+<script>(function(){try{if(!navigator.sendBeacon)return;navigator.sendBeacon("https://skynetgenesis.com/obs-contador.php",new Blob([JSON.stringify({k:"vision2027"})],{type:"text/plain"}))}catch(e){}})();</script>
 </body>
 </html>
