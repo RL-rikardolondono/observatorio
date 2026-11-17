@@ -138,6 +138,14 @@ footer a{color:var(--soft)}
 .ipanel .tblrow{display:grid;grid-template-columns:repeat(3,1fr);gap:0 22px;margin-top:12px;border-top:1px solid var(--line)}
 .ipanel .shk{margin-top:12px}
 .share.global{max-width:560px;margin:10px auto 0}
+.kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
+.kpi{background:linear-gradient(180deg,rgba(229,72,77,.16),rgba(229,72,77,.05));border:1px solid rgba(229,72,77,.45);border-radius:14px;padding:14px}
+.kpi .kl{font:700 12px "Public Sans";letter-spacing:.06em;text-transform:uppercase;color:#ffb3b5}
+.kpi .kv{font:800 30px "Barlow Condensed";color:#fff;line-height:1.05;margin:4px 0}
+.kpi .kd{font-size:12.5px;color:#e8c9ca}
+.kpi .ks{font-size:11px;color:#a98f90;margin-top:6px}
+@media (max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
+@media (max-width:480px){.kpis{grid-template-columns:1fr}}
 .bal{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
 .bcard{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:18px}
 .bcard h3{font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.05}
@@ -199,6 +207,16 @@ footer a{color:var(--soft)}
   </div>
 
   <div class="wrap">
+    <section id="balance">
+      <div class="sec-h"><h2>Balance del gobierno Petro <span>(2022-2026)</span></h2><p>Es el último gobierno terminado. Estas son las cifras en las que el país retrocedió, con su fuente. Más abajo están las gráficas de todos los gobiernos desde 1998.</p></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="bal" id="bal"></div>
+      <div class="panel balnota">
+        <p><b>Además:</b> la deuda bruta del Gobierno Nacional cerró 2025 en <b>64,7 % del PIB</b>, la más alta desde 2001; en 2025 el déficit primario fue de <b>3,5 % del PIB</b>, el más alto en tres décadas fuera de crisis, y la regla fiscal quedó suspendida de 2025 a 2027 con concepto desfavorable del Comité Autónomo de la Regla Fiscal. La producción de gas cayó y en 2025 el país tuvo el mayor déficit comercial de su historia.</p>
+        <p class="cf">Donde no empeoró: los homicidios quedaron en un nivel parecido al de Duque (25 por cada 100.000 habitantes), y el desempleo bajó a 8 %, pero sostenido con contratación del Estado pagada con deuda. Fuentes en cada gráfica y en «Método y fuentes».</p>
+      </div>
+    </section>
+
     <section style="padding-top:14px">
       <div class="sec-h"><h2>Tema por tema, <span>de 1998 a 2025</span></h2><p>Cada gráfica muestra todos los años con el color del gobierno de turno. Debajo está el promedio de cada presidente, cuánto recibió y cuánto entregó.</p></div>
       <nav class="indice" id="indice"></nav>
@@ -212,14 +230,6 @@ footer a{color:var(--soft)}
       </div>
     </section>
 
-    <section id="balance">
-      <div class="sec-h"><h2>Balance del gobierno Petro <span>(2022-2026)</span></h2><p>Es el último gobierno terminado. Estas son las cifras en las que el país retrocedió, comparadas con el gobierno anterior.</p></div>
-      <div class="bal" id="bal"></div>
-      <div class="panel balnota">
-        <p><b>Además:</b> la deuda bruta del Gobierno Nacional cerró 2025 en <b>64,7 % del PIB</b>, la más alta desde 2001; en 2025 el déficit primario fue de <b>3,5 % del PIB</b>, el más alto en tres décadas fuera de crisis, y la regla fiscal quedó suspendida de 2025 a 2027 con concepto desfavorable del Comité Autónomo de la Regla Fiscal. La producción de gas cayó y en 2025 el país tuvo el mayor déficit comercial de su historia.</p>
-        <p class="cf">Donde no empeoró: los homicidios quedaron en un nivel parecido al de Duque (25 por cada 100.000 habitantes), y el desempleo bajó a 8 %, pero sostenido con contratación del Estado pagada con deuda. Fuentes en cada gráfica y en «Método y fuentes».</p>
-      </div>
-    </section>
 
     <section>
       <div class="sec-h"><h2>Lo que se dijo <span>y lo que muestran los datos</span></h2><p>Afirmaciones frecuentes, comparadas con leyes, decretos, registros y reportes independientes.</p></div>
@@ -524,7 +534,10 @@ var BAL=[
  {t:"Cultivos de coca", big:"261.000 ha", d:[[2018,169],[2019,154],[2020,143],[2021,204],[2022,230],[2023,253],[2024,261]], f:0, u:" mil ha", txt:"Récord histórico en 2024 (miles de hectáreas). La producción potencial de cocaína subió 53 % en 2023.", src:"UNODC-SIMCI"},
  {t:"Percepción de corrupción", big:"40 → 37", d:[[2018,36],[2019,37],[2020,39],[2021,39],[2022,39],[2023,40],[2024,39],[2025,37]], f:0, txt:"Puntaje de 0 a 100 (más bajo = más corrupción percibida). Cayó a 37 en 2025 y Colombia perdió siete puestos.", src:"Transparencia Internacional"},
  {t:"Producción de gas", big:"−18 %", d:[[2023,1546],[2024,1432],[2025,1265]], f:0, u:" MPCD", txt:"Millones de pies cúbicos diarios (producción fiscalizada): de 1.546 en 2023 a 1.265 en 2025. En 2024 las importaciones de gas subieron 166 %.", src:"Agencia Nacional de Hidrocarburos vía Campetrol, Acipet y La República"},
- {t:"Tarifa de energía", big:"+27 %", d:[[2020,588],[2021,626],[2022,734],[2023,842],[2024,934]], f:0, pre:"$", txt:"Pesos por kilovatio hora, promedio nacional: de $734 en 2022 a $934 en 2024. El alza venía desde 2021.", src:"Bancolombia vía Portafolio"},
+ {t:"La luz, más cara", big:"+27 %", d:[[2020,588],[2021,626],[2022,734],[2023,842],[2024,934]], f:0, pre:"$", txt:"Lo que paga un hogar por kilovatio hora, promedio nacional: de $734 en 2022 a $934 en 2024. Con menos gas propio hubo que importar más, y el gas importado es más caro. El alza venía desde 2021.", src:"Bancolombia vía Portafolio; ANH y La República"},
+ {t:"Quejas contra el sistema de salud", big:"+79 %", d:[[2022,1.15],[2023,1.31],[2024,1.61],[2025,2.06]], f:2, u:" millones", txt:"Millones de quejas y reclamos ante la Superintendencia de Salud: de 1,15 millones en 2022 a 2,06 millones en 2025. La deuda de las EPS con hospitales y clínicas pasó de $16,8 billones (2023) a $25,7 billones (2025).", src:"Superintendencia de Salud y Contraloría vía El Tiempo y Consultorsalud"},
+ {t:"Inflación", big:"11,7 %", d:[[2018,3.2],[2019,3.5],[2020,2.5],[2021,3.5],[2022,10.2],[2023,11.7],[2024,6.6],[2025,5.1]], f:1, u:" %", txt:"Inflación promedio anual. En 2023 llegó a 11,7 %, la más alta desde 1998. Parte del alza fue mundial (2022), pero en Colombia bajó más lento.", src:"FMI, octubre de 2026"},
+ {t:"Uniformados asesinados", big:"+106 %", d:[[2023,84],[2024,101],[2025,173]], f:0, txt:"Policías y militares muertos: de 84 en 2023 a 173 en 2025. Los heridos pasaron de 385 a 765.", src:"Informe de empalme del Ministerio de Defensa vía El Colombiano"},
  {t:"Producción de petróleo", big:"−4 %", d:[[2019,888],[2020,794],[2022,748],[2023,777],[2024,773],[2025,746]], f:0, u:" mil", txt:"Miles de barriles diarios: bajó de 777.000 en 2023 a 746.000 en 2025, lejos de los 888.000 de 2019.", src:"Agencia Nacional de Hidrocarburos vía Campetrol y Portafolio"},
  {t:"Exportaciones de carbón", big:"−60 %", d:[[2022,12289],[2025,4901]], f:0, pre:"US$", u:" mill.", txt:"Millones de dólares: de US$12.289 millones en 2022 a US$4.901 millones en 2025. En 2025 el déficit comercial fue el mayor de la historia (US$16.377 millones).", src:"DANE vía Forbes y Bloomberg Línea"}
 ];
@@ -539,6 +552,26 @@ function mini(b){
     s+='<text x="'+(x+w/2)+'" y="'+(H-9)+'" text-anchor="middle">'+p[0]+'</text>'; });
   return s+'</svg>';
 }
+var KPI=[
+ ["Secuestros","701","223 en 2022 → 701 en 2025 (+214 %)","Ministerio de Defensa"],
+ ["Extorsión","13.802","Récord en 2024 (9.791 en 2022)","Ministerio de Defensa"],
+ ["Terrorismo","+87 %","742 casos en 2022 → 1.389 en 2025","Ministerio de Defensa y JEP"],
+ ["Niños reclutados","+156 %","151 en 2022 → 386 en 2025","Ministerio de Defensa y JEP"],
+ ["Grupos armados","+90 %","15.120 integrantes (dic. 2022) → 28.802 (jul. 2026); Clan del Golfo +152 %","Fundación Ideas para la Paz, con datos del Ministerio de Defensa"],
+ ["Uniformados asesinados","173","84 en 2023 → 173 en 2025","Ministerio de Defensa (empalme)"],
+ ["Coca","261.000 ha","Récord histórico en 2024 (230.000 en 2022)","UNODC"],
+ ["Deuda del Gobierno","64,7 %","Del PIB en 2025, la más alta desde 2001","Ministerio de Hacienda"],
+ ["Calificación del país","BB−","La peor de la historia (S&P, abr. 2026); Moody's y Fitch también la bajaron","S&P, Moody's, Fitch"],
+ ["Inversión ejecutada","57 %","En 2024, la peor ejecución en 25 años","Observatorio Fiscal U. Javeriana"],
+ ["Déficit comercial","US$16.377 mill.","2025, el mayor de la historia","DANE"],
+ ["Quejas en salud","2,06 mill.","1,15 millones en 2022 → 2,06 en 2025; deuda de EPS de $25,7 billones","Supersalud y Contraloría"],
+ ["Corrupción","37/100","Índice de Transparencia Internacional, cayó desde 40 (2023)","Transparencia Internacional"],
+ ["Caso UNGRD","2 exministros","Los de Hacienda e Interior, procesados por la Fiscalía; el exdirector Olmedo López, condenado","Fiscalía y jueces de Bogotá vía prensa"],
+ ["La luz","+27 %","$734 por kWh (2022) → $934 (2024)","Bancolombia"],
+ ["Inflación 2023","11,7 %","La más alta desde 1998","FMI"]
+];
+var kh=""; KPI.forEach(function(k){ kh+='<div class="kpi"><div class="kl">'+k[0]+'</div><div class="kv">'+k[1]+'</div><div class="kd">'+k[2]+'</div><div class="ks">Fuente: '+k[3]+'</div></div>'; });
+document.getElementById("kpis").innerHTML=kh;
 var bh="";
 BAL.forEach(function(b){ bh+='<div class="bcard"><h3>'+b.t+'</h3><div class="big">'+b.big+'</div>'+mini(b)+'<p>'+b.txt+'</p><div class="src">Fuente: '+b.src+'</div></div>'; });
 document.getElementById("bal").innerHTML=bh+'<p style="grid-column:1/-1;font-size:12.5px;color:var(--dim)">Colores: <span style="color:#9b6bd6">Santos</span> · <span style="color:#E0A21A">Duque</span> · <span style="color:#d9645a">Petro</span>. Cada año se asigna al gobierno que lo gobernó la mayor parte.</p>';
