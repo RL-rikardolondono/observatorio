@@ -360,6 +360,6 @@ sel.addEventListener("change",leer);
 esc(); pintar();
 })();
 </script>
-<script>(function(){var A="https://abacus.jasoncameron.dev/",N="skynetgenesis-obs",K="riqueza",n=false;try{n=!localStorage.getItem("obs_"+K);localStorage.setItem("obs_"+K,"1")}catch(e){}try{fetch(A+"hit/"+N+"/"+K+"-visitas").catch(function(){});if(n)fetch(A+"hit/"+N+"/"+K+"-personas").catch(function(){})}catch(e){}})();</script>
+<script>(function(){try{if(!navigator.sendBeacon)return;navigator.sendBeacon("https://skynetgenesis.com/obs-contador.php",new Blob([JSON.stringify({k:"riqueza"})],{type:"text/plain"}))}catch(e){}})();</script>
 </body>
 </html>
