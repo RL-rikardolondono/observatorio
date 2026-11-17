@@ -364,5 +364,6 @@ barras("ch2",D2,{max:70,aria:"Deuda pública de Colombia como porcentaje del PIB
 document.getElementById("leg2").innerHTML=GOB.map(function(g){return '<span><i style="background:'+g[3]+'"></i>'+g[0]+' ('+(g[1]===g[2]?g[1]:g[1]+"-"+g[2])+')</span>';}).join("");
 })();
 </script>
+<script>(function(){var A="https://abacus.jasoncameron.dev/",N="skynetgenesis-obs",K="deuda",n=false;try{n=!localStorage.getItem("obs_"+K);localStorage.setItem("obs_"+K,"1")}catch(e){}try{fetch(A+"hit/"+N+"/"+K+"-visitas").catch(function(){});if(n)fetch(A+"hit/"+N+"/"+K+"-personas").catch(function(){})}catch(e){}})();</script>
 </body>
 </html>
