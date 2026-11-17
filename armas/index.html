@@ -379,5 +379,6 @@ var filas=PAISES.concat([["Resto del mundo",resto]]);
 document.getElementById("hb").innerHTML=filas.map(function(p,i){ return '<div class="hb"><span>'+(i<10?(i+1)+". ":"")+p[0]+'</span><div class="bar" style="width:'+(p[1]/954*100)+'%;'+(i===10?'background:#3b4d61':'')+'"></div><b>'+n(p[1],p[1]%1?1:0)+'</b></div>'; }).join("");
 })();
 </script>
+<script>(function(){var A="https://abacus.jasoncameron.dev/",N="skynetgenesis-obs",K="armas",n=false;try{n=!localStorage.getItem("obs_"+K);localStorage.setItem("obs_"+K,"1")}catch(e){}try{fetch(A+"hit/"+N+"/"+K+"-visitas").catch(function(){});if(n)fetch(A+"hit/"+N+"/"+K+"-personas").catch(function(){})}catch(e){}})();</script>
 </body>
 </html>
