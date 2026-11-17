@@ -349,6 +349,6 @@ barras("hb1",[["Colombia",261000,"#E0A21A","261.000"],["Perú",89800,null,"89.80
 barras("hb2",[["Norteamérica",6.5,null,"6,5 M"],["Europa occ. y central",5.5,null,"5,5 M"],["Resto del mundo",13,"#5d6b78","13 M"]],13,"#9b6bd6");
 })();
 </script>
-<script>(function(){var A="https://abacus.jasoncameron.dev/",N="skynetgenesis-obs",K="cocaina",n=false;try{n=!localStorage.getItem("obs_"+K);localStorage.setItem("obs_"+K,"1")}catch(e){}try{fetch(A+"hit/"+N+"/"+K+"-visitas").catch(function(){});if(n)fetch(A+"hit/"+N+"/"+K+"-personas").catch(function(){})}catch(e){}})();</script>
+<script>(function(){try{if(!navigator.sendBeacon)return;navigator.sendBeacon("https://skynetgenesis.com/obs-contador.php",new Blob([JSON.stringify({k:"cocaina"})],{type:"text/plain"}))}catch(e){}})();</script>
 </body>
 </html>
