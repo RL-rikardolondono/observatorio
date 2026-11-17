@@ -139,17 +139,35 @@ footer a{color:var(--soft)}
 .ipanel .shk{margin-top:12px}
 .share.global{max-width:560px;margin:10px auto 0}
 .kpis{display:grid;grid-template-columns:repeat(4,1fr);gap:12px;margin-bottom:18px}
-.kpi{background:linear-gradient(180deg,rgba(229,72,77,.16),rgba(229,72,77,.05));border:1px solid rgba(229,72,77,.45);border-radius:14px;padding:14px}
-.kpi .kl{font:700 12px "Public Sans";letter-spacing:.06em;text-transform:uppercase;color:#ffb3b5}
+.kpi{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-left:3px solid #d9645a;border-radius:14px;padding:14px}
+.kpi .kl{font:700 12px "Public Sans";letter-spacing:.06em;text-transform:uppercase;color:#c9d5e1}
 .kpi .kv{font:800 30px "Barlow Condensed";color:#fff;line-height:1.05;margin:4px 0}
-.kpi .kd{font-size:12.5px;color:#e8c9ca}
-.kpi .ks{font-size:11px;color:#a98f90;margin-top:6px}
+.kpi .kd{font-size:12.5px;color:#a3b3c4}
+.kpi .ks{font-size:11px;color:#6f8296;margin-top:6px}
 @media (max-width:900px){.kpis{grid-template-columns:repeat(2,1fr)}}
 @media (max-width:480px){.kpis{grid-template-columns:1fr}}
 .bal{display:grid;grid-template-columns:repeat(2,1fr);gap:16px}
+.gtabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:16px}
+.gtabs button{background:#0b1b2c;border:2px solid var(--line);color:#d5e2ea;border-radius:99px;padding:9px 16px;font:700 15px "Public Sans";cursor:pointer}
+.gtabs button.on{color:#fff}
+.gres{text-align:center;margin-bottom:14px}
+.gres h3{font-size:clamp(26px,4vw,36px);font-weight:800;text-transform:uppercase;line-height:1}
+.gres p{color:var(--soft);margin-top:6px}
+.gres .sc{display:inline-flex;gap:10px;margin-top:10px;flex-wrap:wrap;justify-content:center}
+.gres .sc span{border-radius:99px;padding:6px 14px;font:700 14px "Public Sans"}
+.gcards{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}
+.gc{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:14px;padding:13px;display:flex;flex-direction:column;gap:4px}
+.gc .l{font:700 12px "Public Sans";letter-spacing:.05em;text-transform:uppercase;color:#c9d5e1}
+.gc .v{font:700 15px "Public Sans";color:#fff}
+.gc .v small{display:block;font-weight:500;font-size:12px;color:var(--soft)}
+.gc .b{align-self:flex-start;border-radius:99px;padding:3px 10px;font:700 12px "Public Sans";margin-top:auto}
+.gc .w{font-size:11.5px;color:#f0b86a}
+.b.up{background:rgba(20,163,139,.18);color:#5fd4bd}.b.dn{background:rgba(229,72,77,.18);color:#ff8a8d}.b.eq{background:rgba(163,179,196,.15);color:#c9d5e1}.b.na{background:rgba(111,130,150,.15);color:#8fa3b6}
+.gnote{font-size:12.5px;color:var(--dim);margin-top:12px;text-align:center}
+@media (max-width:1000px){.gcards{grid-template-columns:repeat(2,1fr)}}
 .bcard{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:18px}
 .bcard h3{font-size:22px;font-weight:800;text-transform:uppercase;line-height:1.05}
-.bcard .big{font:700 26px "Barlow Condensed";color:#ff8a8d;margin:4px 0 6px}
+.bcard .big{font:700 26px "Barlow Condensed";color:#f0b86a;margin:4px 0 6px}
 .bcard svg{width:100%;height:auto;display:block}
 .bcard text{font-family:"Public Sans";fill:#8fa3b6;font-size:12px}
 .bcard p{color:#c9d5e1;font-size:13.5px;margin-top:6px}
@@ -208,13 +226,11 @@ footer a{color:var(--soft)}
 
   <div class="wrap">
     <section id="balance">
-      <div class="sec-h"><h2>Balance del gobierno Petro <span>(2022-2026)</span></h2><p>Es el último gobierno terminado. Estas son las cifras en las que el país retrocedió, con su fuente. Más abajo están las gráficas de todos los gobiernos desde 1998.</p></div>
-      <div class="kpis" id="kpis"></div>
-      <div class="bal" id="bal"></div>
-      <div class="panel balnota">
-        <p><b>Además:</b> la deuda bruta del Gobierno Nacional cerró 2025 en <b>64,7 % del PIB</b>, la más alta desde 2001; en 2025 el déficit primario fue de <b>3,5 % del PIB</b>, el más alto en tres décadas fuera de crisis, y la regla fiscal quedó suspendida de 2025 a 2027 con concepto desfavorable del Comité Autónomo de la Regla Fiscal. La producción de gas cayó y en 2025 el país tuvo el mayor déficit comercial de su historia.</p>
-        <p class="cf">Donde no empeoró: los homicidios quedaron en un nivel parecido al de Duque (25 por cada 100.000 habitantes), y el desempleo bajó a 8 %, pero sostenido con contratación del Estado pagada con deuda. Fuentes en cada gráfica y en «Método y fuentes».</p>
-      </div>
+      <div class="sec-h"><h2>Balance de <span>cada gobierno</span></h2><p>Los mismos 10 indicadores, con las mismas fuentes y la misma regla para todos: lo que cada presidente recibió y lo que entregó. Elija un gobierno.</p></div>
+      <div class="gtabs" id="gtabs"></div>
+      <div class="gres" id="gres"></div>
+      <div class="gcards" id="gcards"></div>
+      <p class="gnote">«Recibió» es el último año del gobierno anterior; «entregó» es el último año con dato de su periodo. En crecimiento de la economía se compara el promedio del periodo con el promedio de Colombia desde 1998. Los cambios menores al 3 % se marcan como «igual». Detalle y fuentes en cada gráfica más abajo.</p>
     </section>
 
     <section style="padding-top:14px">
@@ -230,6 +246,16 @@ footer a{color:var(--soft)}
       </div>
     </section>
 
+
+    <section id="detalle">
+      <div class="sec-h"><h2>El último gobierno terminado, <span>en detalle (2022-2026)</span></h2><p>Al terminar cada gobierno, el Observatorio agrega aquí los datos de su periodo que no tienen una serie comparable desde 1998. Cuando termine el gobierno actual, tendrá la misma sección con los mismos criterios.</p></div>
+      <div class="kpis" id="kpis"></div>
+      <div class="bal" id="bal"></div>
+      <div class="panel balnota">
+        <p><b>Además:</b> la deuda bruta del Gobierno Nacional cerró 2025 en <b>64,7 % del PIB</b>, la más alta desde 2001; en 2025 el déficit primario fue de <b>3,5 % del PIB</b>, el más alto en tres décadas fuera de crisis, y la regla fiscal quedó suspendida de 2025 a 2027 con concepto desfavorable del Comité Autónomo de la Regla Fiscal. La producción de gas cayó y en 2025 el país tuvo el mayor déficit comercial de su historia.</p>
+        <p class="cf">Donde no empeoró: los homicidios quedaron en un nivel parecido al de Duque (25 por cada 100.000 habitantes), y el desempleo bajó a 8 %, pero sostenido con contratación del Estado pagada con deuda. Fuentes en cada gráfica y en «Método y fuentes».</p>
+      </div>
+    </section>
 
     <section>
       <div class="sec-h"><h2>Lo que se dijo <span>y lo que muestran los datos</span></h2><p>Afirmaciones frecuentes, comparadas con leyes, decretos, registros y reportes independientes.</p></div>
@@ -524,7 +550,7 @@ ORDEN2.forEach(function(k){
   d.querySelector(".shk").addEventListener("click",function(){ actual=k; openShare(mensaje()); });
   ih+='<a href="#p-'+k+'">'+IND[k].t+'</a>';
 });
-idx.innerHTML=ih+'<a href="#balance">Balance Petro</a>';
+idx.innerHTML=ih+'<a href="#balance">Balance de cada gobierno</a><a href="#detalle">Último gobierno en detalle</a>';
 enlaces();
 
 /* balance del gobierno Petro */
@@ -572,6 +598,42 @@ var KPI=[
 ];
 var kh=""; KPI.forEach(function(k){ kh+='<div class="kpi"><div class="kl">'+k[0]+'</div><div class="kv">'+k[1]+'</div><div class="kd">'+k[2]+'</div><div class="ks">Fuente: '+k[3]+'</div></div>'; });
 document.getElementById("kpis").innerHTML=kh;
+/* balance de cada gobierno: misma regla para todos */
+var BN={
+ pib:{pas:"La crisis económica de 1999 (−4,2 %) pesa en el promedio.",duq:"Incluye la caída de 2020 por la pandemia y el rebote de 2021-2022."},
+ desem:{pas:"La crisis de 1999 disparó el desempleo.",duq:"La pandemia de 2020 subió el desempleo.",pet:"⚠ Bajó en buena parte con contratación del propio Estado, pagada con deuda."},
+ deuda:{san:"Subió sobre todo tras la caída de los precios del petróleo (2014-2016).",duq:"Subió sobre todo por el gasto de la pandemia (2020).",pet:"Con la medida del Ministerio de Hacienda (Gobierno Nacional Central), la deuda subió a 64,7 % del PIB en 2025, la más alta desde 2001."},
+ def:{duq:"Regla fiscal suspendida en 2020-2021 por la pandemia.",pet:"Regla fiscal suspendida para 2025-2027, con concepto desfavorable del Comité Autónomo de la Regla Fiscal."},
+ desn:{pet:"⚠ Un solo dato FAO (promedio 2022-2024, que incluye un año de Duque); no se puede atribuir a este gobierno."}
+};
+var PROM_PIB=(function(){ var s=0,n=0; for(var y=1998;y<=2025;y++){ var v=val("pib",y); if(v!==null){s+=v;n++;} } return s/n; })();
+function fv(k,v){ if(v===null) return "—"; var c=IND[k]; return num(v,c.d)+(c.u||""); }
+function gbal(gk){
+  var g=G.filter(function(x){return x.k===gk;})[0], up=0, dn=0, eq=0, h="";
+  ORDEN.forEach(function(k){
+    var c=IND[k], st=stats(k,g), b="na", bt="Sin dato comparable", v="", w="";
+    if(k==="pib"){
+      if(st.avg!==null){ v=num(st.avg,1)+" % por año<small>Promedio de Colombia 1998-2025: "+num(PROM_PIB,1)+" %</small>";
+        var dp=st.avg-PROM_PIB; if(Math.abs(dp)<0.15){b="eq";bt="Igual al promedio";} else if(dp>0){b="up";bt="Por encima del promedio";} else {b="dn";bt="Por debajo del promedio";} }
+    } else if(st.rec!==null && st.ent!==null && st.n>=(c.minN||1)){
+      v=fv(k,st.rec)+" → "+fv(k,st.ent)+"<small>Recibió ("+(g.a-1)+") → entregó ("+st.entY+")"+((k==="hom"||k==="sect")?" · por 100.000 hab.":(k==="ext"?" · casos denunciados":""))+"</small>";
+      var d=(st.ent-st.rec)*c.mb, rel=Math.abs(st.ent-st.rec)/Math.max(Math.abs(st.rec),0.0001);
+      if(rel<0.03 || (c.mind && Math.abs(st.ent-st.rec)<=c.mind)){b="eq";bt="Igual";} else if(d>0){b="up";bt="Mejoró";} else {b="dn";bt="Empeoró";}
+    } else if(st.n>0){ v=st.n+" año(s) con dato<small>No hay dato del año anterior para comparar</small>"; }
+    else { v="<small>No hay datos para este periodo</small>"; }
+    if(BN[k] && BN[k][gk]){ w='<div class="w">'+BN[k][gk]+'</div>'; }
+    if(k==="desn" && gk==="pet"){b="na";bt="No atribuible";}
+    if(b==="up")up++; else if(b==="dn")dn++; else if(b==="eq")eq++;
+    h+='<div class="gc"><div class="l">'+c.t+'</div><div class="v">'+v+'</div>'+w+'<span class="b '+b+'">'+bt+'</span></div>';
+  });
+  document.getElementById("gres").innerHTML='<h3 style="color:'+g.col+'">'+g.n+' <span style="color:var(--soft);font-size:.6em">'+g.p+'</span></h3><div class="sc"><span class="b up">Mejoró: '+up+'</span><span class="b dn">Empeoró: '+dn+'</span><span class="b eq">Igual: '+eq+'</span></div>';
+  document.getElementById("gcards").innerHTML=h;
+  [].forEach.call(document.querySelectorAll("#gtabs button"),function(x){ var on=x.getAttribute("data-g")===gk, gg=G.filter(function(y){return y.k===x.getAttribute("data-g");})[0]; x.classList.toggle("on",on); x.style.background=on?gg.col:""; x.style.borderColor=gg.col; });
+}
+var gt=""; G.forEach(function(g){ gt+='<button data-g="'+g.k+'">'+g.c+' <span style="font-weight:500;opacity:.8">'+g.p+'</span></button>'; });
+document.getElementById("gtabs").innerHTML=gt;
+document.getElementById("gtabs").addEventListener("click",function(ev){ var b=ev.target.closest("button"); if(b) gbal(b.getAttribute("data-g")); });
+gbal("pet");
 var bh="";
 BAL.forEach(function(b){ bh+='<div class="bcard"><h3>'+b.t+'</h3><div class="big">'+b.big+'</div>'+mini(b)+'<p>'+b.txt+'</p><div class="src">Fuente: '+b.src+'</div></div>'; });
 document.getElementById("bal").innerHTML=bh+'<p style="grid-column:1/-1;font-size:12.5px;color:var(--dim)">Colores: <span style="color:#9b6bd6">Santos</span> · <span style="color:#E0A21A">Duque</span> · <span style="color:#d9645a">Petro</span>. Cada año se asigna al gobierno que lo gobernó la mayor parte.</p>';
