@@ -176,16 +176,20 @@ footer a{color:var(--soft)}
 .expl{margin:0;color:#d5e2ea;font-size:15px;line-height:1.55}
 .fte{font-size:13px;color:var(--soft)}.fte a{color:#7fc3ff}
 .final h2{font:800 30px "Barlow Condensed";color:#fff;margin:0}
-.tabla{overflow-x:auto}
-.tabla table{width:100%;border-collapse:collapse;font-size:14px;color:#d5e2ea}
-.tabla th,.tabla td{text-align:left;padding:8px 6px;border-bottom:1px solid var(--line);vertical-align:top}
-.tabla th{font-size:12px;text-transform:uppercase;letter-spacing:.06em;color:var(--soft)}
-.tabla td.n{white-space:nowrap}
+.prog{height:6px;border-radius:6px;background:#0b1b2c;overflow:hidden}.prog i{display:block;height:100%;background:#F29A4E;border-radius:6px}
+.puntaje{text-align:center;padding:6px 0 2px}.puntaje b{display:block;font:800 64px "Barlow Condensed";color:#ffd27a;line-height:1}.puntaje span{color:var(--soft);font-size:15px}
+.puntaje p{margin:8px 0 0;font:700 20px "Public Sans";color:#fff}
+.lista{display:flex;flex-direction:column;gap:8px}
+.lista div{display:flex;justify-content:space-between;align-items:center;gap:10px;background:#0b1b2c;border:1px solid var(--line);border-radius:10px;padding:9px 12px;font-size:14px;color:#d5e2ea}
+.lista small{display:block;color:var(--soft);font-size:12.5px}
+.lista em{font-style:normal;font:800 20px "Barlow Condensed";color:#5fe0c8;white-space:nowrap}
+#shareBox{display:none}.final #shareBox{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin:0}.final #shareBox .btn{grid-column:auto!important;width:100%}.final #shFb,.final #shX,.final #shCopy{display:none!important}
+#juego{scroll-margin-top:72px}
 .final h3{font:800 22px "Barlow Condensed";color:#fff;margin:4px 0 0;text-transform:none}
 .causas{display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:10px}
 .causas div{background:#0b1b2c;border:1px solid var(--line);border-radius:12px;padding:12px;font-size:14px;color:#d5e2ea}
 .causas b{display:block;font:800 18px "Barlow Condensed";color:#5fe0c8}
-@media (max-width:560px){.comp{grid-template-columns:1fr 1fr}.valor{font-size:40px}.gob{font-size:11px}.gob b{font-size:16px}}
+@media (max-width:560px){.carta{padding:16px;gap:12px}.comp{gap:6px}.comp b{font-size:24px}.comp span{font-size:10.5px}.valor{font-size:40px}.gobiernos{display:none}.pregunta{font-size:17px}.causas{grid-template-columns:1fr}.causas div{padding:10px}.hero .sub{font-size:15px}}
 
 </style>
 </head>
@@ -205,13 +209,13 @@ footer a{color:var(--soft)}
       <span class="kicker">Datos con fuente · CREG, Superservicios, Campetrol y Fedesarrollo</span>
       <h1>¿Cuánto subió<em>el gas?</em></h1>
       <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
-      <p class="sub">Once datos reales del gas natural en Colombia, de Uribe a Petro. Mueva la barra, diga cuánto cree que costaba o cuánto subió, y vea el dato con su fuente. Entre más cerca quede, más puntos.</p>
+      <p class="sub">11 datos reales del gas en Colombia, de Uribe a Petro. Mueva la barra, responda y vea el dato oficial.</p>
     </div>
   </div>
 
   <div class="wrap">
     <section style="padding-top:12px">
-      <div class="nota"><b>Antes de empezar:</b> Colombia no dejó de producir gas. Sigue produciendo una parte grande de lo que consume, pero la producción cayó y desde finales de 2024 importa gas licuado por Cartagena. El gas importado es mucho más caro, y eso es lo que más ha empujado las tarifas desde 2025.</div>
+      <div class="nota"><b>Antes de empezar:</b> Colombia sí produce gas, pero cada vez menos; desde finales de 2024 importa gas más caro por Cartagena.</div>
       <div class="gobiernos" id="linea">
         <div class="gob" data-g="Uribe"><b>Uribe</b>2002 – 2010</div>
         <div class="gob" data-g="Santos"><b>Santos</b>2010 – 2018</div>
@@ -219,8 +223,8 @@ footer a{color:var(--soft)}
         <div class="gob" data-g="Petro"><b>Petro</b>2022 – 2026</div>
       </div>
       <div id="juego"></div>
-      <div class="share" style="max-width:620px;margin:22px auto 0">
-        <button class="btn teal full" id="shAll">📤 Compartir mi puntaje (todas las redes)</button>
+      <div class="share" id="shareBox" style="max-width:620px;margin:4px auto 0">
+        <button class="btn teal full" id="shAll">📤 Compartir</button>
         <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
         <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
         <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
@@ -331,7 +335,7 @@ var RONDAS=[
 ];
 var i=0,total=0,hist=[];
 function n(v,d){ return v.toLocaleString("es-CO",{maximumFractionDigits:d||0}); }
-function mensaje(){ var max=RONDAS.length*100; return "🔥 ¿CUÁNTO SUBIÓ EL GAS? — Observatorio SkyNet Genesis\n"+(hist.length?"Hice "+total.toLocaleString("es-CO")+" de "+max.toLocaleString("es-CO")+" puntos adivinando 11 datos reales del gas en Colombia, de Uribe a Petro.":"11 datos reales del gas natural en Colombia, de Uribe a Petro. ¿Cuánto sabe usted?")+"\nPruebe usted aquí: "+URL_PUBLICA; }
+function mensaje(){ var max=RONDAS.length*100; return "🔥 ¿CUÁNTO SUBIÓ EL GAS? — Observatorio SkyNet Genesis\n"+(hist.length?"Hice "+fmt(total,0)+" de "+fmt(max,0)+" puntos adivinando 11 datos reales del gas en Colombia, de Uribe a Petro.":"11 datos reales del gas natural en Colombia, de Uribe a Petro. ¿Cuánto sabe usted?")+"\nPruebe usted aquí: "+URL_PUBLICA; }
 var shTxt="";
 function openShare(txt){
   shTxt=txt;
@@ -368,7 +372,7 @@ document.getElementById("shCopy").addEventListener("click",function(){
 });
 enlaces();
 
-var fmt=function(v,d){return Number(v).toLocaleString("es-CO",{minimumFractionDigits:d,maximumFractionDigits:d});};
+var fmt=function(v,d){var x=Number(v).toFixed(d).split(".");x[0]=x[0].replace(/\B(?=(\d{3})+(?!\d))/g,".");return x.join(",");};
 var escg=function(s){return String(s).replace(/[&<>"]/g,function(c){return {"&":"&amp;","<":"&lt;",">":"&gt;",'"':"&quot;"}[c];});};
 var J=document.getElementById("juego");
 function puntos(r,g){var err=Math.abs(g-r.real)/(r.max-r.min);return Math.max(0,Math.round(100*(1-err*4)));}
@@ -376,7 +380,7 @@ function linea(){[].forEach.call(document.querySelectorAll(".gob"),function(e){v
 function ronda(){
  linea(); if(i>=RONDAS.length) return final();
  var r=RONDAS[i];
- J.innerHTML='<article class="carta"><div class="cab"><span class="etq">Gobierno '+r.g+' · '+escg(r.anio)+'</span><span class="ronda">Ronda '+(i+1)+' de '+RONDAS.length+' · '+total+' puntos</span></div>'+
+ J.innerHTML='<article class="carta"><div class="cab"><span class="etq">Gobierno '+r.g+' · '+escg(r.anio)+'</span><span class="ronda">'+(i+1)+' de '+RONDAS.length+' · '+fmt(total,0)+' pts</span></div><div class="prog"><i style="width:'+Math.round(100*i/RONDAS.length)+'%"></i></div>'+
  '<p class="pregunta">'+escg(r.q)+'</p>'+
  '<div class="dial"><label for="adivina" class="pista">Su respuesta</label><div class="valor" id="ver">'+fmt(r.ini,r.dec)+'<small>'+escg(r.u)+'</small></div>'+
  '<input type="range" id="adivina" min="'+r.min+'" max="'+r.max+'" step="'+r.paso+'" value="'+r.ini+'">'+
@@ -399,16 +403,18 @@ function revelar(g){
 function final(){
  var max=RONDAS.length*100,pct=Math.round(100*total/max);
  var nivel=pct>=80?"Conoce muy bien el tema":pct>=55?"Va bien encaminado":pct>=30?"Los datos lo sorprendieron":"El gas le dio varias sorpresas";
- J.innerHTML='<article class="carta final"><span class="etq">Resultado</span><h2>'+total+' de '+max+' puntos · '+nivel+'</h2>'+
- '<div class="tabla"><table><thead><tr><th>Gobierno</th><th>Dato</th><th>Usted</th><th>Real</th></tr></thead><tbody>'+
- hist.map(function(h){return '<tr><td>'+h.r.g+'<br><span class="fte">'+escg(h.r.anio)+'</span></td><td>'+escg(h.r.u)+'</td><td class="n">'+fmt(h.g,h.r.dec)+'</td><td class="n"><b>'+fmt(h.r.real,h.r.dec)+'</b></td></tr>';}).join("")+
- '</tbody></table></div><h3>Por qué subió el gas</h3><div class="causas">'+
- '<div><b>Menos reservas</b>Las reservas probadas cayeron 57 % entre 2013 y 2023, en tres gobiernos. Hoy alcanzan para menos de 6 años.</div>'+
- '<div><b>Menos producción</b>La oferta nacional bajó cerca de 30 % en tres años, y la de Ecopetrol 37 %.</div>'+
- '<div><b>Gas importado</b>Desde noviembre de 2024 se importa por Cartagena, a dos o tres veces el precio del gas nacional. En 2026 ya es el 41 % del consumo.</div>'+
- '<div><b>Dólar y mercados</b>El gas se negocia en dólares: el precio en pesos sube cuando sube el dólar o el precio internacional.</div>'+
- '</div><div class="fila"><button class="btn teal" id="otra">Empezar otra vez</button></div></article>';
- document.getElementById("otra").onclick=function(){i=0;total=0;hist=[];ronda();enlaces();};
+ J.innerHTML='<article class="carta final"><div class="puntaje"><span>Su resultado</span><b>'+fmt(total,0)+'</b><span>de '+fmt(max,0)+' puntos</span><p>'+nivel+'</p></div><div id="shHere"></div>'+
+ '<h3>Sus respuestas</h3><div class="lista">'+
+ hist.map(function(h){return '<div><span>'+h.r.g+' · '+escg(h.r.anio)+'<small>Usted '+fmt(h.g,h.r.dec)+' · Real <b>'+fmt(h.r.real,h.r.dec)+'</b> '+escg(h.r.u)+'</small></span><em>+'+h.p+'</em></div>';}).join("")+
+ '</div><h3>Por qué subió el gas</h3><div class="causas">'+
+ '<div><b>Menos reservas</b>Cayeron 57 % entre 2013 y 2023, en tres gobiernos.</div>'+
+ '<div><b>Menos producción</b>La oferta nacional bajó cerca de 30 % en tres años.</div>'+
+ '<div><b>Gas importado</b>Desde 2024 llega por Cartagena, dos o tres veces más caro.</div>'+
+ '<div><b>Dólar y mercados</b>El gas se paga en dólares: si sube el dólar, sube la tarifa.</div>'+
+ '</div><div class="fila"><button class="btn ghost full" id="otra">Empezar otra vez</button></div></article>';
+ var sb=document.getElementById("shareBox");document.getElementById("shHere").appendChild(sb);
+ J.scrollIntoView({behavior:"smooth",block:"start"});
+ document.getElementById("otra").onclick=function(){var sb=document.getElementById("shareBox");J.parentNode.insertBefore(sb,J.nextSibling);i=0;total=0;hist=[];ronda();enlaces();J.scrollIntoView({behavior:"smooth",block:"start"});};
  enlaces();
 }
 ronda();
