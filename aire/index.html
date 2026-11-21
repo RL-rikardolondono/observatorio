@@ -1,0 +1,344 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>El aire que usted respira · Observatorio SkyNet Genesis</title>
+<meta name="description" content="La calidad del aire de su ciudad en este momento, qué significa para su salud y cómo estará en las próximas 24 horas. Datos en vivo de Copernicus.">
+<meta property="og:title" content="🌬️ El aire que usted respira">
+<meta property="og:description" content="¿Cómo está el aire de su ciudad ahora mismo? Índice en vivo, comparación con el límite de la OMS y las 36 ciudades de Colombia.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://observatorio.skynetgenesis.com/aire/">
+<link rel="canonical" href="https://observatorio.skynetgenesis.com/aire/">
+<meta name="author" content="SkyNet Genesis">
+<meta name="theme-color" content="#081320">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081320;--card:#0f2034;--card2:#0b1928;--line:#1d3550;--txt:#e8eef5;--soft:#a3b3c4;--dim:#6f8296;
+--teal:#14A38B;--blue:#0B4F8A;--blue2:#1867B0;--amber:#E0A21A;--red:#e5484d;--wa:#1F8A4C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:"Public Sans",system-ui,sans-serif;line-height:1.55;color-scheme:dark}
+a{color:inherit}
+h1,h2,h3{font-family:"Barlow Condensed",sans-serif;letter-spacing:.02em}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(8,19,32,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:32px;height:32px}
+.brand b{font-family:"Barlow Condensed";font-weight:700;font-size:18px;letter-spacing:.06em;line-height:.95}
+.brand b span{display:block;color:var(--amber);font-size:11.5px;letter-spacing:.22em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;font:700 15px "Public Sans";padding:12px 18px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.teal{background:var(--teal);color:#fff}.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.wa{background:var(--wa);color:#fff}.btn.fb{background:#1b4ea0;color:#fff}.btn.x{background:#000;color:#fff;border:1px solid #333}
+.btn.sm{padding:9px 14px;font-size:14px}
+.hero{text-align:center;padding:44px 0 14px;background:radial-gradient(ellipse at 50% 0%,rgba(24,103,176,.25),transparent 60%)}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:#8fe0d0;font:600 13px "Public Sans";letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(20,163,139,.4);background:rgba(20,163,139,.08);padding:6px 12px;border-radius:99px}
+.hero h1{font-size:clamp(42px,8vw,90px);font-weight:800;line-height:.9;margin:16px 0 8px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--amber);display:block}
+.credit{font-family:"Barlow Condensed";font-size:clamp(16px,2.2vw,21px);letter-spacing:.14em;text-transform:uppercase;color:#cfdbe3;margin:2px 0 14px}
+.credit b{color:var(--amber)}
+.sub{color:var(--soft);font-size:clamp(16px,2.1vw,19px);max-width:720px;margin:0 auto}
+section{padding:34px 0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+.tabs button{background:#0b1b2c;border:1px solid var(--line);color:#d5e2ea;border-radius:99px;padding:9px 15px;font:600 14px "Public Sans";cursor:pointer}
+.tabs button.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.mapbox{position:relative}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapbox path{stroke:#081320;stroke-width:.8;cursor:pointer;transition:filter .15s}
+.mapbox path:hover,.mapbox path.sel{stroke:#fff;stroke-width:1.6;filter:brightness(1.2)}
+.legend{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--soft);margin-top:10px}
+.legend .bar{flex:1;height:10px;border-radius:9px}
+.nodata{display:inline-block;width:12px;height:12px;border-radius:3px;background:#2a3a4c;vertical-align:middle;margin-right:4px}
+.tip{position:absolute;pointer-events:none;background:#06101b;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:none;white-space:nowrap;z-index:5}
+.maperr{color:var(--soft);padding:30px 10px;text-align:center}
+select{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:11px 12px;font:600 16px "Public Sans"}
+.card h2{font-size:34px;font-weight:800;text-transform:uppercase;line-height:1;margin:14px 0 4px}
+.card .rank{color:var(--amber);font-weight:700;font-size:15px}
+.ind{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.ind:last-of-type{border-bottom:0}
+.ind span{font-size:14px;color:var(--soft)}
+.ind b{font-family:"Share Tech Mono";font-size:21px;font-weight:400}
+.ind small{grid-column:1/-1;font-size:12px;color:var(--dim)}
+.meter{grid-column:1/-1;height:6px;border-radius:9px;background:#1b2a3b;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:9px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.share .full{grid-column:1/-1}
+.share .btn{font-size:14px;padding:11px 10px}
+.rankl{list-style:none;columns:2;column-gap:24px}
+.rankl li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);break-inside:avoid;font-size:14.5px;cursor:pointer}
+.rankl li:hover{color:#fff}
+.rankl li b{font-family:"Share Tech Mono";font-weight:400}
+.rankl li em{font-style:normal;color:var(--dim);margin-right:6px;font-family:"Share Tech Mono"}
+.sec-h{text-align:center;margin-bottom:18px}
+.sec-h h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;text-transform:uppercase;line-height:1}
+.sec-h h2 span{color:var(--amber)}
+.sec-h p{color:var(--soft);max-width:720px;margin:10px auto 0}
+.sky{background:linear-gradient(135deg,#0b2a47,#0a1726);border:1px solid #1f4266;border-radius:20px;padding:30px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.sky svg{width:96px;height:96px}
+.sky h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;text-transform:uppercase;line-height:1.05}
+.sky p{color:#b8c6d4;margin:10px 0 16px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.sources{font-size:13.5px;color:var(--soft);padding-left:18px}
+.sources li{margin-bottom:8px}
+.disc{margin-top:16px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
+footer a{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.fuentes{max-width:900px;margin:18px auto 0;background:rgba(11,79,138,.18);border:1px solid #1f4266;border-radius:14px;padding:12px 16px;font-size:13.5px;color:#c9d5e1;text-align:left}
+.fuentes b{color:#fff}
+.fuentes a{color:#8fe0d0}
+.ind .src{grid-column:1/-1;font-size:11.5px;color:#8fa3b6}
+.ind .src a{color:#8fe0d0}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#0f2034;border:1px solid #1d3550;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
+.toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.rankl{columns:1}.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}}
+@media (max-width:480px){.share{grid-template-columns:1fr}}
+
+.big{font-family:"Share Tech Mono",monospace;font-size:clamp(30px,6.4vw,66px);color:#ff6b6f;letter-spacing:.01em;margin:18px 0 4px;text-shadow:0 0 24px rgba(229,72,77,.35);word-break:break-all}
+.bigl{color:var(--soft);font-size:14.5px}
+.cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ct{background:linear-gradient(180deg,rgba(229,72,77,.14),rgba(229,72,77,.04));border:1px solid rgba(229,72,77,.4);border-radius:16px;padding:16px}
+.ct .l{font:700 12px "Public Sans";letter-spacing:.07em;text-transform:uppercase;color:#ffb3b5}
+.ct .v{font-family:"Share Tech Mono";font-size:clamp(22px,2.6vw,30px);color:#fff;margin:6px 0 4px;word-break:break-all}
+.ct .d{font-size:12.5px;color:#d9c3c4}
+.calc{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}
+.calc label{display:block;font-size:13px;color:var(--soft);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.calc input{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px;font:700 22px "Share Tech Mono"}
+.res{font-size:16px;color:#d5e2ea}
+.res b{font-family:"Share Tech Mono";font-weight:400;color:#ffd27a;font-size:22px}
+.res p{padding:10px 0;border-bottom:1px solid var(--line)}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.gleg{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:13px;color:var(--soft);margin-top:10px}
+.gleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+.cmp div{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:14px}
+.cmp b{display:block;font-family:"Barlow Condensed";font-size:34px;font-weight:800;color:#fff}
+.cmp span{font-size:13px;color:var(--soft)}
+@media (max-width:900px){.cnt{grid-template-columns:repeat(2,1fr)}.calc{grid-template-columns:1fr}.cmp{grid-template-columns:1fr}.chart svg{min-width:720px}}
+@media (max-width:480px){.cnt{grid-template-columns:1fr}}
+</style><style>
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kq{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.kq .v{font:800 clamp(30px,4vw,44px) "Barlow Condensed";color:#fff;line-height:1}
+.kq .l{font-size:13.5px;color:var(--soft);margin-top:6px}
+.kq .s{font-size:11.5px;color:var(--dim);margin-top:4px}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.lg3{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;font-size:13.5px;color:var(--soft);margin-top:10px}
+.lg3 i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+.hb{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin:10px 0;font-size:15px}
+.hb .bar{height:24px;border-radius:6px}
+.hb b{font-family:"Share Tech Mono";font-weight:400;text-align:right}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+@media (max-width:900px){.kp{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.chart svg{min-width:640px}.hb{grid-template-columns:110px 1fr 76px;font-size:14px}}
+</style>
+<style>
+
+.lugar{display:flex;gap:8px;max-width:620px;margin:0 auto}.lugar select{flex:1}.lugar .btn{white-space:nowrap}
+.aq{max-width:620px;margin:16px auto 0;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}
+.aq .donde{color:var(--soft);font-size:14px}
+.aq .circ{width:170px;height:170px;border-radius:50%;margin:12px auto 6px;display:flex;flex-direction:column;align-items:center;justify-content:center;border:10px solid #2b4a68;transition:border-color .4s}
+.aq .circ b{font:700 54px "Share Tech Mono";line-height:1;color:#fff}
+.aq .circ span{font-size:12px;color:var(--soft);letter-spacing:.08em;text-transform:uppercase}
+.aq .cat{font:800 28px "Barlow Condensed";margin:6px 0 2px}
+.aq .cons{color:#d5e2ea;font-size:15.5px;line-height:1.5;margin:6px auto 0;max-width:520px}
+.oms{margin:14px auto 0;padding:12px;border-radius:12px;background:#0b1b2c;border:1px solid var(--line);font-size:14.5px;color:#d5e2ea}
+.oms b{color:#ffd27a}
+.mini{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:12px}
+.mini div{background:#0b1b2c;border:1px solid var(--line);border-radius:10px;padding:8px 4px;font-size:12px;color:var(--soft)}
+.mini b{display:block;font:700 20px "Share Tech Mono";color:#fff}
+.prox{margin-top:14px;text-align:left}.prox h3{font-size:20px;margin:0 0 6px;color:#fff}
+.barras{display:flex;align-items:flex-end;gap:2px;height:70px}.barras i{flex:1;border-radius:3px 3px 0 0;min-height:3px}
+.ejes{display:flex;justify-content:space-between;color:var(--dim);font-size:11.5px;margin-top:4px}
+.rank{max-width:620px;margin:18px auto 0}.rank h3{font-size:24px;color:#fff;margin:0 0 4px}.rank p{color:var(--soft);font-size:14px;margin:0 0 8px}
+.rank ol{list-style:none;padding:0;margin:0;display:grid;grid-template-columns:minmax(0,1fr) minmax(0,1fr);gap:6px}.rank li{min-width:0}
+.rank li{display:flex;justify-content:space-between;align-items:center;gap:6px;background:#0b1b2c;border:1px solid var(--line);border-radius:10px;padding:7px 10px;font-size:13.5px;color:#d5e2ea;cursor:pointer}
+.rank li em{font-style:normal;font:700 15px "Share Tech Mono";padding:2px 7px;border-radius:7px;color:#06101b}
+.cargando{color:var(--soft);padding:30px 0}
+.leyenda{display:flex;flex-wrap:wrap;gap:6px;justify-content:center;margin-top:12px;font-size:11.5px;color:var(--soft)}
+.leyenda span{display:inline-flex;align-items:center;gap:4px}.leyenda i{width:10px;height:10px;border-radius:3px;display:inline-block}
+@media (max-width:520px){.lugar{flex-direction:column}.rank ol{gap:5px}.rank li{font-size:12.5px;padding:6px 8px}.rank li span{overflow:hidden;text-overflow:ellipsis;white-space:nowrap}.rank li em{font-size:13px;padding:1px 5px}.aq{padding:16px}.aq .circ{width:150px;height:150px}.aq .circ b{font-size:46px}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://observatorio.skynetgenesis.com/" aria-label="Observatorio SkyNet Genesis">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+      <b>OBSERVATORIO<span>SKYNET GENESIS</span></b>
+    </a>
+    <span class="hdr-links" style="display:flex;gap:8px;align-items:center;flex-shrink:0"><style>.hdr-links a{display:inline-flex!important;white-space:nowrap}@media(max-width:600px){.hdr-links{gap:6px!important}.hdr-links a{padding:6px 8px!important;font-size:12px!important}header .brand{gap:6px!important;min-width:0}header .brand b{font-size:13px!important;letter-spacing:.03em!important}header .brand b span{font-size:8px!important}header .brand svg{width:28px!important;height:28px!important;flex-shrink:0}header .wrap{padding-left:12px!important;padding-right:12px!important}}@media(max-width:400px){header .brand b{display:none!important}}</style><a class="btn ghost sm" href="https://observatorio.skynetgenesis.com/">Observatorio</a><a class="btn ghost sm" href="https://skynetgenesis.com/" target="_blank" rel="noopener">SkyNet Genesis</a></span>
+  </div>
+</header>
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <span class="kicker">En vivo · Copernicus (Unión Europea) · OMS</span>
+      <h1>El aire que<em>usted respira</em></h1>
+      <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
+      <p class="sub">Elija su ciudad o use su ubicación y vea cómo está el aire en este momento, qué significa para su salud y cómo estará en las próximas horas.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section style="padding-top:8px">
+      <div class="lugar"><select id="ciudad" aria-label="Ciudad"><option value="0">Arauca</option><option value="1">Armenia</option><option value="2">Barranquilla</option><option value="3">Bello</option><option value="4">Bogotá</option><option value="5">Bucaramanga</option><option value="6">Buenaventura</option><option value="7">Cali</option><option value="8">Cartagena</option><option value="9">Cúcuta</option><option value="10">Florencia</option><option value="11">Ibagué</option><option value="12">Inírida</option><option value="13">Leticia</option><option value="14">Manizales</option><option value="15">Medellín</option><option value="16">Mitú</option><option value="17">Mocoa</option><option value="18">Montería</option><option value="19">Neiva</option><option value="20">Pasto</option><option value="21">Pereira</option><option value="22">Popayán</option><option value="23">Puerto Carreño</option><option value="24">Quibdó</option><option value="25">Riohacha</option><option value="26">San Andrés</option><option value="27">San José del Guaviare</option><option value="28" selected>Santa Marta</option><option value="29">Sincelejo</option><option value="30">Soacha</option><option value="31">Soledad</option><option value="32">Tunja</option><option value="33">Valledupar</option><option value="34">Villavicencio</option><option value="35">Yopal</option></select><button class="btn ghost" id="gps" type="button">📍 Usar mi ubicación</button></div>
+      <div class="aq" id="aq"><div class="cargando">Consultando el aire de ahora…</div></div>
+      <div class="rank"><h3>Ahora en Colombia</h3><p>Las ciudades de la más limpia a la más contaminada en este momento. Toque una para verla.</p><ol id="rank"><li>Cargando…</li></ol></div>
+      <div class="share" style="max-width:620px;margin:22px auto 0">
+        <button class="btn teal full" id="shAll">📤 Compartir</button>
+        <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
+        <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
+      </div>
+    </section>
+
+
+<section>
+      <div class="sky">
+        <svg viewBox="0 0 200 200" aria-hidden="true"><rect x="4" y="4" width="192" height="192" rx="46" fill="#1E3A4C"/><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+        <div>
+          <h2>Datos para decidir mejor</h2>
+          <p>Una obra de <b>SkyNet Genesis</b>, casa de software inteligente para alcaldías, concejos, colegios, clínicas y empresas de Colombia.</p>
+          <div class="cta-row">
+            <a class="btn teal" href="https://skynetgenesis.com" target="_blank" rel="noopener">Conozca nuestras aplicaciones →</a>
+            <a class="btn wa" href="https://wa.me/573044375758?text=Hola%2C%20vi%20el%20Aire%20que%20respira%20y%20quiero%20conocer%20las%20aplicaciones%20de%20SkyNet%20Genesis" target="_blank" rel="noopener">WhatsApp 304 437 5758</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="fuentes" style="padding-top:12px">
+      <div class="sec-h" style="text-align:left;margin-bottom:12px"><h2 style="font-size:30px">Método y fuentes</h2></div>
+      <ul class="sources">
+        <li><b>Los datos:</b> Servicio de Monitoreo Atmosférico de Copernicus (CAMS) de la Unión Europea, consultado en vivo a través de Open-Meteo. Se actualiza cada hora.</li>
+        <li><b>Qué mide:</b> es un modelo que combina satélites y estaciones, con celdas de unos 40 km. Da una buena idea del aire de la ciudad, pero no reemplaza a una estación de medición en su calle. Para cifras oficiales de estaciones consulte el IDEAM o la autoridad ambiental de su ciudad.</li>
+        <li><b>El índice:</b> índice de calidad del aire de la Agencia de Protección Ambiental de EE. UU. (0-50 buena, 51-100 moderada, 101-150 dañina para grupos sensibles, 151-200 dañina, 201-300 muy dañina, más de 300 peligrosa).</li>
+        <li><b>El límite de la OMS:</b> Guías de calidad del aire de la Organización Mundial de la Salud (2021): 15 µg/m³ de material particulado fino (PM2.5) en 24 horas.</li>
+        <li><b>Privacidad:</b> si usa su ubicación, esta solo se usa en su teléfono para pedir el dato; no se guarda ni se envía a SkyNet Genesis.</li>
+      </ul>
+      <p class="disc">Contenido informativo. No reemplaza la consulta médica: si tiene asma u otra enfermedad respiratoria, siga las indicaciones de su médico.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Parte del <a href="https://observatorio.skynetgenesis.com/"><b>Observatorio SkyNet Genesis</b></a> · Creado por <a href="https://skynetgenesis.com" target="_blank" rel="noopener"><b>SkyNet Genesis</b></a><br>
+    contacto@skynetgenesis.com · WhatsApp 304 437 5758 · Uso libre citando la fuente.
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="shm" id="shm" aria-hidden="true">
+<div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir El aire que usted respira</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var URL_PUBLICA="https://observatorio.skynetgenesis.com/aire/";
+var CIUDADES=[["Arauca",7.084,-70.759],["Armenia",4.534,-75.681],["Barranquilla",10.964,-74.796],["Bello",6.337,-75.558],["Bogotá",4.711,-74.072],["Bucaramanga",7.119,-73.123],["Buenaventura",3.88,-77.031],["Cali",3.452,-76.532],["Cartagena",10.391,-75.479],["Cúcuta",7.894,-72.508],["Florencia",1.614,-75.606],["Ibagué",4.438,-75.232],["Inírida",3.865,-67.924],["Leticia",-4.215,-69.94],["Manizales",5.07,-75.514],["Medellín",6.244,-75.581],["Mitú",1.253,-70.234],["Mocoa",1.152,-76.647],["Montería",8.748,-75.881],["Neiva",2.927,-75.282],["Pasto",1.214,-77.281],["Pereira",4.813,-75.696],["Popayán",2.444,-76.614],["Puerto Carreño",6.189,-67.486],["Quibdó",5.694,-76.661],["Riohacha",11.544,-72.907],["San Andrés",12.584,-81.7],["San José del Guaviare",2.572,-72.645],["Santa Marta",11.24,-74.199],["Sincelejo",9.304,-75.398],["Soacha",4.579,-74.217],["Soledad",10.917,-74.767],["Tunja",5.535,-73.367],["Valledupar",10.463,-73.253],["Villavicencio",4.142,-73.627],["Yopal",5.337,-72.395]];
+var CAT=[[50,"Buena","#3fbf6f","Puede hacer ejercicio al aire libre con tranquilidad."],[100,"Moderada","#f2c94c","Aceptable. Si es muy sensible a la contaminación, evite el ejercicio intenso y prolongado afuera."],[150,"Dañina para grupos sensibles","#f2994a","Niños, adultos mayores y personas con asma o enfermedades del corazón deben reducir el esfuerzo al aire libre."],[200,"Dañina","#eb5757","Todos deben reducir el esfuerzo al aire libre. Los grupos sensibles, evitarlo."],[300,"Muy dañina","#9b51e0","Evite las actividades al aire libre. Mantenga cerradas las ventanas si puede."],[9999,"Peligrosa","#8b1e3f","Alerta de salud: permanezca en interiores en lo posible."]];
+var ACT={nombre:"",aqi:null,pm:null};
+function n(v,d){ return v.toLocaleString("es-CO",{maximumFractionDigits:d||0}); }
+function mensaje(){ return "🌬️ EL AIRE QUE USTED RESPIRA — Observatorio SkyNet Genesis\n"+(ACT.aqi!=null?"Ahora en "+ACT.nombre+": calidad del aire "+cat(ACT.aqi)[1].toLowerCase()+" (índice "+ACT.aqi+")"+(ACT.pm!=null?(ACT.pm<=15?", con las partículas finas dentro del límite de la OMS":", con "+(ACT.pm/15).toFixed(1).replace(".",",")+" veces el límite de la OMS en partículas finas"):"")+".":"¿Cómo está el aire de su ciudad ahora mismo?")+"\nMire el de su ciudad: "+URL_PUBLICA; }
+var shTxt="";
+function openShare(txt){
+  shTxt=txt;
+  if(navigator.share){
+    navigator.share({title:"El aire que usted respira",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); });
+  } else showModal(txt);
+}
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("El aire que usted respira")+"&body="+t;
+  document.getElementById("shm").classList.add("on");
+}
+function enlaces(){
+  var m=mensaje();
+  document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
+  document.getElementById("shFb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(URL_PUBLICA);
+  document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m);
+}
+function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
+document.getElementById("mCopy").addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(shTxt).then(function(){toast("✅ Mensaje copiado. Péguelo donde quiera.");},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+document.getElementById("shCopy").addEventListener("click",function(){
+  var txt=mensaje();
+  try{ navigator.clipboard.writeText(txt).then(function(){toast("✅ Mensaje copiado. Péguelo en sus grupos y redes.");},function(){toast("Enlace: "+URL_PUBLICA);}); }
+  catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+enlaces();
+
+var API="https://air-quality-api.open-meteo.com/v1/air-quality";
+function cat(v){for(var i=0;i<CAT.length;i++)if(v<=CAT[i][0])return CAT[i];return CAT[CAT.length-1];}
+function n1(v){return v==null?"–":(Math.round(v*10)/10).toString().replace(".",",");}
+var AQ=document.getElementById("aq"),SEL=document.getElementById("ciudad");
+function cargar(lat,lon,nombre){
+ AQ.innerHTML='<div class="cargando">Consultando el aire de '+nombre+'…</div>';
+ fetch(API+"?latitude="+lat+"&longitude="+lon+"&current=us_aqi,pm2_5,pm10,ozone&hourly=us_aqi&forecast_days=2&timezone=America%2FBogota").then(function(r){return r.json();}).then(function(d){
+  var c=d.current,k=cat(c.us_aqi);ACT={nombre:nombre,aqi:c.us_aqi,pm:c.pm2_5};
+  var i0=d.hourly.time.indexOf(c.time);if(i0<0)i0=0;var h=d.hourly.us_aqi.slice(i0,i0+24),mx=Math.max(60,Math.max.apply(null,h));
+  var veces=c.pm2_5/15;
+  AQ.innerHTML='<div class="donde">📍 '+nombre+' · ahora</div><div class="circ" style="border-color:'+k[2]+'"><b>'+c.us_aqi+'</b><span>índice</span></div>'+
+   '<div class="cat" style="color:'+k[2]+'">'+k[1]+'</div><p class="cons">'+k[3]+'</p>'+
+   '<div class="oms">Partículas finas (PM2.5): <b>'+n1(c.pm2_5)+' µg/m³</b> · '+(veces<=1?'dentro del límite de la OMS':'<b>'+n1(veces)+' veces</b> el límite diario de la OMS')+'</div>'+
+   '<div class="mini"><div><b>'+n1(c.pm2_5)+'</b>PM2.5</div><div><b>'+n1(c.pm10)+'</b>PM10</div><div><b>'+n1(c.ozone)+'</b>Ozono</div></div>'+
+   '<div class="prox"><h3>Próximas 24 horas</h3><div class="barras">'+h.map(function(v){return '<i style="height:'+Math.round(100*v/mx)+'%;background:'+cat(v)[2]+'" title="'+v+'"></i>';}).join("")+'</div><div class="ejes"><span>Ahora</span><span>+12 h</span><span>+24 h</span></div></div>'+
+   '<div class="leyenda">'+CAT.slice(0,5).map(function(x){return '<span><i style="background:'+x[2]+'"></i>'+x[1]+'</span>';}).join("")+'</div>';
+  enlaces();
+ }).catch(function(){AQ.innerHTML='<div class="cargando">No se pudo consultar el servicio en este momento. Intente de nuevo en unos minutos.</div>';});
+}
+function elegida(){var c=CIUDADES[+SEL.value];cargar(c[1],c[2],c[0]);}
+SEL.onchange=elegida;
+document.getElementById("gps").onclick=function(){if(!navigator.geolocation){alert("Su teléfono no permite compartir la ubicación.");return;}
+ AQ.innerHTML='<div class="cargando">Buscando su ubicación…</div>';
+ navigator.geolocation.getCurrentPosition(function(p){cargar(p.coords.latitude.toFixed(3),p.coords.longitude.toFixed(3),"su ubicación");},function(){elegida();},{timeout:10000,maximumAge:600000});};
+elegida();
+fetch(API+"?latitude="+CIUDADES.map(function(c){return c[1];}).join(",")+"&longitude="+CIUDADES.map(function(c){return c[2];}).join(",")+"&current=us_aqi&timezone=America%2FBogota").then(function(r){return r.json();}).then(function(arr){
+ var L=CIUDADES.map(function(c,i){return {i:i,n:c[0],v:arr[i]&&arr[i].current?arr[i].current.us_aqi:null};}).filter(function(x){return x.v!=null;}).sort(function(a,b){return a.v-b.v;});
+ var R=document.getElementById("rank");R.innerHTML=L.map(function(x,j){return '<li data-i="'+x.i+'"><span>'+(j+1)+'. '+x.n+'</span><em style="background:'+cat(x.v)[2]+'">'+x.v+'</em></li>';}).join("");
+ [].forEach.call(R.querySelectorAll("li"),function(li){li.onclick=function(){SEL.value=li.dataset.i;elegida();window.scrollTo({top:SEL.getBoundingClientRect().top+scrollY-90,behavior:"smooth"});};});
+}).catch(function(){document.getElementById("rank").innerHTML="<li>No se pudo cargar la comparación.</li>";});
+enlaces();
+})();
+</script>
+<script>(function(){var U="https://skynetgenesis.com/obs-contador.php",K="aire";try{navigator.sendBeacon&&navigator.sendBeacon(U,new Blob([JSON.stringify({k:K})],{type:"text/plain"}))}catch(e){}function f(n){return(n||0).toLocaleString("es-CO")}var P="display:inline-flex;align-items:center;gap:6px;font:700 14px 'Public Sans',sans-serif;color:#ffd27a;background:rgba(224,162,26,.12);border:1px solid rgba(224,162,26,.4);border-radius:999px;padding:6px 12px;";setTimeout(function(){fetch(U+"?t="+Date.now()).then(function(r){return r.json()}).then(function(D){var H=D.herramientas||{};if(K==="portada"){[].forEach.call(document.querySelectorAll("a.tool"),function(a){var m=(a.getAttribute("href")||"").match(/^([a-z0-9]+)\//);if(!m)return;var x=H[m[1]]||{},s=document.createElement("span");s.style.cssText=P+"margin-top:12px;font-size:13px;width:max-content";s.textContent="👁 "+f(x.v)+" visitas";a.appendChild(s)})}else{var x=H[K]||{},s=document.createElement("div");s.style.cssText=P+"margin-top:16px";s.textContent="👁 "+f(x.v)+" visitas · "+f(x.p)+" personas";(document.querySelector(".hero .wrap")||document.querySelector("main")||document.body).appendChild(s)}})["catch"](function(){})},900)})();</script>
+</body>
+</html>
