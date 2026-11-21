@@ -1,0 +1,345 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Su barrio en el mapa del calor · Observatorio SkyNet Genesis</title>
+<meta name="description" content="Cuánto más calor hace hoy donde usted vive frente a los mismos días de 1961-1990, el último año y el año en que usted nació. Datos de Copernicus ERA5 desde 1950.">
+<meta property="og:title" content="🌡️ Su barrio en el mapa del calor">
+<meta property="og:description" content="¿Cuánto más calor hace hoy donde usted vive que hace 40 años? Con 75 años de datos de Copernicus.">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://observatorio.skynetgenesis.com/calor/">
+<link rel="canonical" href="https://observatorio.skynetgenesis.com/calor/">
+<meta name="author" content="SkyNet Genesis">
+<meta name="theme-color" content="#081320">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@500;600;700;800&family=Public+Sans:wght@400;500;600;700&family=Share+Tech+Mono&display=swap" rel="stylesheet">
+<style>
+:root{--bg:#081320;--card:#0f2034;--card2:#0b1928;--line:#1d3550;--txt:#e8eef5;--soft:#a3b3c4;--dim:#6f8296;
+--teal:#14A38B;--blue:#0B4F8A;--blue2:#1867B0;--amber:#E0A21A;--red:#e5484d;--wa:#1F8A4C}
+*{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth}
+body{background:var(--bg);color:var(--txt);font-family:"Public Sans",system-ui,sans-serif;line-height:1.55;color-scheme:dark}
+a{color:inherit}
+h1,h2,h3{font-family:"Barlow Condensed",sans-serif;letter-spacing:.02em}
+.wrap{max-width:1140px;margin:0 auto;padding:0 20px}
+header{position:sticky;top:0;z-index:10;background:rgba(8,19,32,.88);backdrop-filter:blur(10px);border-bottom:1px solid var(--line)}
+header .wrap{display:flex;align-items:center;justify-content:space-between;height:60px}
+.brand{display:flex;align-items:center;gap:10px;text-decoration:none}
+.brand svg{width:32px;height:32px}
+.brand b{font-family:"Barlow Condensed";font-weight:700;font-size:18px;letter-spacing:.06em;line-height:.95}
+.brand b span{display:block;color:var(--amber);font-size:11.5px;letter-spacing:.22em}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;border:0;border-radius:10px;font:700 15px "Public Sans";padding:12px 18px;cursor:pointer;text-decoration:none;transition:transform .15s,filter .15s}
+.btn:hover{transform:translateY(-1px);filter:brightness(1.1)}
+.btn.teal{background:var(--teal);color:#fff}.btn.ghost{background:transparent;color:var(--txt);border:1px solid var(--line)}
+.btn.wa{background:var(--wa);color:#fff}.btn.fb{background:#1b4ea0;color:#fff}.btn.x{background:#000;color:#fff;border:1px solid #333}
+.btn.sm{padding:9px 14px;font-size:14px}
+.hero{text-align:center;padding:44px 0 14px;background:radial-gradient(ellipse at 50% 0%,rgba(24,103,176,.25),transparent 60%)}
+.kicker{display:inline-flex;align-items:center;gap:8px;color:#8fe0d0;font:600 13px "Public Sans";letter-spacing:.18em;text-transform:uppercase;border:1px solid rgba(20,163,139,.4);background:rgba(20,163,139,.08);padding:6px 12px;border-radius:99px}
+.hero h1{font-size:clamp(42px,8vw,90px);font-weight:800;line-height:.9;margin:16px 0 8px;text-transform:uppercase}
+.hero h1 em{font-style:normal;color:var(--amber);display:block}
+.credit{font-family:"Barlow Condensed";font-size:clamp(16px,2.2vw,21px);letter-spacing:.14em;text-transform:uppercase;color:#cfdbe3;margin:2px 0 14px}
+.credit b{color:var(--amber)}
+.sub{color:var(--soft);font-size:clamp(16px,2.1vw,19px);max-width:720px;margin:0 auto}
+section{padding:34px 0}
+.tabs{display:flex;flex-wrap:wrap;gap:8px;justify-content:center;margin-bottom:18px}
+.tabs button{background:#0b1b2c;border:1px solid var(--line);color:#d5e2ea;border-radius:99px;padding:9px 15px;font:600 14px "Public Sans";cursor:pointer}
+.tabs button.on{background:var(--teal);border-color:var(--teal);color:#fff}
+.grid{display:grid;grid-template-columns:1.1fr .9fr;gap:22px;align-items:start}
+.panel{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px}
+.mapbox{position:relative}
+.mapbox svg{width:100%;height:auto;display:block}
+.mapbox path{stroke:#081320;stroke-width:.8;cursor:pointer;transition:filter .15s}
+.mapbox path:hover,.mapbox path.sel{stroke:#fff;stroke-width:1.6;filter:brightness(1.2)}
+.legend{display:flex;align-items:center;gap:10px;font-size:12.5px;color:var(--soft);margin-top:10px}
+.legend .bar{flex:1;height:10px;border-radius:9px}
+.nodata{display:inline-block;width:12px;height:12px;border-radius:3px;background:#2a3a4c;vertical-align:middle;margin-right:4px}
+.tip{position:absolute;pointer-events:none;background:#06101b;border:1px solid var(--line);border-radius:10px;padding:8px 10px;font-size:13px;display:none;white-space:nowrap;z-index:5}
+.maperr{color:var(--soft);padding:30px 10px;text-align:center}
+select{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:11px 12px;font:600 16px "Public Sans"}
+.card h2{font-size:34px;font-weight:800;text-transform:uppercase;line-height:1;margin:14px 0 4px}
+.card .rank{color:var(--amber);font-weight:700;font-size:15px}
+.ind{display:grid;grid-template-columns:1fr auto;gap:4px 10px;align-items:baseline;padding:12px 0;border-bottom:1px solid var(--line)}
+.ind:last-of-type{border-bottom:0}
+.ind span{font-size:14px;color:var(--soft)}
+.ind b{font-family:"Share Tech Mono";font-size:21px;font-weight:400}
+.ind small{grid-column:1/-1;font-size:12px;color:var(--dim)}
+.meter{grid-column:1/-1;height:6px;border-radius:9px;background:#1b2a3b;overflow:hidden}
+.meter i{display:block;height:100%;border-radius:9px}
+.share{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.share .full{grid-column:1/-1}
+.share .btn{font-size:14px;padding:11px 10px}
+.rankl{list-style:none;columns:2;column-gap:24px}
+.rankl li{display:flex;justify-content:space-between;gap:10px;padding:7px 0;border-bottom:1px solid var(--line);break-inside:avoid;font-size:14.5px;cursor:pointer}
+.rankl li:hover{color:#fff}
+.rankl li b{font-family:"Share Tech Mono";font-weight:400}
+.rankl li em{font-style:normal;color:var(--dim);margin-right:6px;font-family:"Share Tech Mono"}
+.sec-h{text-align:center;margin-bottom:18px}
+.sec-h h2{font-size:clamp(28px,4.4vw,42px);font-weight:800;text-transform:uppercase;line-height:1}
+.sec-h h2 span{color:var(--amber)}
+.sec-h p{color:var(--soft);max-width:720px;margin:10px auto 0}
+.sky{background:linear-gradient(135deg,#0b2a47,#0a1726);border:1px solid #1f4266;border-radius:20px;padding:30px;display:grid;grid-template-columns:auto 1fr;gap:24px;align-items:center}
+.sky svg{width:96px;height:96px}
+.sky h2{font-size:clamp(26px,3.6vw,36px);font-weight:800;text-transform:uppercase;line-height:1.05}
+.sky p{color:#b8c6d4;margin:10px 0 16px}
+.cta-row{display:flex;flex-wrap:wrap;gap:10px}
+.sources{font-size:13.5px;color:var(--soft);padding-left:18px}
+.sources li{margin-bottom:8px}
+.disc{margin-top:16px;font-size:13px;color:var(--dim);border-top:1px solid var(--line);padding-top:14px}
+footer{border-top:1px solid var(--line);padding:24px 0 40px;color:var(--dim);font-size:13.5px;text-align:center}
+footer a{color:var(--soft)}
+.toast{position:fixed;left:50%;bottom:24px;transform:translateX(-50%) translateY(250%);visibility:hidden;background:var(--blue);color:#fff;font:700 15px "Public Sans";padding:14px 20px;border-radius:12px;z-index:50;transition:transform .3s;max-width:92vw;text-align:center}
+.fuentes{max-width:900px;margin:18px auto 0;background:rgba(11,79,138,.18);border:1px solid #1f4266;border-radius:14px;padding:12px 16px;font-size:13.5px;color:#c9d5e1;text-align:left}
+.fuentes b{color:#fff}
+.fuentes a{color:#8fe0d0}
+.ind .src{grid-column:1/-1;font-size:11.5px;color:#8fa3b6}
+.ind .src a{color:#8fe0d0}
+.shm{position:fixed;inset:0;z-index:60;background:rgba(0,0,0,.72);display:none;align-items:flex-end;justify-content:center;padding:16px}
+.shm.on{display:flex}
+.shbox{background:#0f2034;border:1px solid #1d3550;border-radius:18px;padding:20px;width:100%;max-width:440px}
+.shtit{font:700 22px "Barlow Condensed";text-transform:uppercase;margin-bottom:12px;text-align:center}
+.shgrid{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+.shi{display:flex;align-items:center;justify-content:center;padding:13px 8px;border-radius:10px;color:#fff;font:700 15px "Public Sans";text-decoration:none}
+.toast.on{transform:translateX(-50%) translateY(0);visibility:visible}
+@media (max-width:900px){.grid{grid-template-columns:1fr}.rankl{columns:1}.sky{grid-template-columns:1fr;text-align:center}.sky svg{margin:0 auto}.cta-row{justify-content:center}}
+@media (max-width:480px){.share{grid-template-columns:1fr}}
+
+.big{font-family:"Share Tech Mono",monospace;font-size:clamp(30px,6.4vw,66px);color:#ff6b6f;letter-spacing:.01em;margin:18px 0 4px;text-shadow:0 0 24px rgba(229,72,77,.35);word-break:break-all}
+.bigl{color:var(--soft);font-size:14.5px}
+.cnt{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.ct{background:linear-gradient(180deg,rgba(229,72,77,.14),rgba(229,72,77,.04));border:1px solid rgba(229,72,77,.4);border-radius:16px;padding:16px}
+.ct .l{font:700 12px "Public Sans";letter-spacing:.07em;text-transform:uppercase;color:#ffb3b5}
+.ct .v{font-family:"Share Tech Mono";font-size:clamp(22px,2.6vw,30px);color:#fff;margin:6px 0 4px;word-break:break-all}
+.ct .d{font-size:12.5px;color:#d9c3c4}
+.calc{display:grid;grid-template-columns:.9fr 1.1fr;gap:22px;align-items:start}
+.calc label{display:block;font-size:13px;color:var(--soft);font-weight:600;letter-spacing:.08em;text-transform:uppercase;margin-bottom:6px}
+.calc input{width:100%;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:12px;font:700 22px "Share Tech Mono"}
+.res{font-size:16px;color:#d5e2ea}
+.res b{font-family:"Share Tech Mono";font-weight:400;color:#ffd27a;font-size:22px}
+.res p{padding:10px 0;border-bottom:1px solid var(--line)}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.gleg{display:flex;flex-wrap:wrap;gap:14px;justify-content:center;font-size:13px;color:var(--soft);margin-top:10px}
+.gleg i{display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:5px;vertical-align:-1px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+.cmp{display:grid;grid-template-columns:repeat(3,1fr);gap:14px;margin-top:6px}
+.cmp div{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:14px}
+.cmp b{display:block;font-family:"Barlow Condensed";font-size:34px;font-weight:800;color:#fff}
+.cmp span{font-size:13px;color:var(--soft)}
+@media (max-width:900px){.cnt{grid-template-columns:repeat(2,1fr)}.calc{grid-template-columns:1fr}.cmp{grid-template-columns:1fr}.chart svg{min-width:720px}}
+@media (max-width:480px){.cnt{grid-template-columns:1fr}}
+</style><style>
+.kp{display:grid;grid-template-columns:repeat(4,1fr);gap:14px}
+.kq{background:#0b1b2c;border:1px solid var(--line);border-radius:14px;padding:16px;text-align:center}
+.kq .v{font:800 clamp(30px,4vw,44px) "Barlow Condensed";color:#fff;line-height:1}
+.kq .l{font-size:13.5px;color:var(--soft);margin-top:6px}
+.kq .s{font-size:11.5px;color:var(--dim);margin-top:4px}
+.chart svg{width:100%;height:auto;display:block}
+.chart{overflow-x:auto}
+.lg3{display:flex;flex-wrap:wrap;gap:16px;justify-content:center;font-size:13.5px;color:var(--soft);margin-top:10px}
+.lg3 i{display:inline-block;width:14px;height:14px;border-radius:3px;margin-right:6px;vertical-align:-2px}
+.hb{display:grid;grid-template-columns:150px 1fr 90px;gap:10px;align-items:center;margin:10px 0;font-size:15px}
+.hb .bar{height:24px;border-radius:6px}
+.hb b{font-family:"Share Tech Mono";font-weight:400;text-align:right}
+.two{display:grid;grid-template-columns:1fr 1fr;gap:22px}
+.note{font-size:13px;color:var(--soft);margin-top:10px}
+@media (max-width:900px){.kp{grid-template-columns:repeat(2,1fr)}.two{grid-template-columns:1fr}.chart svg{min-width:640px}.hb{grid-template-columns:110px 1fr 76px;font-size:14px}}
+</style>
+<style>
+
+.lugar{display:flex;gap:8px;max-width:620px;margin:0 auto}.lugar select{flex:1}.lugar .btn{white-space:nowrap}
+.cal{max-width:620px;margin:16px auto 0;background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:18px;padding:20px;text-align:center}
+.cal .donde{color:var(--soft);font-size:14px}
+.cal .grande{font:700 72px "Share Tech Mono";line-height:1;margin:10px 0 4px}
+.cal .frase{font:700 21px "Public Sans";color:#fff;line-height:1.35;margin:4px auto 0;max-width:520px}
+.cal .comp{display:grid;grid-template-columns:1fr 1fr;gap:8px;margin-top:14px}
+.cal .comp div{background:#0b1b2c;border:1px solid var(--line);border-radius:12px;padding:10px 6px;font-size:12.5px;color:var(--soft)}
+.cal .comp b{display:block;font:700 26px "Share Tech Mono";color:#fff}
+.anio{margin-top:14px;padding:12px;border-radius:12px;background:#0b1b2c;border:1px solid var(--line);font-size:15px;color:#d5e2ea;line-height:1.45}
+.anio b{color:#ffd27a}
+.nac{margin-top:14px;display:flex;gap:8px;align-items:center;justify-content:center;flex-wrap:wrap;font-size:14.5px;color:var(--soft)}
+.nac input{width:110px;background:#071822;border:1px solid var(--line);color:#fff;border-radius:10px;padding:9px;font:700 18px "Share Tech Mono";text-align:center}
+.nacres{margin-top:8px;font-size:16px;color:#fff;font-weight:600;min-height:22px}
+.franjas{margin-top:16px;text-align:left}.franjas h3{font-size:20px;color:#fff;margin:0 0 4px}.franjas p{font-size:13px;color:var(--soft);margin:0 0 8px}
+.fr{display:flex;height:70px;border-radius:8px;overflow:hidden}.fr i{flex:1}
+.ejes{display:flex;justify-content:space-between;color:var(--dim);font-size:11.5px;margin-top:4px}
+.cargando{color:var(--soft);padding:30px 0}
+@media (max-width:520px){.lugar{flex-direction:column}.cal{padding:16px}.cal .grande{font-size:60px}.cal .frase{font-size:18px}}
+
+</style>
+</head>
+<body>
+<header>
+  <div class="wrap">
+    <a class="brand" href="https://observatorio.skynetgenesis.com/" aria-label="Observatorio SkyNet Genesis">
+      <svg viewBox="0 0 200 200" aria-hidden="true"><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+      <b>OBSERVATORIO<span>SKYNET GENESIS</span></b>
+    </a>
+    <span class="hdr-links" style="display:flex;gap:8px;align-items:center;flex-shrink:0"><style>.hdr-links a{display:inline-flex!important;white-space:nowrap}@media(max-width:600px){.hdr-links{gap:6px!important}.hdr-links a{padding:6px 8px!important;font-size:12px!important}header .brand{gap:6px!important;min-width:0}header .brand b{font-size:13px!important;letter-spacing:.03em!important}header .brand b span{font-size:8px!important}header .brand svg{width:28px!important;height:28px!important;flex-shrink:0}header .wrap{padding-left:12px!important;padding-right:12px!important}}@media(max-width:400px){header .brand b{display:none!important}}</style><a class="btn ghost sm" href="https://observatorio.skynetgenesis.com/">Observatorio</a><a class="btn ghost sm" href="https://skynetgenesis.com/" target="_blank" rel="noopener">SkyNet Genesis</a></span>
+  </div>
+</header>
+<main>
+  <div class="hero">
+    <div class="wrap">
+      <span class="kicker">Datos de clima desde 1950 · Copernicus ERA5</span>
+      <h1>Su barrio en el<em>mapa del calor</em></h1>
+      <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
+      <p class="sub">Use su ubicación o elija su ciudad y vea cuánto más calor hace hoy que en estos mismos días de hace más de 40 años.</p>
+    </div>
+  </div>
+
+  <div class="wrap">
+    <section style="padding-top:8px">
+      <div class="lugar"><select id="ciudad" aria-label="Ciudad"><option value="0">Arauca</option><option value="1">Armenia</option><option value="2">Barranquilla</option><option value="3">Bello</option><option value="4">Bogotá</option><option value="5">Bucaramanga</option><option value="6">Buenaventura</option><option value="7">Cali</option><option value="8">Cartagena</option><option value="9">Cúcuta</option><option value="10">Florencia</option><option value="11">Ibagué</option><option value="12">Inírida</option><option value="13">Leticia</option><option value="14">Manizales</option><option value="15">Medellín</option><option value="16">Mitú</option><option value="17">Mocoa</option><option value="18">Montería</option><option value="19">Neiva</option><option value="20">Pasto</option><option value="21">Pereira</option><option value="22">Popayán</option><option value="23">Puerto Carreño</option><option value="24">Quibdó</option><option value="25">Riohacha</option><option value="26">San Andrés</option><option value="27">San José del Guaviare</option><option value="28" selected>Santa Marta</option><option value="29">Sincelejo</option><option value="30">Soacha</option><option value="31">Soledad</option><option value="32">Tunja</option><option value="33">Valledupar</option><option value="34">Villavicencio</option><option value="35">Yopal</option></select><button class="btn ghost" id="gps" type="button">📍 Usar mi ubicación</button></div>
+      <div class="cal" id="cal"><div class="cargando">Consultando 75 años de temperaturas…</div></div>
+      <div class="share" style="max-width:620px;margin:22px auto 0">
+        <button class="btn teal full" id="shAll">📤 Compartir</button>
+        <a class="btn wa full" id="shWa" target="_blank" rel="noopener">WhatsApp</a>
+        <a class="btn fb" id="shFb" target="_blank" rel="noopener">Facebook</a>
+        <a class="btn x" id="shX" target="_blank" rel="noopener">X</a>
+        <button class="btn ghost full" id="shCopy">🔗 Copiar mensaje y enlace</button>
+      </div>
+    </section>
+
+
+<section>
+      <div class="sky">
+        <svg viewBox="0 0 200 200" aria-hidden="true"><rect x="4" y="4" width="192" height="192" rx="46" fill="#1E3A4C"/><g stroke="#FFFFFF" stroke-linecap="round"><polygon points="100,42 150.2,71 150.2,129 100,158 49.8,129 49.8,71" fill="none" stroke-opacity=".35" stroke-width="4"/><path d="M100 100L100 42M100 100L150.2 71M100 100L150.2 129M100 100L100 158M100 100L49.8 129M100 100L49.8 71" stroke-width="6"/></g><g fill="#FFFFFF"><circle cx="150.2" cy="71" r="10"/><circle cx="150.2" cy="129" r="10"/><circle cx="100" cy="158" r="10"/><circle cx="49.8" cy="129" r="10"/><circle cx="49.8" cy="71" r="10"/></g><circle cx="100" cy="42" r="13" fill="#E0A21A"/><circle cx="100" cy="100" r="20" fill="#E0A21A"/></svg>
+        <div>
+          <h2>Datos para decidir mejor</h2>
+          <p>Una obra de <b>SkyNet Genesis</b>, casa de software inteligente para alcaldías, concejos, colegios, clínicas y empresas de Colombia.</p>
+          <div class="cta-row">
+            <a class="btn teal" href="https://skynetgenesis.com" target="_blank" rel="noopener">Conozca nuestras aplicaciones →</a>
+            <a class="btn wa" href="https://wa.me/573044375758?text=Hola%2C%20vi%20el%20Mapa%20del%20calor%20y%20quiero%20conocer%20las%20aplicaciones%20de%20SkyNet%20Genesis" target="_blank" rel="noopener">WhatsApp 304 437 5758</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+        <section id="fuentes" style="padding-top:12px">
+      <div class="sec-h" style="text-align:left;margin-bottom:12px"><h2 style="font-size:30px">Método y fuentes</h2></div>
+      <ul class="sources">
+        <li><b>Hoy:</b> temperatura media pronosticada para hoy en ese punto (Open-Meteo, que combina los modelos meteorológicos nacionales e internacionales).</li>
+        <li><b>El pasado:</b> reanálisis ERA5 del programa Copernicus de la Unión Europea, temperatura media diaria desde 1950, consultado en vivo a través de Open-Meteo.</li>
+        <li><b>La comparación:</b> «lo normal» es el promedio de los mismos días del año (una semana antes y una después) entre 1961 y 1990, el periodo de referencia clásico de la Organización Meteorológica Mundial. «El último año» compara los 365 días más recientes con el promedio anual de 1961-1990. El año de nacimiento usa el promedio de cinco años alrededor de ese año.</li>
+        <li><b>Precisión:</b> cada dato representa una zona de unos 10 a 25 km, no una calle. Un solo día puede ser más caliente o más fresco por el tiempo de esa semana; la tendencia de largo plazo se ve en las franjas y en el promedio del último año.</li>
+        <li><b>Privacidad:</b> si usa su ubicación, esta solo se usa en su teléfono para pedir los datos; no se guarda ni se envía a SkyNet Genesis.</li>
+      </ul>
+      <p class="disc">Contenido informativo con datos científicos abiertos. Las franjas de colores siguen la idea de las «franjas del calentamiento» del climatólogo Ed Hawkins.</p>
+    </section>
+  </div>
+</main>
+
+<footer>
+  <div class="wrap">
+    Parte del <a href="https://observatorio.skynetgenesis.com/"><b>Observatorio SkyNet Genesis</b></a> · Creado por <a href="https://skynetgenesis.com" target="_blank" rel="noopener"><b>SkyNet Genesis</b></a><br>
+    contacto@skynetgenesis.com · WhatsApp 304 437 5758 · Uso libre citando la fuente.
+  </div>
+</footer>
+<div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="shm" id="shm" aria-hidden="true">
+<div class="shbox" role="dialog" aria-label="Compartir">
+  <div class="shtit">Compartir Su barrio en el mapa del calor</div>
+  <div class="shgrid">
+    <a id="mWa" target="_blank" rel="noopener" class="shi" style="background:#1F8A4C">WhatsApp</a>
+    <a id="mFb" target="_blank" rel="noopener" class="shi" style="background:#1b4ea0">Facebook</a>
+    <a id="mX" target="_blank" rel="noopener" class="shi" style="background:#000;border:1px solid #333">X (Twitter)</a>
+    <a id="mTg" target="_blank" rel="noopener" class="shi" style="background:#229ED9">Telegram</a>
+    <a id="mLi" target="_blank" rel="noopener" class="shi" style="background:#0A66C2">LinkedIn</a>
+    <a id="mMail" class="shi" style="background:#5D6B78">Correo</a>
+  </div>
+  <button class="btn ghost" id="mCopy" style="width:100%;margin-top:10px">🔗 Copiar mensaje y enlace (para Instagram, TikTok y grupos)</button>
+  <button class="btn ghost" id="mClose" style="width:100%;margin-top:8px">← Volver</button>
+</div>
+</div>
+
+<script>
+(function(){
+"use strict";
+var URL_PUBLICA="https://observatorio.skynetgenesis.com/calor/";
+var CIUDADES=[["Arauca",7.084,-70.759],["Armenia",4.534,-75.681],["Barranquilla",10.964,-74.796],["Bello",6.337,-75.558],["Bogotá",4.711,-74.072],["Bucaramanga",7.119,-73.123],["Buenaventura",3.88,-77.031],["Cali",3.452,-76.532],["Cartagena",10.391,-75.479],["Cúcuta",7.894,-72.508],["Florencia",1.614,-75.606],["Ibagué",4.438,-75.232],["Inírida",3.865,-67.924],["Leticia",-4.215,-69.94],["Manizales",5.07,-75.514],["Medellín",6.244,-75.581],["Mitú",1.253,-70.234],["Mocoa",1.152,-76.647],["Montería",8.748,-75.881],["Neiva",2.927,-75.282],["Pasto",1.214,-77.281],["Pereira",4.813,-75.696],["Popayán",2.444,-76.614],["Puerto Carreño",6.189,-67.486],["Quibdó",5.694,-76.661],["Riohacha",11.544,-72.907],["San Andrés",12.584,-81.7],["San José del Guaviare",2.572,-72.645],["Santa Marta",11.24,-74.199],["Sincelejo",9.304,-75.398],["Soacha",4.579,-74.217],["Soledad",10.917,-74.767],["Tunja",5.535,-73.367],["Valledupar",10.463,-73.253],["Villavicencio",4.142,-73.627],["Yopal",5.337,-72.395]];
+var ACT={nombre:"",dif:null,anual:null};
+function n(v,d){ return v.toLocaleString("es-CO",{maximumFractionDigits:d||0}); }
+function mensaje(){ var f=function(v){return (v>=0?"+":"")+v.toFixed(1).replace(".",",")+" °C";}; return "🌡️ SU BARRIO EN EL MAPA DEL CALOR — Observatorio SkyNet Genesis\n"+(ACT.dif!=null?"Hoy en "+ACT.nombre+" hace "+f(ACT.dif)+" frente a lo normal de estos días en 1961-1990"+(ACT.anual!=null?", y el último año fue "+Math.abs(ACT.anual).toFixed(1).replace(".",",")+" °C "+(ACT.anual>=0?"más caliente":"más fresco")+" en promedio":"")+".":"¿Cuánto más calor hace hoy donde usted vive?")+"\nMire el suyo: "+URL_PUBLICA; }
+var shTxt="";
+function openShare(txt){
+  shTxt=txt;
+  if(navigator.share){
+    navigator.share({title:"Su barrio en el mapa del calor",text:txt.replace(URL_PUBLICA,"").trim(),url:URL_PUBLICA}).catch(function(e){ if(e&&e.name!=="AbortError") showModal(txt); });
+  } else showModal(txt);
+}
+function showModal(txt){
+  var u=encodeURIComponent(URL_PUBLICA), t=encodeURIComponent(txt);
+  document.getElementById("mWa").href="https://wa.me/?text="+t;
+  document.getElementById("mFb").href="https://www.facebook.com/sharer/sharer.php?u="+u;
+  document.getElementById("mX").href="https://twitter.com/intent/tweet?text="+t;
+  document.getElementById("mTg").href="https://t.me/share/url?url="+u+"&text="+encodeURIComponent(txt.replace(URL_PUBLICA,""));
+  document.getElementById("mLi").href="https://www.linkedin.com/sharing/share-offsite/?url="+u;
+  document.getElementById("mMail").href="mailto:?subject="+encodeURIComponent("Su barrio en el mapa del calor")+"&body="+t;
+  document.getElementById("shm").classList.add("on");
+}
+function enlaces(){
+  var m=mensaje();
+  document.getElementById("shWa").href="https://wa.me/?text="+encodeURIComponent(m);
+  document.getElementById("shFb").href="https://www.facebook.com/sharer/sharer.php?u="+encodeURIComponent(URL_PUBLICA);
+  document.getElementById("shX").href="https://twitter.com/intent/tweet?text="+encodeURIComponent(m);
+}
+function toast(t){ var e=document.getElementById("toast"); e.textContent=t; e.classList.add("on"); setTimeout(function(){e.classList.remove("on");},2600); }
+document.getElementById("shAll").addEventListener("click",function(){ openShare(mensaje()); });
+document.getElementById("mClose").addEventListener("click",function(){ document.getElementById("shm").classList.remove("on"); });
+document.getElementById("mCopy").addEventListener("click",function(){
+  try{ navigator.clipboard.writeText(shTxt).then(function(){toast("✅ Mensaje copiado. Péguelo donde quiera.");},function(){toast("Enlace: "+URL_PUBLICA);}); }catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+document.getElementById("shCopy").addEventListener("click",function(){
+  var txt=mensaje();
+  try{ navigator.clipboard.writeText(txt).then(function(){toast("✅ Mensaje copiado. Péguelo en sus grupos y redes.");},function(){toast("Enlace: "+URL_PUBLICA);}); }
+  catch(e){ toast("Enlace: "+URL_PUBLICA); }
+});
+enlaces();
+
+var CAL=document.getElementById("cal"),SEL=document.getElementById("ciudad"),SERIE=null;
+function f1(v){return (v>=0?"+":"−")+Math.abs(v).toFixed(1).replace(".",",")+" °C";}
+function t1(v){return v.toFixed(1).replace(".",",")+" °C";}
+function color(a){var x=Math.max(-1.2,Math.min(1.2,a))/1.2;if(x<0){var k=-x;return "rgb("+Math.round(247-200*k)+","+Math.round(247-140*k)+","+Math.round(247-40*k)+")";}return "rgb("+Math.round(247-20*x)+","+Math.round(247-200*x)+","+Math.round(247-210*x)+")";}
+function doy(s){var d=new Date(s+"T00:00:00Z");return Math.floor((d-Date.UTC(d.getUTCFullYear(),0,1))/864e5);}
+function ymd(d){return d.toISOString().slice(0,10);}
+function cargar(lat,lon,nombre){
+ CAL.innerHTML='<div class="cargando">Consultando 75 años de temperaturas de '+nombre+'…</div>';
+ var hoy=new Date(Date.now()-5*3600e3),fin=new Date(hoy-2*864e5);
+ Promise.all([
+  fetch("https://archive-api.open-meteo.com/v1/archive?latitude="+lat+"&longitude="+lon+"&start_date=1950-01-01&end_date="+ymd(fin)+"&daily=temperature_2m_mean&timezone=America%2FBogota").then(function(r){return r.json();}),
+  fetch("https://api.open-meteo.com/v1/forecast?latitude="+lat+"&longitude="+lon+"&daily=temperature_2m_mean&forecast_days=1&timezone=America%2FBogota").then(function(r){return r.json();})
+ ]).then(function(rs){
+  var A=rs[0].daily,T=A.time,V=A.temperature_2m_mean,hoyT=rs[1].daily.temperature_2m_mean[0],hoyS=rs[1].daily.time[0],dh=doy(hoyS);
+  var base=[],porAnio={},ult=[],lim=T.length-365;
+  for(var i=0;i<T.length;i++){var v=V[i];if(v==null)continue;var y=+T[i].slice(0,4),d=doy(T[i]),dd=Math.min(Math.abs(d-dh),365-Math.abs(d-dh));
+   if(y>=1961&&y<=1990&&dd<=7)base.push(v);(porAnio[y]=porAnio[y]||[]).push(v);if(i>=lim)ult.push(v);}
+  var avg=function(a){return a.reduce(function(s,x){return s+x;},0)/a.length;};
+  var normal=avg(base),dif=hoyT-normal,bA=[];for(var y=1961;y<=1990;y++)if(porAnio[y])bA=bA.concat(porAnio[y]);var baseAnual=avg(bA),anual=avg(ult)-baseAnual;
+  var anios=Object.keys(porAnio).map(Number).filter(function(y){return porAnio[y].length>=360;}).sort();
+  SERIE={porAnio:porAnio,baseAnual:baseAnual,ultimo:avg(ult)};ACT={nombre:nombre,dif:dif,anual:anual};
+  var col=dif>=0.3?"#ff8a5c":(dif<=-0.3?"#7fc3ff":"#ffd27a");
+  var frase=Math.abs(dif)<0.3?"Hoy está más o menos como era normal en estos días hace más de 40 años.":(dif>0?"Hoy hace "+f1(dif).slice(1)+" más que lo normal en estos mismos días entre 1961 y 1990.":"Hoy está "+f1(dif).slice(1)+" más fresco que lo normal en estos mismos días entre 1961 y 1990.");
+  CAL.innerHTML='<div class="donde">📍 '+nombre+' · hoy</div><div class="grande" style="color:'+col+'">'+f1(dif)+'</div><p class="frase">'+frase+'</p>'+
+   '<div class="comp"><div><b>'+t1(hoyT)+'</b>Temperatura media de hoy</div><div><b>'+t1(normal)+'</b>Lo normal en estos días (1961-1990)</div></div>'+
+   '<div class="anio">Y no es solo hoy: <b>los últimos 12 meses fueron '+f1(anual).slice(1)+(anual>=0?' más calientes':' más frescos')+'</b> que el promedio de 1961-1990 en este mismo lugar.</div>'+
+   '<div class="nac">¿En qué año nació usted? <input id="nacio" type="number" inputmode="numeric" min="1950" max="2024" placeholder="1970"></div><div class="nacres" id="nacres"></div>'+
+   '<div class="franjas"><h3>75 años en franjas de color</h3><p>Cada franja es un año: azul, más fresco que el promedio de 1961-1990; rojo, más caliente.</p><div class="fr">'+anios.map(function(y){return '<i title="'+y+': '+f1(avg(porAnio[y])-baseAnual)+'" style="background:'+color(avg(porAnio[y])-baseAnual)+'"></i>';}).join("")+'</div><div class="ejes"><span>'+anios[0]+'</span><span>'+anios[Math.floor(anios.length/2)]+'</span><span>'+anios[anios.length-1]+'</span></div></div>';
+  var N=document.getElementById("nacio");N.oninput=function(){var y=+N.value,R=document.getElementById("nacres");if(y<1950||y>2024){R.textContent="";return;}
+   var a=[];for(var k=y-2;k<=y+2;k++)if(porAnio[k]&&porAnio[k].length>=360)a=a.concat(porAnio[k]);if(!a.length){R.textContent="";return;}
+   var d=SERIE.ultimo-avg(a);R.textContent=Math.abs(d)<0.1?"Desde que usted nació, la temperatura aquí casi no ha cambiado.":"Desde que usted nació, aquí hace "+f1(d).slice(1)+(d>0?" más":" menos")+" en promedio.";};
+  enlaces();
+ }).catch(function(){CAL.innerHTML='<div class="cargando">No se pudo consultar el servicio en este momento. Intente de nuevo en unos minutos.</div>';});
+}
+function elegida(){var c=CIUDADES[+SEL.value];cargar(c[1],c[2],c[0]);}
+SEL.onchange=elegida;
+document.getElementById("gps").onclick=function(){if(!navigator.geolocation){alert("Su teléfono no permite compartir la ubicación.");return;}
+ CAL.innerHTML='<div class="cargando">Buscando su ubicación…</div>';
+ navigator.geolocation.getCurrentPosition(function(p){cargar(p.coords.latitude.toFixed(3),p.coords.longitude.toFixed(3),"su barrio");},function(){elegida();},{timeout:10000,maximumAge:600000});};
+elegida();enlaces();
+})();
+</script>
+<script>(function(){var U="https://skynetgenesis.com/obs-contador.php",K="calor";try{navigator.sendBeacon&&navigator.sendBeacon(U,new Blob([JSON.stringify({k:K})],{type:"text/plain"}))}catch(e){}function f(n){return(n||0).toLocaleString("es-CO")}var P="display:inline-flex;align-items:center;gap:6px;font:700 14px 'Public Sans',sans-serif;color:#ffd27a;background:rgba(224,162,26,.12);border:1px solid rgba(224,162,26,.4);border-radius:999px;padding:6px 12px;";setTimeout(function(){fetch(U+"?t="+Date.now()).then(function(r){return r.json()}).then(function(D){var H=D.herramientas||{};if(K==="portada"){[].forEach.call(document.querySelectorAll("a.tool"),function(a){var m=(a.getAttribute("href")||"").match(/^([a-z0-9]+)\//);if(!m)return;var x=H[m[1]]||{},s=document.createElement("span");s.style.cssText=P+"margin-top:12px;font-size:13px;width:max-content";s.textContent="👁 "+f(x.v)+" visitas";a.appendChild(s)})}else{var x=H[K]||{},s=document.createElement("div");s.style.cssText=P+"margin-top:16px";s.textContent="👁 "+f(x.v)+" visitas · "+f(x.p)+" personas";(document.querySelector(".hero .wrap")||document.querySelector("main")||document.body).appendChild(s)}})["catch"](function(){})},900)})();</script>
+</body>
+</html>
