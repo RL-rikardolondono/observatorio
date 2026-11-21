@@ -4,9 +4,9 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <title>Colombia hoy, en vivo · Observatorio SkyNet Genesis</title>
-<meta name="description" content="Lo que pasa en Colombia desde la medianoche, segundo a segundo: nacimientos, defunciones, homicidios, muertes viales, basura y electricidad, con cifras oficiales.">
+<meta name="description" content="Lo que pasa en Colombia desde la medianoche, segundo a segundo: 19 contadores de vida, seguridad, economía, producción, viajes y ambiente con cifras oficiales.">
 <meta property="og:title" content="🇨🇴 Colombia hoy, en vivo">
-<meta property="og:description" content="Nacimientos, defunciones, homicidios, muertes en las vías, basura y electricidad desde la medianoche, con cifras oficiales.">
+<meta property="og:description" content="Nacimientos, homicidios, PIB, remesas, petróleo, café, motos, vuelos, basura y bosques: 19 contadores en vivo desde la medianoche, con cifras oficiales.">
 <meta property="og:type" content="website">
 <meta property="og:url" content="https://observatorio.skynetgenesis.com/hoy/">
 <link rel="canonical" href="https://observatorio.skynetgenesis.com/hoy/">
@@ -154,7 +154,7 @@ footer a{color:var(--soft)}
 .reloj .barra{height:8px;border-radius:8px;background:#0b1b2c;overflow:hidden;margin:10px auto 4px;max-width:520px}
 .reloj .barra i{display:block;height:100%;background:linear-gradient(90deg,var(--teal),var(--amber))}
 .reloj small{color:var(--dim);font-size:13px}
-.hoyg{display:grid;grid-template-columns:repeat(3,1fr);gap:12px;max-width:980px;margin:22px auto 0}
+.hoyg{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:12px;max-width:980px;margin:22px auto 0}
 .cnt{background:linear-gradient(180deg,var(--card),var(--card2));border:1px solid var(--line);border-radius:16px;padding:16px;display:flex;flex-direction:column;gap:4px;min-width:0}
 .cnt .ic{font-size:26px;line-height:1}
 .cnt b{font:700 clamp(30px,4.6vw,44px) "Share Tech Mono";color:#fff;line-height:1.05;word-break:break-all}
@@ -162,10 +162,10 @@ footer a{color:var(--soft)}
 .cnt .r{font-size:13px;color:var(--amber)}
 .cnt .y{font-size:12.5px;color:var(--soft)}
 .cnt .f{font-size:11.5px;color:var(--dim);margin-top:4px}
-.cnt.ancho{grid-column:1/-1}.cnt.vida b{color:#5fe0c8}.cnt.muerte b{color:#ff8a8f}.cnt.amb b{color:#ffd27a}
-@media (min-width:761px){.cnt.ancho{grid-column:auto}}
-@media (max-width:760px){.hoyg{grid-template-columns:1fr 1fr;gap:10px}.cnt{padding:12px}.reloj .hora{font-size:38px}}
-@media (max-width:330px){.hoyg{grid-template-columns:1fr}}
+.sec-t{grid-column:1/-1;margin:14px 0 0;font:700 22px "Barlow Condensed",sans-serif;letter-spacing:.04em;text-transform:uppercase;color:var(--amber);border-bottom:1px solid var(--line);padding-bottom:6px}.sec-t:first-child{margin-top:0}.cnt.eco b{color:#8fc8ff}.cnt.ancho{grid-column:span 2}.cnt.vida b{color:#5fe0c8}.cnt.muerte b{color:#ff8a8f}.cnt.amb b{color:#ffd27a}
+@media (min-width:761px) and (max-width:1000px){.cnt b{font-size:32px}}
+@media (max-width:760px){.hoyg{grid-template-columns:repeat(2,minmax(0,1fr));gap:10px}.cnt{padding:12px}.reloj .hora{font-size:38px}}
+@media (max-width:330px){.hoyg{grid-template-columns:1fr}.cnt.ancho{grid-column:auto}}
 @media (max-width:420px){.cnt .ic{font-size:22px}.cnt .q{font-size:13.5px}.cnt .r,.cnt .y{font-size:12px}}
 
 </style>
@@ -183,10 +183,10 @@ footer a{color:var(--soft)}
 <main>
   <div class="hero">
     <div class="wrap">
-      <span class="kicker">En vivo · DANE, Mindefensa, ANSV, Superservicios y XM</span>
+      <span class="kicker">En vivo · 19 contadores con cifras oficiales</span>
       <h1>Colombia hoy,<em>en vivo</em></h1>
       <p class="credit">Una creación de <b>SkyNet Genesis</b></p>
-      <p class="sub">Lo que ha pasado en el país desde la medianoche de hoy, segundo a segundo, calculado con las cifras oficiales más recientes.</p>
+      <p class="sub">Lo que ha pasado en el país desde la medianoche de hoy, segundo a segundo: vida, seguridad, economía, producción, viajes y ambiente, calculado con las cifras oficiales más recientes.</p>
     </div>
   </div>
 
@@ -224,10 +224,21 @@ footer a{color:var(--soft)}
       <ul class="sources">
         <li><b>Cómo se calcula:</b> cada contador reparte la cifra oficial del último año completo en partes iguales por segundo y cuenta desde las 12:00 a. m. de hoy, hora de Colombia. Es una estimación del promedio, no un conteo en tiempo real: unos días hay más casos y otros menos.</li>
         <li><b>Nacimientos y defunciones:</b> DANE, Estadísticas Vitales, cifras definitivas de 2025 (441.537 nacimientos y 284.254 defunciones no fetales), publicadas el 24 de septiembre de 2026.</li>
+        <li><b>Trabajo:</b> Ministerio de Salud, indicadores del Sistema General de Riesgos Laborales 2025: 528.942 accidentes calificados como laborales y 435 muertes calificadas como laborales.</li>
         <li><b>Homicidios:</b> Ministerio de Defensa Nacional, homicidio intencional 2025: 13.726 casos.</li>
         <li><b>Muertes en las vías:</b> Agencia Nacional de Seguridad Vial (Observatorio Nacional de Seguridad Vial), 2025: 8.697 fallecidos.</li>
+        <li><b>PIB:</b> DANE, Producto Interno Bruto por departamento 2025 preliminar, a precios corrientes: $1.852,67 billones.</li>
+        <li><b>Impuestos:</b> DIAN, recaudo tributario bruto 2025: $296 billones.</li>
+        <li><b>Exportaciones:</b> DANE, exportaciones 2025: US$50.199,9 millones FOB.</li>
+        <li><b>Remesas:</b> Banco de la República, remesas de trabajadores recibidas en 2025: US$13.098 millones.</li>
+        <li><b>Petróleo:</b> Agencia Nacional de Hidrocarburos, producción promedio de 2025: 746.000 barriles por día.</li>
+        <li><b>Café:</b> Federación Nacional de Cafeteros, producción del año calendario 2025: 13,67 millones de sacos de 60 kg.</li>
+        <li><b>Motos y carros:</b> ANDI y Fenalco con datos del RUNT, registros nuevos de 2025: 1.100.166 motos y 254.205 vehículos.</li>
+        <li><b>Aviones:</b> Aerocivil, pasajeros movilizados en 2025 (vuelos nacionales e internacionales): 57.520.767.</li>
+        <li><b>Visitantes:</b> Ministerio de Comercio, Industria y Turismo, visitantes no residentes llegados en 2025: 6.496.434.</li>
         <li><b>Basura:</b> Superintendencia de Servicios Públicos, Informe Nacional de Disposición Final 2024: 12.149.386 toneladas dispuestas en el año.</li>
         <li><b>Electricidad:</b> XM, demanda de energía del Sistema Interconectado Nacional en los 12 meses a junio de 2026: 86.453,68 GWh.</li>
+        <li><b>Bosques:</b> IDEAM, Sistema de Monitoreo de Bosques y Carbono, deforestación 2025: 119.483 hectáreas.</li>
       </ul>
       <p class="disc">Contenido informativo con datos públicos oficiales. No expresa opinión sobre ningún gobierno o entidad. Las cifras se actualizan cuando las fuentes publican un año nuevo.</p>
     </section>
@@ -262,15 +273,34 @@ footer a{color:var(--soft)}
 "use strict";
 var URL_PUBLICA="https://observatorio.skynetgenesis.com/hoy/";
 var D=[
- {k:"nac",ic:"👶",q:"Nacimientos",t:"vida",n:441537,u:"",un:"un bebé",f:"DANE, 2025"},
- {k:"def",ic:"🕯️",q:"Defunciones",t:"muerte",n:284254,u:"",un:"una persona",f:"DANE, 2025"},
- {k:"hom",ic:"⚠️",q:"Homicidios",t:"muerte",n:13726,u:"",un:"un homicidio",f:"Mindefensa, 2025"},
- {k:"via",ic:"🏍️",q:"Muertes en las vías",t:"muerte",n:8697,u:"",un:"una muerte vial",f:"ANSV, 2025"},
- {k:"bas",ic:"🗑️",q:"Toneladas de basura a rellenos",t:"amb",n:12149386,dias:366,u:"t",un:"una tonelada",f:"Superservicios, 2024"},
- {k:"luz",ic:"⚡",q:"Kilovatios-hora de electricidad",t:"amb",n:86453680000,u:"kWh",un:"",f:"XM, 12 meses a jun. 2026"}
+ {s:"Vida y salud"},
+ {k:"nac",ic:"👶",q:"Nacimientos",t:"vida",n:441537,un:"un bebé",f:"DANE, 2025"},
+ {k:"def",ic:"🕯️",q:"Defunciones",t:"muerte",n:284254,un:"una persona",f:"DANE, 2025"},
+ {k:"atr",ic:"🦺",q:"Accidentes de trabajo",t:"amb",n:528942,un:"un accidente",f:"MinSalud, 2025"},
+ {k:"mtr",ic:"⛑️",q:"Muertes por el trabajo",t:"muerte",n:435,un:"un trabajador",f:"MinSalud, 2025"},
+ {s:"Seguridad"},
+ {k:"hom",ic:"⚠️",q:"Homicidios",t:"muerte",n:13726,un:"un homicidio",f:"Mindefensa, 2025"},
+ {k:"via",ic:"🏍️",q:"Muertes en las vías",t:"muerte",n:8697,un:"una muerte vial",f:"ANSV, 2025"},
+ {s:"Economía"},
+ {k:"pib",ic:"🏭",q:"Millones de pesos producidos (PIB)",t:"eco",n:1852670000,pre:"$",ru:"millones",f:"DANE, PIB 2025"},
+ {k:"dian",ic:"🧾",q:"Millones de pesos en impuestos",t:"eco",n:296000000,pre:"$",ru:"millones",f:"DIAN, recaudo 2025"},
+ {k:"exp",ic:"🚢",q:"Dólares en exportaciones",t:"eco",n:50199900000,pre:"US$",ru:"dólares",f:"DANE, 2025"},
+ {k:"rem",ic:"💌",q:"Dólares en remesas",t:"eco",n:13098000000,pre:"US$",ru:"dólares",f:"Banco de la República, 2025"},
+ {s:"Producción y consumo"},
+ {k:"pet",ic:"🛢️",q:"Barriles de petróleo",t:"amb",n:272290000,ru:"barriles",f:"ANH, 2025 (746.000 por día)"},
+ {k:"caf",ic:"☕",q:"Sacos de café de 60 kg",t:"amb",n:13670000,un:"un saco",f:"FNC, 2025"},
+ {k:"mot",ic:"🛵",q:"Motos nuevas",t:"amb",n:1100166,un:"una moto",f:"ANDI y Fenalco, 2025"},
+ {k:"car",ic:"🚗",q:"Carros nuevos",t:"amb",n:254205,un:"un carro",f:"ANDI y Fenalco, 2025"},
+ {s:"Viajes"},
+ {k:"avi",ic:"✈️",q:"Pasajeros de avión",t:"vida",n:57520767,un:"un pasajero",f:"Aerocivil, 2025"},
+ {k:"tur",ic:"🧳",q:"Visitantes extranjeros que llegan",t:"vida",n:6496434,un:"un visitante",f:"MinCIT, 2025"},
+ {s:"Ambiente y servicios"},
+ {k:"bas",ic:"🗑️",q:"Toneladas de basura a rellenos",t:"amb",n:12149386,dias:366,un:"una tonelada",f:"Superservicios, 2024"},
+ {k:"bos",ic:"🌳",q:"Hectáreas de bosque deforestadas",t:"muerte",n:119483,un:"una hectárea",f:"IDEAM, 2025"},
+ {k:"luz",ic:"⚡",q:"Kilovatios-hora de electricidad",t:"amb",n:86453680000,ru:"kWh",f:"XM, 12 meses a jun. 2026"}
 ];
 function n(v,d){ return v.toLocaleString("es-CO",{maximumFractionDigits:d||0}); }
-function mensaje(){ var s=segHoy(),t=function(k){var d=D.filter(function(x){return x.k===k;})[0];return fmt(Math.floor(tasa(d)*s));}; return "🇨🇴 COLOMBIA HOY, EN VIVO — Observatorio SkyNet Genesis\nDesde la medianoche de hoy: "+t("nac")+" nacimientos, "+t("def")+" defunciones, "+t("hom")+" homicidios y "+t("via")+" muertes en las vías (promedios oficiales).\nVéalo en vivo: "+URL_PUBLICA; }
+function mensaje(){ var s=segHoy(),t=function(k){var d=D.filter(function(x){return x.k===k;})[0];return val(d,s);}; return "🇨🇴 COLOMBIA HOY, EN VIVO — Observatorio SkyNet Genesis\nDesde la medianoche de hoy: "+t("nac")+" nacimientos, "+t("def")+" defunciones, "+t("hom")+" homicidios, "+t("via")+" muertes en las vías, "+t("mot")+" motos nuevas y "+t("rem")+" en remesas (promedios oficiales).\nVéalo en vivo: "+URL_PUBLICA; }
 var shTxt="";
 function openShare(txt){
   shTxt=txt;
@@ -312,15 +342,18 @@ function tasa(d){return d.n/((d.dias||365)*86400);}
 function ahoraCol(){return new Date(Date.now()-5*3600*1000);} /* Colombia: UTC-5 todo el año */
 function segHoy(){var a=ahoraCol();return a.getUTCHours()*3600+a.getUTCMinutes()*60+a.getUTCSeconds()+a.getUTCMilliseconds()/1000;}
 function segAnio(){var a=ahoraCol();return (a-Date.UTC(a.getUTCFullYear(),0,1))/1000;}
-function cada(d){var s=1/tasa(d);if(!d.un)return "";if(s<1)return Math.round(1/s)+" cada segundo";if(s<90)return d.un+" cada "+Math.round(s)+" segundos";if(s<3540)return d.un+" cada "+Math.round(s/60)+" minutos";if(s<5400)return d.un+" cada hora";return d.un+" cada "+(s/3600).toFixed(1).replace(".",",")+" horas";}
-var C=document.getElementById("cont");
-C.innerHTML=D.map(function(d){return '<div class="cnt '+d.t+((d.k==="luz"||d.k==="bas")?" ancho":"")+'"><span class="ic">'+d.ic+'</span><b id="v_'+d.k+'">0</b><span class="q">'+d.q+' hoy</span><span class="r">'+(d.k==="luz"?fmt(Math.round(tasa(d)*60))+" kWh cada minuto":cada(d))+'</span><span class="y" id="y_'+d.k+'"></span><span class="f">'+d.f+'</span></div>';}).join("");
+function val(d,s){return (d.pre?d.pre+" ":"")+fmt(Math.floor(tasa(d)*s));}
+function cada(d){var r=tasa(d);
+ if(!d.un){if(r>=10)return fmt(Math.round(r))+" "+d.ru+" cada segundo";return fmt(Math.round(r*60))+" "+d.ru+" cada minuto";}
+ var s=1/r;if(s<1)return Math.round(r)+" cada segundo";if(s<90)return d.un+" cada "+Math.round(s)+" segundos";if(s<3540)return d.un+" cada "+Math.round(s/60)+" minutos";if(s<5400)return d.un+" cada hora";return d.un+" cada "+(s/3600).toFixed(1).replace(".",",")+" horas";}
+var C=document.getElementById("cont"),DV=D.filter(function(d){return d.k;});
+C.innerHTML=D.map(function(d){if(d.s)return '<h3 class="sec-t">'+d.s+'</h3>';var largo=val(d,86400).length>8;return '<div class="cnt '+d.t+(largo?" ancho":"")+'"><span class="ic">'+d.ic+'</span><b id="v_'+d.k+'">0</b><span class="q">'+d.q+' hoy</span><span class="r">'+cada(d)+'</span><span class="y" id="y_'+d.k+'"></span><span class="f">'+d.f+'</span></div>';}).join("");
 var MES=["enero","febrero","marzo","abril","mayo","junio","julio","agosto","septiembre","octubre","noviembre","diciembre"],DIA=["domingo","lunes","martes","miércoles","jueves","viernes","sábado"];
 function pinta(){var s=segHoy(),sa=segAnio(),a=ahoraCol(),h=a.getUTCHours();
  document.getElementById("fecha").textContent=(function(x){return x.charAt(0).toUpperCase()+x.slice(1);})(DIA[a.getUTCDay()])+" "+a.getUTCDate()+" de "+MES[a.getUTCMonth()]+" de "+a.getUTCFullYear()+" · hora de Colombia";
  var hh=(h%12)||12;document.getElementById("hora").textContent=hh+":"+("0"+a.getUTCMinutes()).slice(-2)+":"+("0"+a.getUTCSeconds()).slice(-2)+(h<12?" a. m.":" p. m.");
  var p=s/864;document.getElementById("dia").style.width=p+"%";document.getElementById("pdia").textContent="Ha pasado el "+Math.floor(p)+" % del día";
- D.forEach(function(d){document.getElementById("v_"+d.k).textContent=fmt(Math.floor(tasa(d)*s));document.getElementById("y_"+d.k).textContent="En lo que va de "+a.getUTCFullYear()+": "+fmt(Math.floor(tasa(d)*sa));});}
+ DV.forEach(function(d){document.getElementById("v_"+d.k).textContent=val(d,s);document.getElementById("y_"+d.k).textContent="En lo que va de "+a.getUTCFullYear()+": "+val(d,sa);});}
 pinta();setInterval(pinta,250);setInterval(enlaces,30000);enlaces();
 })();
 </script>
