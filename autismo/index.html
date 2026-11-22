@@ -280,7 +280,7 @@ footer a{color:var(--soft)}
         <li><b>Vacunas:</b> OMS, nota «Autismo»: la vacuna contra el sarampión, las paperas y la rubéola no causa autismo.</li>
         <li><b>Colombia:</b> no existe una cifra oficial consolidada. La estimación aplica 1 de cada 127 a la proyección de población del DANE para 2026. Estudiantes con autismo: Sistema Integrado de Matrícula (SIMAT) 2023. Ley 2628 de 2026.</li>
         <li><b>Señales:</b> CDC, «Señales del trastorno del espectro autista». No reemplazan una valoración profesional.</li>
-        <li><b>En su colegio:</b> aplica la proporción mundial (1 de cada 127) y la de Estados Unidos (1 de cada 31), donde la detección es más completa.</li>
+        <li><b>En su colegio:</b> aplica la proporción mundial (1 de cada 127). Es una estimación: no reemplaza el diagnóstico de cada niño.</li>
       </ul>
       <p class="disc">Contenido informativo con datos oficiales y científicos. No reemplaza una valoración médica ni psicológica.</p>
     </section>
@@ -367,8 +367,8 @@ pinta();setInterval(pinta,500);
 var mx=1000/31;document.getElementById("barras").innerHTML=SERIE.map(function(x){var v=1000/x[1];return '<div class="barra"><span>'+x[0]+'</span><i style="width:'+(v/mx*100).toFixed(1)+'%"></i><b>1 de '+x[1]+'</b></div>';}).join("");
 var N=document.getElementById("n"),R=document.getElementById("res");
 function calc(){var n=Math.max(0,Math.floor(+N.value||0));if(!n){R.innerHTML="Escriba cuántos niños son.";return;}
- var m=Math.round(n/127),u=Math.round(n/31);
- R.innerHTML="Con la proporción mundial, unos <b>"+fmt(m)+"</b> de esos "+fmt(n)+" niños estarían en el espectro autista.<br><span style='color:var(--soft);font-size:14px'>Con la detección de Estados Unidos (1 de cada 31), se identificarían unos "+fmt(u)+".</span>";}
+ var m=Math.round(n/127);
+ R.innerHTML="Con la proporción mundial, unos <b>"+fmt(m)+"</b> de esos "+fmt(n)+" niños estarían en el espectro autista.<br><span style='color:var(--soft);font-size:14px'>Cálculo con la proporción mundial de 1 de cada 127 personas.</span>";}
 N.addEventListener("input",calc);calc();
 setInterval(enlaces,30000);enlaces();
 })();
